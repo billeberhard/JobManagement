@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLayer", "BusinessLa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobManager", "JobManager\JobManager.csproj", "{52016A1B-C636-4F3F-BE9C-AE1736B2DEFB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationLayer", "PresentationLayer\PresentationLayer.csproj", "{13B6E45B-F170-4370-8F1C-5A63049E58A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLayer", "PresentationLayer\PresentationLayer.csproj", "{DA3ECB30-8D62-4BE4-B2BB-46F2BBFAEFAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{52016A1B-C636-4F3F-BE9C-AE1736B2DEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52016A1B-C636-4F3F-BE9C-AE1736B2DEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52016A1B-C636-4F3F-BE9C-AE1736B2DEFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13B6E45B-F170-4370-8F1C-5A63049E58A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13B6E45B-F170-4370-8F1C-5A63049E58A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13B6E45B-F170-4370-8F1C-5A63049E58A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13B6E45B-F170-4370-8F1C-5A63049E58A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA3ECB30-8D62-4BE4-B2BB-46F2BBFAEFAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA3ECB30-8D62-4BE4-B2BB-46F2BBFAEFAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA3ECB30-8D62-4BE4-B2BB-46F2BBFAEFAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA3ECB30-8D62-4BE4-B2BB-46F2BBFAEFAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
