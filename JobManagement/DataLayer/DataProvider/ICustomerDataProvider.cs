@@ -1,12 +1,13 @@
-﻿using DataLayer.TransferObjects;
+﻿using DataLayer.Model;
+using DataLayer.TransferObjects;
 
 namespace DataLayer.DataProvider
 {
     internal interface ICustomerDataProvider : IBaseDataProvider<Customer>
     {
-        int CustomerCount { get; }
+        int CustomerCount();
         void ClearCustomers();
-        Customer? GetCustomer(int id);
         List<Customer> GetAllCustomers();
+        ICollection<Order> GetAllOrdersOfCustomer(Customer customer);
     }
 }

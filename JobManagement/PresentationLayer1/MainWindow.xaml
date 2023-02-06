@@ -9,7 +9,7 @@
     <Grid>
         <Label Content="Job Management" HorizontalAlignment="Left" Height="59" Margin="26,23,0,0" VerticalAlignment="Top" Width="295" FontSize="36"/>
         <Label Content="Please select what you want to manage:" HorizontalAlignment="Left" Height="41" Margin="26,103,0,0" VerticalAlignment="Top" Width="418"/>
-        <Button Content="Customer" HorizontalAlignment="Left" Height="22" Margin="39,149,0,0" VerticalAlignment="Top" Width="148" Click="CustomerButton_OnClick"/>
+        <Button Content="Customer" HorizontalAlignment="Left" Height="22" Margin="39,149,0,0" VerticalAlignment="Top" Width="148"/>
         <Button Content="Article" HorizontalAlignment="Left" Height="22" Margin="39,176,0,0" VerticalAlignment="Top" Width="148"/>
         <Button Content="Order" HorizontalAlignment="Left" Height="22" Margin="39,230,0,0" VerticalAlignment="Top" Width="148"/>
         <Button Content="Articlegroups" HorizontalAlignment="Left" Height="22" Margin="39,203,0,0" VerticalAlignment="Top" Width="148"/>

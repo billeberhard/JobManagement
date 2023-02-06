@@ -1,7 +1,5 @@
 ﻿using DataLayer.DataProvider;
 using DataLayer.TransferObjects;
-using System.Collections;
-using System.Diagnostics;
 
 namespace DataLayer.Repository
 {
@@ -12,18 +10,13 @@ namespace DataLayer.Repository
             m_dataProvider = dataProvider;
         }
 
-        public int Count
+        public int Count()
         {
-            get { return m_dataProvider.CustomerCount; }
+            return m_dataProvider.CustomerCount();
         }
-        public bool IsReadOnly
+        public bool Add(Customer customer)
         {
-            get { return false; }
-        }
-        public void Add(Customer customer)
-        {
-            if (!Contains(customer))
-                m_dataProvider.Add(customer);
+            return m_dataProvider.Add(customer);
         }
         public void Clear()
         {
@@ -33,40 +26,19 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.Contains(customer);
         }
-        public void CopyTo(Customer[] array, int arrayIndex)
-        {
-            List<Customer> customers = m_dataProvider.GetAllCustomers();
-            Debug.Assert(arrayIndex + customers.Count < array.Length);
-
-            int i = arrayIndex;
-
-            foreach (Customer customer in customers)
-                array[i++] = customer;
-        }
-        public Customer Get(int id)
-        {
-            Customer? customer = m_dataProvider.GetCustomer(id);
-            Debug.Assert(customer != null);
-
-            return customer;
-        }
-        public List<Customer> GetAll()
+        public ICollection<Customer> GetAll()
         {
             return m_dataProvider.GetAllCustomers();
+        }
+        public ICollection<Order> GetAllOrders(Customer customer)
+        {
+            return m_dataProvider.GetAllOrdersOfCustomer(customer);
         }
         public bool Remove(Customer customer)
         {
             return m_dataProvider.Remove(customer);
         }
-        public IEnumerator<Customer> GetEnumerator()
-        {
-            return new RepositoryEnumertor<Customer>(this);
-        }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        ICustomerDataProvider m_dataProvider;
+        
+        private readonly ICustomerDataProvider m_dataProvider;
     }
 }

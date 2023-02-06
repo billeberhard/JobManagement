@@ -1,25 +1,78 @@
 ﻿using DataLayer.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace DataLayer
 {
-    public class JobManagementContext : DbContext
+    internal class JobManagementContext : DbContext
     {
         public DbSet<CustomerEntity> Customers { get; set; }
+        public DbSet<LocationEntity> Locations { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
-
+        public DbSet<ArticleEntity> Articles { get; set; }
+        public DbSet<ArticleGroupEntity> ArticleGroups { get; set; }
+        public DbSet<PositionEntity> Positions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CustomerEntity>()
                 .HasKey(c => c.CustomerId);
 
+            modelBuilder.Entity<CustomerEntity>()
+                .HasOne(c => c.Location)
+                .WithMany(l => l.Customers)
+                .HasForeignKey(c => c.LocationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<LocationEntity>()
+                .HasKey(l => l.LocationId);
+
+            modelBuilder.Entity<ArticleEntity>()
+                .HasKey(a => a.ArticleId);
+
+            modelBuilder.Entity<ArticleEntity>()
+                .HasOne(a => a.ArticleGroup)
+                .WithMany(ag => ag.Articles)
+                .HasForeignKey(a => a.ArticleGroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<ArticleGroupEntity>()
+                .HasKey(ag => ag.ArticleGroupId);
+
+            modelBuilder.Entity<ArticleGroupEntity>()
+                .HasOne(ag => ag.SuperiorArticleGroup)
+                .WithMany(ag => ag.SubordinateArticleGroups)
+                .HasForeignKey(ag => ag.SuperiorArticleGroupId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            modelBuilder.Entity<PositionEntity>()
+                .HasKey(p => p.PositionId);
+
+            modelBuilder.Entity<PositionEntity>()
+                .HasOne(p => p.Article)
+                .WithMany(a => a.Positions)
+                .HasForeignKey(p => p.ArticleId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<PositionEntity>()
+                .HasOne(p => p.Order)
+                .WithMany(o => o.Positions)
+                .HasForeignKey(p => p.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
             modelBuilder.Entity<OrderEntity>()
                 .HasKey(o => o.OrderId);
 
-            modelBuilder.Entity<CustomerEntity>()
-                .HasMany(c => c.Orders)
-                .WithOne(o => o.Customer);
+            modelBuilder.Entity<OrderEntity>()
+                .HasOne(o => o.Customer)
+                .WithMany(c => c.Orders)
+                .HasForeignKey(p => p.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

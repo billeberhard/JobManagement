@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PresentationLayer
+namespace PresentationLayer1
 {
     /// <summary>
     /// Interaction logic for Customer.xaml

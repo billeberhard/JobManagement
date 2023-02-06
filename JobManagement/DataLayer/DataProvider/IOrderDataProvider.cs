@@ -4,9 +4,8 @@ namespace DataLayer.DataProvider
 {
     internal interface IOrderDataProvider : IBaseDataProvider<Order>
     {
-        int OrderCount { get; }
+        int OrderCount();
         void ClearOrders();
-        Order? GetOrder(int id);
         List<Order> GetAllOrders();
     }
 }

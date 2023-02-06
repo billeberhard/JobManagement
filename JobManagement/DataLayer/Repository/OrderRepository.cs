@@ -1,6 +1,5 @@
 ﻿using DataLayer.DataProvider;
 using DataLayer.TransferObjects;
-using System.Collections;
 using System.Diagnostics;
 
 namespace DataLayer.Repository
@@ -12,17 +11,13 @@ namespace DataLayer.Repository
             m_dataProvider = dataProvider;
         }
 
-        public int Count
+        public int Count()
         {
-            get { return m_dataProvider.OrderCount; }
+            return m_dataProvider.OrderCount();
         }
-        public bool IsReadOnly
+        public bool Add(Order order)
         {
-            get { return false; }
-        }
-        public void Add(Order order)
-        {
-            m_dataProvider.Add(order);
+            return m_dataProvider.Add(order);
         }
         public void Clear()
         {
@@ -32,24 +27,7 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.Contains(order);
         }
-        public void CopyTo(Order[] array, int arrayIndex)
-        {
-            List<Order> orders = m_dataProvider.GetAllOrders();
-            Debug.Assert(arrayIndex + orders.Count < array.Length);
-
-            int i = arrayIndex;
-
-            foreach(Order order in orders)
-                array[i++] = order;
-        }
-        public Order Get(int id)
-        {
-            Order? order = m_dataProvider.GetOrder(id);
-            Debug.Assert(order != null);
-            
-            return order;
-        }
-        public List<Order> GetAll()
+        public ICollection<Order> GetAll()
         {
             return m_dataProvider.GetAllOrders();
         }
@@ -57,15 +35,7 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.Remove(order);
         }
-        public IEnumerator<Order> GetEnumerator()
-        {
-            return new RepositoryEnumertor<Order>(this);
-        }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
 
-        IOrderDataProvider m_dataProvider;
+        private readonly IOrderDataProvider m_dataProvider;
     }
 }
