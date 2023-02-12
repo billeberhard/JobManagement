@@ -62,7 +62,7 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SuperiorArticleGroupId")
+                    b.Property<int?>("SuperiorArticleGroupId")
                         .HasColumnType("int");
 
                     b.HasKey("ArticleGroupId");
@@ -79,9 +79,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
-
-                    b.Property<int>("CustomerNumber")
-                        .HasColumnType("int");
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
@@ -194,7 +191,7 @@ namespace DataLayer.Migrations
                     b.HasOne("DataLayer.Model.ArticleGroupEntity", "ArticleGroup")
                         .WithMany("Articles")
                         .HasForeignKey("ArticleGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ArticleGroup");
@@ -205,8 +202,7 @@ namespace DataLayer.Migrations
                     b.HasOne("DataLayer.Model.ArticleGroupEntity", "SuperiorArticleGroup")
                         .WithMany("SubordinateArticleGroups")
                         .HasForeignKey("SuperiorArticleGroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("SuperiorArticleGroup");
                 });
@@ -216,7 +212,7 @@ namespace DataLayer.Migrations
                     b.HasOne("DataLayer.Model.LocationEntity", "Location")
                         .WithMany("Customers")
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Location");
@@ -238,7 +234,7 @@ namespace DataLayer.Migrations
                     b.HasOne("DataLayer.Model.ArticleEntity", "Article")
                         .WithMany("Positions")
                         .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("DataLayer.Model.OrderEntity", "Order")

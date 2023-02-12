@@ -14,7 +14,7 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.CustomerCount();
         }
-        public bool Add(Customer customer)
+        public Customer Add(Customer customer)
         {
             return m_dataProvider.Add(customer);
         }

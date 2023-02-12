@@ -18,7 +18,7 @@ namespace DataLayer.Migrations
                     ArticleGroupId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SuperiorArticleGroupId = table.Column<int>(type: "int", nullable: false)
+                    SuperiorArticleGroupId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,7 +27,8 @@ namespace DataLayer.Migrations
                         name: "FK_ArticleGroups_ArticleGroups_SuperiorArticleGroupId",
                         column: x => x.SuperiorArticleGroupId,
                         principalTable: "ArticleGroups",
-                        principalColumn: "ArticleGroupId");
+                        principalColumn: "ArticleGroupId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,7 +63,7 @@ namespace DataLayer.Migrations
                         column: x => x.ArticleGroupId,
                         principalTable: "ArticleGroups",
                         principalColumn: "ArticleGroupId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,7 +72,6 @@ namespace DataLayer.Migrations
                 {
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerNumber = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LocationId = table.Column<int>(type: "int", nullable: false),
@@ -89,7 +89,7 @@ namespace DataLayer.Migrations
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,7 +130,7 @@ namespace DataLayer.Migrations
                         column: x => x.ArticleId,
                         principalTable: "Articles",
                         principalColumn: "ArticleId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Positions_Orders_OrderId",
                         column: x => x.OrderId,

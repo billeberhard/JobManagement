@@ -9,18 +9,20 @@ namespace DataLayer.TransferObjects
             PostalCode = postalCode;
             Name = name;
         }
-        public Location(LocationEntity entity)
+        internal Location(LocationEntity entity)
         {
+            LocationId = entity.LocationId;
             PostalCode = entity.PostalCode;
             Name = entity.Name;
         }
 
+        internal int LocationId { get; set; }
         public string PostalCode { get; set; }
         public string Name { get; set; }
 
-        public LocationEntity ConvertToEntity()
+        internal LocationEntity ConvertToEntity()
         {
-            return new LocationEntity
+            return new LocationEntity()
             {
                 PostalCode = PostalCode,
                 Name = Name
@@ -33,12 +35,17 @@ namespace DataLayer.TransferObjects
         public override bool Equals(object? obj)
         {
             return obj is Location location &&
+                   LocationId == location.LocationId;
+        }
+        public bool DataEquals(object? obj)
+        {
+            return obj is Location location &&
                    PostalCode == location.PostalCode &&
                    Name == location.Name;
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(PostalCode, Name);
+            return HashCode.Combine(LocationId, PostalCode, Name);
         }
     }
 }

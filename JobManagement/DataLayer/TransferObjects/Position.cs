@@ -2,7 +2,7 @@
 
 namespace DataLayer.TransferObjects
 {
-    public class Position : IConvertableToEntity<PositionEntity>
+    public class Position
     {
         public Position(Article article, int amount, Order order)
         {
@@ -12,16 +12,18 @@ namespace DataLayer.TransferObjects
         }
         internal Position(PositionEntity entity)
         {
+            PositionId = entity.PositionId;
             Article = new Article(entity.Article);
             Amount = entity.Amount;
             Order = new Order(entity.Order);
         }
-
+        
+        internal int PositionId { get; set; }
         public virtual Article Article { get; set; }
         public int Amount { get; set; }
         public virtual Order Order { get; set; }
 
-        public PositionEntity ConvertToEntity()
+        internal PositionEntity ConvertToEntity()
         {
             return new PositionEntity()
             {
@@ -37,13 +39,18 @@ namespace DataLayer.TransferObjects
         public override bool Equals(object? obj)
         {
             return obj is Position position &&
-                   EqualityComparer<Article>.Default.Equals(Article, position.Article) &&
+                   PositionId == position.PositionId;
+        }
+        public bool DataEquals(object? obj)
+        {
+            return obj is Position position &&
+                   Article.DataEquals(position.Article) &&
                    Amount == position.Amount &&
-                   EqualityComparer<Order>.Default.Equals(Order, position.Order);
+                   Order.DataEquals(position.Order);
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(Article, Amount, Order);
+            return HashCode.Combine(PositionId, Article, Amount, Order);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace DataLayer.Repository
             m_dataProvider = dataProvider;
         }
 
-        public bool Add(Article item)
+        public Article Add(Article item)
         {
             return m_dataProvider.Add(item);
         }

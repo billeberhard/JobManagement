@@ -3,7 +3,6 @@
     public class CustomerEntity
     {
         public int CustomerId { get; set; }
-        public int CustomerNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int LocationId { get; set; }

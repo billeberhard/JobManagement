@@ -2,47 +2,33 @@
 using DataLayer.Model;
 using DataLayer.TransferObjects;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace DataLayer.DataProvider
 {
     internal class RelationalMicrosoftDataProvider : IDataProvider
     {
-        public bool Add(Customer customer)
+        public Customer Add(Customer customer)
         {
-            using JobManagementContext context = new JobManagementContext();
-
-            Add(customer.Location);
-            LocationEntity? locatoinEntity = GetEntity(customer.Location, context);
-            CustomerEntity? customerEntity = GetEntity(customer, context);
-
-            if (customerEntity != null)
-                return false;
-
-            customerEntity = customer.ConvertToEntity();
-            customerEntity.Location = locatoinEntity;
-
-            context.Add(customerEntity);
-            context.SaveChanges();
-            return true;
+            var context = new JobManagementContext();
+            var addedEntity = Add(customer, context);
+            return new Customer(addedEntity);
         }
         public bool Contains(Customer customer)
         {
-            List<Customer> customers = GetAllCustomers();
-            foreach (Customer c in customers)
-                if (customer.Equals(c))
-                    return true;
-
-            return false;
+            JobManagementContext context = new JobManagementContext();
+            return GetEntity(customer, context) != null;
         }
         public bool Remove(Customer customer)
         {
             using JobManagementContext context = new JobManagementContext();
+            var entity = GetEntity(customer, context);
 
-            if (!Contains(customer))
+            if (entity == null)
                 return false;
 
-            context.Customers.Remove(customer.ConvertToEntity());
+            context.Remove(entity);
             context.SaveChanges();
             return true;
         }
@@ -69,7 +55,7 @@ namespace DataLayer.DataProvider
 
             return ordersOfCustomer;
         }
-        public List<Customer> GetAllCustomers()
+        public ICollection<Customer> GetAllCustomers()
         {
             using JobManagementContext context = new JobManagementContext();
 
@@ -90,37 +76,29 @@ namespace DataLayer.DataProvider
         }
 
 
-        public bool Add(Location location)
+        public Location Add(Location location)
         {
-            using JobManagementContext context = new JobManagementContext();
-
-            LocationEntity? locationEntity = GetEntity(location, context);
-            if (locationEntity != null)
-                return false;
-
-            context.Locations.Add(location.ConvertToEntity());
-            context.SaveChanges();
-            return true;
+            var context = new JobManagementContext();
+            var addedEntity = Add(location, context);
+            return new Location(addedEntity);
         }
         public bool Contains(Location location)
         {
-            List<Location> locations = GetAllLocations();
-            foreach (Location c in locations)
-                if (location.Equals(c))
-                    return true;
-
-            return false;
+            JobManagementContext context = new JobManagementContext();
+            return GetEntity(location, context) != null;
         }
         public bool Remove(Location location)
         {
             using JobManagementContext context = new JobManagementContext();
+            LocationEntity entity = GetEntity(location, context);
 
-            if (!Contains(location))
+            if (entity == null)
                 return false;
 
-            LocationEntity locationEntity = GetEntity(location, context);
+            if (entity.Customers.Count > 0)
+                return false;
 
-            context.Remove(locationEntity);
+            context.Remove(entity);
             context.SaveChanges();
             return true;
         }
@@ -130,7 +108,7 @@ namespace DataLayer.DataProvider
 
             return context.Locations.Count();
         }
-        public List<Location> GetAllLocations()
+        public ICollection<Location> GetAllLocations()
         {
             using JobManagementContext context = new JobManagementContext();
 
@@ -151,38 +129,28 @@ namespace DataLayer.DataProvider
         }
 
 
-        public bool Add(Order order)
+        public Order Add(Order order)
         {
-            using JobManagementContext context = new JobManagementContext();
-
-            if (Contains(order))
-                return false;
-
-            OrderEntity orderEntity = order.ConvertToEntity();
-
-            CustomerEntity? existingCustomer = GetEntity(order.Customer, context);
-
-            if (existingCustomer != null)
-                orderEntity.Customer = existingCustomer;
-
-            context.Orders.Add(orderEntity);
-            context.SaveChanges();
-            return true;
+            var context = new JobManagementContext();
+            var addedEntity = Add(order, context);
+            return new Order(addedEntity);
         }
+
         public bool Contains(Order order)
         {
             JobManagementContext context = new JobManagementContext();
 
-            return GetOrderEntity(order, context) != null;
+            return GetEntity(order, context) != null;
         }
         public bool Remove(Order order)
         {
             using JobManagementContext context = new JobManagementContext();
+            var entity = GetEntity(order, context);
 
-            if (!Contains(order))
+            if (entity == null)
                 return false;
 
-            context.Orders.Remove(order.ConvertToEntity());
+            context.Remove(entity);
             context.SaveChanges();
             return true;
         }
@@ -192,7 +160,22 @@ namespace DataLayer.DataProvider
 
             return context.Orders.Count();
         }
-        public List<Order> GetAllOrders()
+        public ICollection<Position> GetAllPositionsOfOrder(Order order)
+        {
+            JobManagementContext context = new JobManagementContext();
+            var positions = new List<Position>();
+            var entity = GetEntity(order, context);
+
+            if (entity == null)
+                return positions;
+
+            var positionEntitys = entity.Positions;
+            foreach (PositionEntity e in positionEntitys)
+                positions.Add(new Position(e));
+
+            return positions;
+        }
+        public ICollection<Order> GetAllOrders()
         {
             using JobManagementContext context = new JobManagementContext();
 
@@ -214,32 +197,23 @@ namespace DataLayer.DataProvider
 
 
 
-        public bool Add(Article article)
+        public Article Add(Article article)
         {
-            using JobManagementContext context = new JobManagementContext();
-
-            ArticleEntity? articleEntity = GetEntity(article, context);
-            if (articleEntity != null)
-                return false;
-
-            context.Articles.Add(article.ConvertToEntity());
-            context.SaveChanges();
-            return true;
+            var context = new JobManagementContext();
+            var addedEntity = Add(article, context);
+            return new Article(addedEntity);
         }
         public bool Contains(Article article)
         {
-            List<Article> articles = GetAllArticles();
-            foreach (Article a in articles)
-                if (article.Equals(a))
-                    return true;
-
-            return false;
+            JobManagementContext context = new JobManagementContext();
+            return GetEntity(article, context) != null;
         }
         public bool Remove(Article article)
         {
             using JobManagementContext context = new JobManagementContext();
+            var entity = GetEntity(article, context);
 
-            if (!Contains(article))
+            if (entity == null)
                 return false;
 
             context.Articles.Remove(article.ConvertToEntity());
@@ -253,7 +227,7 @@ namespace DataLayer.DataProvider
 
             return context.Articles.Count();
         }
-        public List<Article> GetAllArticles()
+        public ICollection<Article> GetAllArticles()
         {
             using JobManagementContext context = new JobManagementContext();
 
@@ -274,36 +248,29 @@ namespace DataLayer.DataProvider
         }
 
 
-        public bool Add(ArticleGroup articleGroup)
+        public ArticleGroup Add(ArticleGroup articleGroup)
         {
-            using JobManagementContext context = new JobManagementContext();
-
-            ArticleGroupEntity? articleGroupEntity = GetEntity(articleGroup, context);
-            if (articleGroupEntity != null)
-                return false;
-
-            context.ArticleGroups.Add(articleGroup.ConvertToEntity());
-            context.SaveChanges();
-            return true;
+            var context = new JobManagementContext();
+            var addedEntity = Add(articleGroup, context);
+            return new ArticleGroup(addedEntity);
         }
         public bool Contains(ArticleGroup articleGroup)
         {
-            List<ArticleGroup> articles = GetAllArticleGroups();
-            foreach (ArticleGroup ag in articles)
-                if (articleGroup.Equals(ag))
-                    return true;
-
-            return false;
+            JobManagementContext context = new JobManagementContext();
+            return GetEntity(articleGroup, context) != null;
         }
         public bool Remove(ArticleGroup articleGroup)
         {
             using JobManagementContext context = new JobManagementContext();
+            var entity = GetEntity(articleGroup, context);
 
-            if (!Contains(articleGroup))
+            if (entity == null)
                 return false;
 
-            context.ArticleGroups.Remove(articleGroup.ConvertToEntity());
-            context.Remove<ArticleGroupEntity>(articleGroup.ConvertToEntity());
+            if (entity.SubordinateArticleGroups.Count > 0)
+                return false;
+
+            context.Remove<ArticleGroupEntity>(entity);
             context.SaveChanges();
             return true;
         }
@@ -313,7 +280,7 @@ namespace DataLayer.DataProvider
 
             return context.ArticleGroups.Count();
         }
-        public List<ArticleGroup> GetAllArticleGroups()
+        public ICollection<ArticleGroup> GetAllArticleGroups()
         {
             using JobManagementContext context = new JobManagementContext();
 
@@ -334,36 +301,26 @@ namespace DataLayer.DataProvider
         }
 
 
-        public bool Add(Position position)
+        public Position Add(Position position)
         {
-            using JobManagementContext context = new JobManagementContext();
-
-            PositionEntity? positionEntity = GetEntity(position, context);
-            if (positionEntity != null)
-                return false;
-
-            context.Positions.Add(position.ConvertToEntity());
-            context.SaveChanges();
-            return true;
+            var context = new JobManagementContext();
+            var addedEntity = Add(position, context);
+            return new Position(addedEntity);
         }
         public bool Contains(Position position)
         {
-            List<Position> positions = GetAllPositions();
-            foreach (Position p in positions)
-                if (position.Equals(p))
-                    return true;
-
-            return false;
+            JobManagementContext context = new JobManagementContext();
+            return GetEntity(position, context) != null;
         }
         public bool Remove(Position position)
         {
             using JobManagementContext context = new JobManagementContext();
+            var entity = GetEntity(position, context);
 
-            if (!Contains(position))
+            if (entity == null)
                 return false;
 
-            context.Positions.Remove(position.ConvertToEntity());
-            context.Remove<PositionEntity>(position.ConvertToEntity());
+            context.Remove(entity);
             context.SaveChanges();
             return true;
         }
@@ -371,9 +328,9 @@ namespace DataLayer.DataProvider
         {
             using JobManagementContext context = new JobManagementContext();
 
-            return context.Articles.Count();
+            return context.Positions.Count();
         }
-        public List<Position> GetAllPositions()
+        public ICollection<Position> GetAllPositions()
         {
             using JobManagementContext context = new JobManagementContext();
 
@@ -395,13 +352,114 @@ namespace DataLayer.DataProvider
 
 
 
+        private static CustomerEntity Add(Customer customer, JobManagementContext context)
+        {
+            var entity = GetEntity(customer, context);
+
+            if (entity != null)
+                return entity;
+
+            var locatoinEntity = Add(customer.Location, context);
+            entity = customer.ConvertToEntity();
+            entity.Location = locatoinEntity;
+
+            var addedEntity = context.Add(entity).Entity;
+            context.SaveChanges();
+
+            return addedEntity;
+        }
+        private static LocationEntity Add(Location location, JobManagementContext context)
+        {
+            var entity = GetEntity(location, context);
+
+            if (entity != null)
+                return entity;
+
+            entity = location.ConvertToEntity();
+            var addedEntity = context.Add(entity).Entity;
+            context.SaveChanges();
+
+            return addedEntity;
+        }
+        private static OrderEntity Add(Order order, JobManagementContext context)
+        {
+            var entity = GetEntity(order, context);
+
+            if (entity != null)
+                return entity;
+
+            var customerEntity = Add(order.Customer, context);
+            entity = order.ConvertToEntity();
+            entity.Customer = customerEntity;
+
+            var addedEntity = context.Add(entity).Entity;
+            context.SaveChanges();
+
+            return addedEntity;
+        }
+        private static ArticleEntity Add(Article article, JobManagementContext context)
+        {
+            var entity = GetEntity(article, context);
+
+            if (entity != null)
+                return entity;
+
+            var articleGroupEntity = Add(article.ArticleGroup, context);
+            entity = article.ConvertToEntity();
+            entity.ArticleGroup = articleGroupEntity;
+
+            var addedEntity = context.Add(entity).Entity;
+            context.SaveChanges();
+
+            return addedEntity;
+        }
+        private static ArticleGroupEntity Add(ArticleGroup articleGroup, JobManagementContext context)
+        {
+            var entity = GetEntity(articleGroup, context);
+
+            if (entity != null)
+                return entity;
+
+            entity = articleGroup.ConvertToEntity();
+
+            if (articleGroup.SuperiorArticleGroup != null)
+                entity.SuperiorArticleGroup = Add(articleGroup.SuperiorArticleGroup, context);
+
+            var addedEntity = context.Add(entity).Entity;
+            context.SaveChanges();
+
+            return addedEntity;
+        }
+        private static PositionEntity Add(Position position, JobManagementContext context)
+        {
+            var entity = GetEntity(position, context);
+
+            if (entity != null)
+                return entity;
+
+            var orderEntity = Add(position.Order, context);
+            var articleEntity = Add(position.Article, context);
+            entity = position.ConvertToEntity();
+            entity.Order = orderEntity;
+            entity.Article = articleEntity;
+
+            var addedEntity = context.Add(entity).Entity;
+            context.SaveChanges();
+
+            return addedEntity;
+        }
+
+
         private static CustomerEntity? GetEntity(Customer customer, JobManagementContext context)
         {
             if (customer == null || context == null)
                 return null;
 
+            if (customer.CustomerId != 0)
+                return context.Set<CustomerEntity>().Where(x => x.CustomerId == customer.CustomerId).FirstOrDefault();
+
             foreach (CustomerEntity c in context.Customers)
-                if (customer.Equals(new Customer(c)))
+                if (customer.DataEquals(new Customer(c)))
                     return c;
 
             return null;
@@ -411,19 +469,22 @@ namespace DataLayer.DataProvider
             if (location == null || context == null)
                 return null;
 
+            if (location.LocationId != 0)
+                return context.Set<LocationEntity>().Where(x => x.LocationId == location.LocationId).FirstOrDefault();
+
             foreach (LocationEntity l in context.Locations)
-                if (location.Equals(new Location(l)))
+                if (location.DataEquals(new Location(l)))
                     return l;
 
             return null;
         }
-        private static OrderEntity? GetOrderEntity(Order order, JobManagementContext context)
+        private static OrderEntity? GetEntity(Order order, JobManagementContext context)
         {
             if (order == null || context == null)
                 return null;
 
             foreach (OrderEntity o in context.Orders)
-                if (order.Equals(new Order(o)))
+                if (order.DataEquals(new Order(o)))
                     return o;
 
             return null;
@@ -434,7 +495,7 @@ namespace DataLayer.DataProvider
                 return null; 
             
             foreach (ArticleEntity a in context.Articles)
-                if (article.Equals(new Article(a)))
+                if (article.DataEquals(new Article(a)))
                     return a;
 
             return null;
@@ -445,7 +506,7 @@ namespace DataLayer.DataProvider
                 return null;
 
             foreach (ArticleGroupEntity ag in context.ArticleGroups)
-                if (articleGroup.Equals(new ArticleGroup(ag)))
+                if (articleGroup.DataEquals(new ArticleGroup(ag)))
                     return ag;
 
             return null;
@@ -456,10 +517,11 @@ namespace DataLayer.DataProvider
                 return null;
 
             foreach (PositionEntity p in context.Positions)
-                if (position.Equals(new Position(p)))
+                if (position.DataEquals(new Position(p)))
                     return p;
 
             return null;
         }
+
     }
 }

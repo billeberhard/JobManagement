@@ -1,0 +1,29 @@
+[33mcommit cf1cc7e425ae41dc7249fcadead57c5828a2d815[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Elias Büchel <eli.buechel@hotmail.com>
+Date:   Mon Feb 6 14:56:00 2023 +0100
+
+    working on abstraction of DataLayer
+
+[33mcommit 9b07255a1466360f7ce6086879db9d83edda33ef[m
+Author: Shannon Würzer <shannon.wuerzer@bluewin.ch>
+Date:   Sun Jan 22 13:09:35 2023 +0100
+
+    Add customer and order window
+
+[33mcommit d41978b469318f77ef0155cc38cc7d5e25877129[m
+Author: Elias Büchel <eli.buechel@hotmail.com>
+Date:   Mon Jan 16 20:31:23 2023 +0100
+
+    Projekt aufsetzten und erste Abstraktion von DataLayer
+
+[33mcommit a7d0367411f8c5993463cc7fabf4b7f20475d7d2[m
+Author: Elias Büchel <eli.buechel@hotmail.com>
+Date:   Mon Nov 21 15:18:51 2022 +0100
+
+    adding .gitignore file
+
+[33mcommit 2708a47e2de0c69abe674846769bb324dc1ff422[m[33m ([m[1;33mtag: Abgabe.NachvollziehbareAdressänderungen[m[33m, [m[1;33mtag: Abgabe.Jahresvergleich[m[33m, [m[1;33mtag: Abgabe.HierarchischeStrukturDerArtikelgruppen[m[33m, [m[1;33mtag: Abgabe.Auftragsverwaltung[m[33m, [m[1;32mignorefile[m[33m)[m
+Author: Elias Büchel <94609688+eliasbuechel@users.noreply.github.com>
+Date:   Mon Nov 21 14:49:38 2022 +0100
+
+    Create README.md

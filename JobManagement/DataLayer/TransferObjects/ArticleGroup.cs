@@ -3,25 +3,37 @@ using System.Diagnostics;
 
 namespace DataLayer.TransferObjects
 {
-    public class ArticleGroup : IConvertableToEntity<ArticleGroupEntity>
+    public class ArticleGroup
     {
         public ArticleGroup(string name, ArticleGroup superiorArticleGroup)
         {
             Name = name;
             SuperiorArticleGroup = superiorArticleGroup;
         }
-        public ArticleGroup(ArticleGroupEntity entity)
+        public ArticleGroup(string name)
         {
+            Name = name;
+        }
+        internal ArticleGroup(ArticleGroupEntity entity)
+        {
+            ArticleGroupId = entity.ArticleGroupId;
             Name = entity.Name;
             SuperiorArticleGroup = entity.SuperiorArticleGroup == null ? null : new ArticleGroup(entity.SuperiorArticleGroup);
         }
 
+        internal int ArticleGroupId { get; set; }
         public string Name { get; set; }
         public ArticleGroup? SuperiorArticleGroup { get; set; }
 
-        public ArticleGroupEntity ConvertToEntity()
+        internal ArticleGroupEntity ConvertToEntity()
         {
-            return new ArticleGroupEntity
+            if (SuperiorArticleGroup == null)
+                return new ArticleGroupEntity()
+                {
+                    Name = Name
+                };
+
+            return new ArticleGroupEntity()
             {
                 Name = Name,
                 SuperiorArticleGroup = SuperiorArticleGroup.ConvertToEntity()
@@ -34,14 +46,22 @@ namespace DataLayer.TransferObjects
 
             return $"{Name}.{SuperiorArticleGroup}";
         }
+
         public override bool Equals(object? obj)
         {
             return obj is ArticleGroup group &&
-                   Name == group.Name;
+                   ArticleGroupId == group.ArticleGroupId;
+        }
+        public bool DataEquals(object? obj)
+        {
+            return obj is ArticleGroup group &&
+                   Name == group.Name &&
+                   ((SuperiorArticleGroup == null && group.SuperiorArticleGroup == null) || 
+                   (SuperiorArticleGroup != null && SuperiorArticleGroup.DataEquals(group.SuperiorArticleGroup)));
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, SuperiorArticleGroup);
+            return HashCode.Combine(ArticleGroupId, Name, SuperiorArticleGroup);
         }
     }
 }

@@ -6,6 +6,6 @@ namespace DataLayer.DataProvider
     {
         int PositionCount();
         void ClearPositions();
-        List<Position> GetAllPositions();
+        ICollection<Position> GetAllPositions();
     }
 }

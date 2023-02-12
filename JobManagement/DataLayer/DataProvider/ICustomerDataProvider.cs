@@ -7,7 +7,7 @@ namespace DataLayer.DataProvider
     {
         int CustomerCount();
         void ClearCustomers();
-        List<Customer> GetAllCustomers();
+        ICollection<Customer> GetAllCustomers();
         ICollection<Order> GetAllOrdersOfCustomer(Customer customer);
     }
 }

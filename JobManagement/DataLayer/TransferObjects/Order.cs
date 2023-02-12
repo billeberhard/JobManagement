@@ -2,43 +2,50 @@
 
 namespace DataLayer.TransferObjects
 {
-    public class Order : IConvertableToEntity<OrderEntity>
+    public class Order
     {
-        public Order(DateTime date, Customer customer)
+        public Order(DateTime creationData, Customer customer)
         {
-            Date = date;
+            CreationData = creationData;
             Customer = customer;
         }
         internal Order(OrderEntity entity)
         {
-            Date = entity.CreationData;
+            OrderId = entity.OrderId;
+            CreationData = entity.CreationData;
             Customer = new Customer(entity.Customer);
         }
 
-        public DateTime Date { get; set; }
+        public int OrderId { get; set; }
+        public DateTime CreationData { get; set; }
         public Customer Customer { get; set; }
 
-        public OrderEntity ConvertToEntity()
+        internal OrderEntity ConvertToEntity()
         {
             return new OrderEntity()
             {
-                Customer = this.Customer.ConvertToEntity(),
-                CreationData = Date
+                CreationData = CreationData,
+                Customer = Customer.ConvertToEntity()
             };
         }
         public override string? ToString()
         {
-            return $"{Date.ToString("dd.MM.yyyy")}, {Customer}";
+            return $"{CreationData.ToString("dd.MM.yyyy")}, {Customer}";
         }
         public override bool Equals(object? obj)
         {
             return obj is Order order &&
-                   Date == order.Date &&
-                   EqualityComparer<Customer>.Default.Equals(Customer, order.Customer);
+                   OrderId == order.OrderId;
+        }
+        public bool DataEquals(object? obj)
+        {
+            return obj is Order order &&
+                   CreationData == order.CreationData &&
+                   Customer.DataEquals(order.Customer);
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(Date, Customer);
+            return HashCode.Combine(OrderId, CreationData, Customer);
         }
     }
 }

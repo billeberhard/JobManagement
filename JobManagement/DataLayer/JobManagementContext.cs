@@ -1,5 +1,6 @@
 ﻿using DataLayer.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using System.Diagnostics;
 
 namespace DataLayer
@@ -22,7 +23,7 @@ namespace DataLayer
                 .HasOne(c => c.Location)
                 .WithMany(l => l.Customers)
                 .HasForeignKey(c => c.LocationId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             modelBuilder.Entity<LocationEntity>()
@@ -35,7 +36,7 @@ namespace DataLayer
                 .HasOne(a => a.ArticleGroup)
                 .WithMany(ag => ag.Articles)
                 .HasForeignKey(a => a.ArticleGroupId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             modelBuilder.Entity<ArticleGroupEntity>()
@@ -45,7 +46,8 @@ namespace DataLayer
                 .HasOne(ag => ag.SuperiorArticleGroup)
                 .WithMany(ag => ag.SubordinateArticleGroups)
                 .HasForeignKey(ag => ag.SuperiorArticleGroupId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
 
 
             modelBuilder.Entity<PositionEntity>()
@@ -55,7 +57,7 @@ namespace DataLayer
                 .HasOne(p => p.Article)
                 .WithMany(a => a.Positions)
                 .HasForeignKey(p => p.ArticleId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PositionEntity>()
                 .HasOne(p => p.Order)
@@ -73,12 +75,19 @@ namespace DataLayer
                 .HasForeignKey(p => p.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+
+            AddSampleData();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=.\\SQLSERVER_EB;Database=JobManagementTest;Trusted_Connection=True;MultipleActiveResultSets=True;Encrypt=False;");
             // optionsBuilder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Debug);
             optionsBuilder.UseLazyLoadingProxies();
+        }
+
+        private void AddSampleData()
+        {
+            
         }
     }
 }

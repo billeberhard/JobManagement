@@ -2,16 +2,15 @@
 
 namespace DataLayer.TransferObjects
 {
-    public class Article : IConvertableToEntity<ArticleEntity>
+    public class Article
     {
-        public Article(int articleId, string name, decimal price, ArticleGroup articleGroup)
+        public Article(string name, decimal price, ArticleGroup articleGroup)
         {
-            ArticleId = articleId;
             Name = name;
             Price = price;
             ArticleGroup = articleGroup;
         }
-        public Article(ArticleEntity entity)
+        internal Article(ArticleEntity entity)
         {
             ArticleId = entity.ArticleId;
             Name = entity.Name;
@@ -19,14 +18,20 @@ namespace DataLayer.TransferObjects
             ArticleGroup = new ArticleGroup(entity.ArticleGroup);
         }
 
-        public int ArticleId { get; set; }
+        internal int ArticleId { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public virtual ArticleGroup ArticleGroup { get; set; }
 
-        public ArticleEntity ConvertToEntity()
+        internal ArticleEntity ConvertToEntity()
         {
-            throw new NotImplementedException();
+            return new ArticleEntity()
+            {
+
+                Name = Name,
+                Price = Price,
+                ArticleGroup = ArticleGroup.ConvertToEntity()
+            };
         }
         public override string? ToString()
         {
@@ -35,9 +40,14 @@ namespace DataLayer.TransferObjects
         public override bool Equals(object? obj)
         {
             return obj is Article article &&
-                   ArticleId == article.ArticleId &&
+                   ArticleId == article.ArticleId;
+        }
+        public bool DataEquals(object? obj)
+        {
+            return obj is Article article &&
                    Name == article.Name &&
-                   Price == article.Price;
+                   Price == article.Price &&
+                   ArticleGroup.DataEquals(article.ArticleGroup);
         }
         public override int GetHashCode()
         {

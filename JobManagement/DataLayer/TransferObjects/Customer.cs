@@ -4,11 +4,10 @@ using System.Net.Mail;
 
 namespace DataLayer.TransferObjects
 {
-    public class Customer : IConvertableToEntity<CustomerEntity>
+    public class Customer
     {
-        public Customer(int customerNumber, string firstName, string lastName, Location location, string streetName, string houseNumber, string emailAddress, string websiteURL, string password)
+        public Customer(string firstName, string lastName, Location location, string streetName, string houseNumber, string emailAddress, string websiteURL, string password)
         {
-            CustomerNumber = customerNumber;
             FirstName = firstName;
             LastName = lastName;
             Location = location;
@@ -18,9 +17,9 @@ namespace DataLayer.TransferObjects
             WebsiteURL = websiteURL;
             Password = password;
         }
-        public Customer(CustomerEntity entity)
+        internal Customer(CustomerEntity entity)
         {
-            CustomerNumber = entity.CustomerNumber;
+            CustomerId = entity.CustomerId;
             FirstName = entity.FirstName;
             LastName = entity.LastName;
             Location = new Location(entity.Location);
@@ -31,7 +30,7 @@ namespace DataLayer.TransferObjects
             Password = entity.Password;
         }
 
-        public int CustomerNumber { get; set; }
+        public int CustomerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Location Location { get; set; }
@@ -41,9 +40,9 @@ namespace DataLayer.TransferObjects
         public string WebsiteURL { get; set; }
         public string Password { get; set; }
 
-        public CustomerEntity ConvertToEntity()
+        internal CustomerEntity ConvertToEntity()
         {
-            return new CustomerEntity
+            return new CustomerEntity()
             {
                 FirstName = FirstName,
                 LastName = LastName,
@@ -52,7 +51,7 @@ namespace DataLayer.TransferObjects
                 HouseNumber = HouseNumber,
                 EmailAddress = EmailAddress,
                 WebsiteURL = WebsiteURL,
-                Password = Password,
+                Password = Password
             };
         }
         public override string? ToString()
@@ -62,9 +61,14 @@ namespace DataLayer.TransferObjects
         public override bool Equals(object? obj)
         {
             return obj is Customer customer &&
+                   CustomerId == customer.CustomerId;
+        }
+        public bool DataEquals(object? obj)
+        {
+            return obj is Customer customer &&
                    FirstName == customer.FirstName &&
                    LastName == customer.LastName &&
-                   EqualityComparer<Location>.Default.Equals(Location, customer.Location) &&
+                   Location.DataEquals(customer.Location) &&
                    StreetName == customer.StreetName &&
                    HouseNumber == customer.HouseNumber &&
                    EmailAddress == customer.EmailAddress &&
@@ -74,6 +78,7 @@ namespace DataLayer.TransferObjects
         public override int GetHashCode()
         {
             HashCode hash = new HashCode();
+            hash.Add(CustomerId);
             hash.Add(FirstName);
             hash.Add(LastName);
             hash.Add(Location);

@@ -15,7 +15,7 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.OrderCount();
         }
-        public bool Add(Order order)
+        public Order Add(Order order)
         {
             return m_dataProvider.Add(order);
         }
@@ -35,6 +35,12 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.Remove(order);
         }
+
+        public ICollection<Position> GetAllPositions(Order order)
+        {
+            return m_dataProvider.GetAllPositionsOfOrder(order);
+        }
+
 
         private readonly IOrderDataProvider m_dataProvider;
     }

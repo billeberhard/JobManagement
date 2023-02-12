@@ -6,6 +6,6 @@ namespace DataLayer.DataProvider
     {
         int ArticleGroupCount();
         void ClearArticleGroups();
-        List<ArticleGroup> GetAllArticleGroups();
+        ICollection<ArticleGroup> GetAllArticleGroups();
     }
 }
