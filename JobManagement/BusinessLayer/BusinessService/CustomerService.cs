@@ -1,9 +1,8 @@
 ﻿using DataLayer.Repository;
 using DataLayer.TransferObjects;
 
-namespace BusinessLayer
+namespace BusinessLayer.BusinessService
 {
-    public class CRUDCustomer
-    {
-    }
+  
 }
+
