@@ -1,0 +1,12 @@
+<<<<<<< HEAD:JobManagement/BusinessLayer/CRUDCustomer.cs
+﻿namespace BusinessLayer
+=======
+﻿using DataLayer.Repository;
+using DataLayer.TransferObjects;
+
+namespace BusinessLayer.BusinessService
+>>>>>>> 7e5e3f5fa14248d81f32ec68d6791b5ca24feeaa:JobManagement/BusinessLayer/BusinessService/CustomerService.cs
+{
+  
+}
+
