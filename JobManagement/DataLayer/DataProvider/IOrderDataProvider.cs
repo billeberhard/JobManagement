@@ -7,6 +7,6 @@ namespace DataLayer.DataProvider
         int OrderCount();
         void ClearOrders();
         ICollection<Order> GetAllOrders();
-        ICollection<Position> GetAllPositionsOfOrder(Order order);
+        // ICollection<Position> GetAllPositionsOfOrder(Order order);
     }
 }

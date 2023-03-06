@@ -4,48 +4,32 @@ namespace DataLayer.TransferObjects
 {
     public class Order
     {
-        public Order(DateTime creationData, Customer customer)
-        {
-            CreationData = creationData;
-            Customer = customer;
-        }
+        public Order()
+        { }
         internal Order(OrderEntity entity)
         {
-            OrderId = entity.OrderId;
-            CreationData = entity.CreationData;
+            Id = entity.Id;
+            CreationDate = entity.CreationDate;
             Customer = new Customer(entity.Customer);
         }
 
-        public int OrderId { get; set; }
-        public DateTime CreationData { get; set; }
+        public int Id { get; set; }
+        public DateTime CreationDate { get; set; }
         public Customer Customer { get; set; }
+        public ICollection<Position> Positions { get; set; } = new List<Position>();
 
-        internal OrderEntity ConvertToEntity()
+        internal OrderEntity ToEntity()
         {
-            return new OrderEntity()
+            var entity = new OrderEntity()
             {
-                CreationData = CreationData,
-                Customer = Customer.ConvertToEntity()
+                CreationDate = CreationDate,
+                Customer = Customer.ToEntity()
             };
-        }
-        public override string? ToString()
-        {
-            return $"{CreationData.ToString("dd.MM.yyyy")}, {Customer}";
-        }
-        public override bool Equals(object? obj)
-        {
-            return obj is Order order &&
-                   OrderId == order.OrderId;
-        }
-        public bool DataEquals(object? obj)
-        {
-            return obj is Order order &&
-                   CreationData == order.CreationData &&
-                   Customer.DataEquals(order.Customer);
-        }
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(OrderId, CreationData, Customer);
+
+            if (Id != 0)
+                entity.Id = Id;
+
+            return entity;
         }
     }
 }

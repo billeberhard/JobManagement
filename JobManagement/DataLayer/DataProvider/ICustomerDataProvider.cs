@@ -1,5 +1,4 @@
-﻿using DataLayer.Model;
-using DataLayer.TransferObjects;
+﻿using DataLayer.TransferObjects;
 
 namespace DataLayer.DataProvider
 {
@@ -8,6 +7,5 @@ namespace DataLayer.DataProvider
         int CustomerCount();
         void ClearCustomers();
         ICollection<Customer> GetAllCustomers();
-        ICollection<Order> GetAllOrdersOfCustomer(Customer customer);
     }
 }

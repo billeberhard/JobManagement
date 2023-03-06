@@ -1,7 +1,7 @@
-﻿using Castle.Core.Resource;
-using DataLayer.Repository;
-using DataLayer.TransferObjects;
+﻿using DataLayer.TransferObjects;
 using NUnit.Framework;
+
+
 
 namespace DataLayerTests
 {
@@ -27,45 +27,116 @@ namespace DataLayerTests
         public void Count_AddingItems_ExpectedAmount()
         {
             // arrange
-            ICollection<Customer> customers = GetSampleCustomers();
-            int expectedCount = customers.Count;
+            Customer customer1 = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            Customer customer2 = new Customer() { FirstName = "Jane", LastName = "Smith", PostalCode = "10001", City = "New York", StreetName = "5th Ave", HouseNumber = "100", EmailAddress = "janesmith@example.com", WebsiteURL = "www.janesmith.com", Password = "pass456" };
+            Customer customer3 = new Customer() { FirstName = "James", LastName = "Johnson", PostalCode = "60601", City = "Chicago", StreetName = "Michigan Ave", HouseNumber = "150", EmailAddress = "jamesjohnson@example.com", WebsiteURL = "www.jamesjohnson.com", Password = "pass789" };
+
+            int expectedCount = 3;
 
             // act
-            foreach (Customer c in customers)
-                repo.Customers.Add(c);
+            repo.Customers.Add(customer1);
+            repo.Customers.Add(customer2);
+            repo.Customers.Add(customer3);
 
-            int count = repo.Customers.Count();
 
             // assert
+            int count = repo.Customers.Count();
             Assert.That(count, Is.EqualTo(expectedCount));
         }
 
         [Test]
-        public void Add_AddingSameDataTwice_OnlyOneAdded()
+        public void Add_BaseOperation_IdGotUpdated()
         {
             // arrange
-            ICollection<Customer> customers = GetSampleCustomers();
-            int expectedCount = customers.Count;
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            int previousId = customer.Id;
 
             // act
-            foreach (Customer c in customers)
-                repo.Customers.Add(c);
 
-            foreach (Customer c in customers)
-                repo.Customers.Add(c);
-
-            int count = repo.Customers.Count();
+            repo.Customers.Add(customer);
+            int newId = customer.Id;
 
             // assert
+            Assert.That(previousId, Is.EqualTo(0));
+            Assert.That(newId, Is.Not.EqualTo(0));
+        }
+
+        [Test]
+        public void Add_BaseOperation_ReturnTrue()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+
+            // act
+            bool added = repo.Customers.Add(customer);
+
+            // assert
+            Assert.That(added, Is.True);
+        }
+
+        [Test]
+        public void Add_AddingSameTwice_ReturnFalse()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            repo.Customers.Add(customer);
+
+            // act
+            bool added = repo.Customers.Add(customer);
+
+            // assert
+            Assert.That(added, Is.False);
+        }
+
+        [Test]
+        public void Add_AddingSameTwice_OnlyOneAdded()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            int expectedCount = 1;
+
+            repo.Customers.Add(customer);
+
+            // act
+            repo.Customers.Add(customer);
+
+            // assert
+            int count = repo.Customers.Count();
             Assert.That(count, Is.EqualTo(expectedCount));
         }
 
         [Test]
-        public void Contains_BaseOperation_Contains()
+        public void Add_AddingOverOrder_expectedCount()
         {
             // arrange
-            Location location = new Location("94105", "San Francisco");
-            Customer customer = new Customer("John", "Doe", location, "Market St", "200", "johndoe@example.com", "www.johndoe.com", "pass123");
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            DateTime date = new DateTime(2023, 01, 01, 12, 00, 00);
+            Order order = new Order() { CreationDate = date, Customer = customer };
+
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            Article article1 = new Article() { Name = "screw", Price = 0.35M, ArticleGroup = vehicle };
+            Article article2 = new Article() { Name = "nut", Price = 0.15M, ArticleGroup = vehicle };
+            Position position1 = new Position() { Article = article1, Amount = 17 };
+            Position position2 = new Position() { Article = article2, Amount = 3 };
+            order.Positions.Add(position1);
+            order.Positions.Add(position2);
+
+            int expectedCount = 1;
+
+            // act
+            repo.Orders.Add(order);
+
+            // assert
+            int count = repo.Customers.Count();
+            Assert.That(count, Is.EqualTo(expectedCount));
+        }
+
+        [Test]
+        public void Contains_BaseOperation_ReturnsTrue()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+
 
             repo.Customers.Add(customer);
 
@@ -77,14 +148,11 @@ namespace DataLayerTests
         }
 
         [Test]
-        public void Contains_BaseOperation_NotContaining()
+        public void Contains_BaseOperation_ReturnsFalse()
         {
             // arrange
-            Location location1 = new Location("94105", "San Francisco");
-            Location location2 = new Location("10001", "New York");
-            Customer customer = new Customer("John", "Doe", location1, "Market St", "200", "johndoe@example.com", "www.johndoe.com", "pass123");
-            Customer notContainingCustomer = new Customer("John", "Doe", location2, "Market St", "200", "johndoe@example.com", "www.johndoe.com", "pass123");
-
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            Customer notContainingCustomer = new Customer() { FirstName = "Jane", LastName = "Smith", PostalCode = "10001", City = "New York", StreetName = "5th Ave", HouseNumber = "100", EmailAddress = "janesmith@example.com", WebsiteURL = "www.janesmith.com", Password = "pass456" };
 
             repo.Customers.Add(customer);
 
@@ -99,8 +167,7 @@ namespace DataLayerTests
         public void Remove_RemovingItem_ReturnTrue()
         {
             // arrange
-            Location location = new Location("10001", "New York");
-            Customer customer = new Customer("John", "Doe", location, "Market St", "200", "johndoe@example.com", "www.johndoe.com", "pass123");
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
             repo.Customers.Add(customer);
 
             // act
@@ -114,8 +181,7 @@ namespace DataLayerTests
         public void Remove_RemovingItem_ReturnsFalse()
         {
             // arrange
-            Location location = new Location("10001", "New York");
-            Customer customer = new Customer("John", "Doe", location, "Market St", "200", "johndoe@example.com", "www.johndoe.com", "pass123");
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
 
             // act
             bool removed = repo.Customers.Remove(customer);
@@ -125,19 +191,54 @@ namespace DataLayerTests
         }
 
         [Test]
-        public void Remove_BaseOperation_NotContainingItem()
+        public void Remove_RemovingItem_NotContaining()
         {
             // arrange
-            Location location = new Location("10001", "New York");
-            Customer customer = new Customer("John", "Doe", location, "Market St", "200", "johndoe@example.com", "www.johndoe.com", "pass123");
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
             repo.Customers.Add(customer);
 
             // act
-            repo.Customers.Remove(customer);
-            bool contains = repo.Customers.Contains(customer);
+            bool removed = repo.Customers.Remove(customer);
 
             // assert
-            Assert.That(contains, Is.False);
+            bool contianing = repo.Customers.Contains(customer);
+            Assert.That(contianing, Is.False);
+        }
+
+        [Test]
+        public void GetAll_BaseOperation_CorrectCount()
+        {
+            // arrange
+            Customer customer1 = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            Customer customer2 = new Customer() { FirstName = "Jane", LastName = "Smith", PostalCode = "10001", City = "New York", StreetName = "5th Ave", HouseNumber = "100", EmailAddress = "janesmith@example.com", WebsiteURL = "www.janesmith.com", Password = "pass456" };
+            Customer customer3 = new Customer() { FirstName = "James", LastName = "Johnson", PostalCode = "60601", City = "Chicago", StreetName = "Michigan Ave", HouseNumber = "150", EmailAddress = "jamesjohnson@example.com", WebsiteURL = "www.jamesjohnson.com", Password = "pass789" };
+
+            repo.Customers.Add(customer1);
+            repo.Customers.Add(customer2);
+            repo.Customers.Add(customer3);
+
+            int expectedCount = 3;
+
+            // act
+            ICollection<Customer> returnedArticles = repo.Customers.GetAll();
+
+            // assert
+            int count = returnedArticles.Count();
+            Assert.That(count, Is.EqualTo(expectedCount));
+        }
+
+        [Test]
+        public void GetAll_GetNoElements_CorrectCount()
+        {
+            // arrange
+            int expectedCount = 0;
+
+            // act
+            ICollection<Customer> returnedArticles = repo.Customers.GetAll();
+
+            // assert
+            int count = returnedArticles.Count();
+            Assert.That(count, Is.EqualTo(expectedCount));
         }
     }
 }

@@ -1,67 +1,34 @@
 ﻿using DataLayer.Model;
-using System.Diagnostics;
 
 namespace DataLayer.TransferObjects
 {
     public class ArticleGroup
     {
-        public ArticleGroup(string name, ArticleGroup superiorArticleGroup)
-        {
-            Name = name;
-            SuperiorArticleGroup = superiorArticleGroup;
-        }
-        public ArticleGroup(string name)
-        {
-            Name = name;
-        }
+        public ArticleGroup()
+        { }
         internal ArticleGroup(ArticleGroupEntity entity)
         {
-            ArticleGroupId = entity.ArticleGroupId;
+            Id = entity.Id;
             Name = entity.Name;
             SuperiorArticleGroup = entity.SuperiorArticleGroup == null ? null : new ArticleGroup(entity.SuperiorArticleGroup);
         }
 
-        internal int ArticleGroupId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public ArticleGroup? SuperiorArticleGroup { get; set; }
 
-        internal ArticleGroupEntity ConvertToEntity()
+        internal ArticleGroupEntity ToEntity()
         {
-            if (SuperiorArticleGroup == null)
-                return new ArticleGroupEntity()
-                {
-                    Name = Name
-                };
-
-            return new ArticleGroupEntity()
+            var entity = new ArticleGroupEntity()
             {
                 Name = Name,
-                SuperiorArticleGroup = SuperiorArticleGroup.ConvertToEntity()
+                SuperiorArticleGroup = SuperiorArticleGroup?.ToEntity()
             };
-        }
-        public override string? ToString()
-        {
-            if (SuperiorArticleGroup == null)
-                return $"{Name}";
 
-            return $"{Name}.{SuperiorArticleGroup}";
-        }
+            if (Id != 0)
+                entity.Id = Id;
 
-        public override bool Equals(object? obj)
-        {
-            return obj is ArticleGroup group &&
-                   ArticleGroupId == group.ArticleGroupId;
-        }
-        public bool DataEquals(object? obj)
-        {
-            return obj is ArticleGroup group &&
-                   Name == group.Name &&
-                   ((SuperiorArticleGroup == null && group.SuperiorArticleGroup == null) || 
-                   (SuperiorArticleGroup != null && SuperiorArticleGroup.DataEquals(group.SuperiorArticleGroup)));
-        }
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(ArticleGroupId, Name, SuperiorArticleGroup);
+            return entity;
         }
     }
 }

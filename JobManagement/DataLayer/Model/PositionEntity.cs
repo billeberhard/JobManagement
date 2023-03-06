@@ -1,12 +1,18 @@
-﻿namespace DataLayer.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DataLayer.Model
 {
     public class PositionEntity
     {
-        public int PositionId { get; set; }
-        public int ArticleId { get; set; }
-        public virtual ArticleEntity Article { get; set; }
+        public int Id { get; set; }
+
+        [Required]
         public int Amount { get; set; }
-        public int OrderId { get; set; }
+
+        [Required]
+        public virtual ArticleEntity Article { get; set; }
+
+        [Required]
         public virtual OrderEntity Order { get; set; }
     }
 }

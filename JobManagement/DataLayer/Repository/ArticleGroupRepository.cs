@@ -10,7 +10,7 @@ namespace DataLayer.Repository
             m_dataProvider = dataProvider;
         }
 
-        public ArticleGroup Add(ArticleGroup item)
+        public bool Add(ArticleGroup item)
         {
             return m_dataProvider.Add(item);
         }
@@ -34,6 +34,11 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.Remove(item);
         }
+
+        //public ICollection<ArticleGroupTreeItem> GetArticleGroupTreesView()
+        //{
+        //    return m_dataProvider.GetArticleGroupTreesView();
+        //}
 
         private readonly IArticleGroupDataProvider m_dataProvider;
     }

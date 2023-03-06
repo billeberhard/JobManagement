@@ -9,106 +9,62 @@ namespace DataLayerTests
         [SetUp]
         public void SetUp()
         {
-            RemoveAllDataFromRepo();
+            DataRepository.RemoveAllData(repo);
         }
 
         [TearDown]
         public void TearDown()
         {
-            RemoveAllDataFromRepo();
+            DataRepository.AddSampleData(repo);
         }
 
 
         protected DataRepository repo = new DataRepository();
-        protected void RemoveAllDataFromRepo()
-        {
-            repo.Customers.Clear();
-            repo.Locations.Clear();
-            repo.Orders.Clear();
-            repo.Positions.Clear();
-            repo.Articles.Clear();
-            repo.ArticleGroups.Clear();
-        }
-        protected Location GetSampleLocation()
-        {
-            return new Location("94105", "San Francisco");
-        }
-        protected ICollection<Location> GetSampleLocations()
-        {
-            return new List<Location>()
-            {
-                new Location("94105", "San Francisco"),
-                new Location("10001", "New York"),
-                new Location("60601", "Chicago"),
-                new Location("90001", "Los Angeles"),
-                new Location("80202", "Denver"),
-                new Location("77056", "Houston"),
-                new Location("60604", "Chicago"),
-                new Location("75201", "Dallas"),
-                new Location("02108", "Boston"),
-                new Location("98101", "Seattle"),
-                new Location("10013", "New York"),
-                new Location("33101", "Miami"),
-                new Location("19102", "Philadelphia")
-            };
-        }
+
         protected ICollection<Customer> GetSampleCustomers()
         {
-            Location location1 = new Location("94105", "San Francisco");
-            Location location2 = new Location("10001", "New York");
-            Location location3 = new Location("60601", "Chicago");
-            Location location4 = new Location("90001", "Los Angeles");
-            Location location5 = new Location("80202", "Denver");
-            Location location6 = new Location("77056", "Houston");
-            Location location7 = new Location("60604", "Chicago");
-            Location location8 = new Location("75201", "Dallas");
-            Location location9 = new Location("02108", "Boston");
-            Location location10 = new Location("98101", "Seattle");
-            Location location11 = new Location("10013", "New York");
-            Location location12 = new Location("33101", "Miami");
-            Location location13 = new Location("19102", "Philadelphia");
-
             return new List<Customer>()
             {
-                new Customer("John", "Doe", location1, "Market St", "200", "johndoe@example.com", "www.johndoe.com", "pass123"),
-                new Customer("Jane", "Smith", location2, "5th Ave", "100", "janesmith@example.com", "www.janesmith.com", "pass456"),
-                new Customer("James", "Johnson", location3, "Michigan Ave", "150", "jamesjohnson@example.com", "www.jamesjohnson.com", "pass789"),
-                new Customer("Emily", "Brown", location4, "Hollywood Blvd", "250", "emilybrown@example.com", "www.emilybrown.com", "pass246"),
-                new Customer("Michael", "Davis", location5, "16th St", "300", "michaeldavis@example.com", "www.michaeldavis.com", "pass369"),
-                new Customer("Sarah", "Wilson", location6, "Texas St", "400", "sarahwilson@example.com", "www.sarahwilson.com", "pass159"),
-                new Customer("David", "Moore", location7, "Lake Shore Dr", "450", "davidmoore@example.com", "www.davidmoore.com", "pass753"),
-                new Customer("Jessica", "Anderson", location8, "Main St", "500", "jessicaanderson@example.com", "www.jessicaanderson.com", "pass852"),
-                new Customer("William", "Thomas", location9, "Beacon St", "550", "williamthomas@example.com", "www.williamthomas.com", "pass147"),
-                new Customer("Ashley", "Jackson", location10, "Pike St", "600", "ashleyjackson@example.com", "www.ashleyjackson.com", "pass258"),
-                new Customer("Christopher", "White", location11, "Broadway", "650", "christopherwhite@example.com", "www.christopherwhite.com", "pass369"),
-                new Customer("Elizabeth", "Harris", location12, "Ocean Dr", "700", "elizabethharris@example.com", "www.elizabethharris.com", "pass753"),
-                new Customer("Matthew", "Clark", location13, "Walnut St", "750", "matthewclark@example.com", "www.matthewclark.com", "pass852"),
-                new Customer("Nathan", "Lewis", location1, "Mission St", "800", "nathanlewis@example.com", "www.nathanlewis.com", "pass963"),
-                new Customer("Andrew", "Walker", location3, "State St", "900", "andrewwalker@example.com", "www.andrewwalker.com", "pass123"),
-                new Customer("Samantha", "Hall", location4, "Vine St", "950", "samanthahall@example.com", "www.samanthahall.com", "pass456"),
-                new Customer("Daniel", "Allen", location5, "Larimer St", "1000", "danielallen@example.com", "www.danielallen.com", "pass789"),
-                new Customer("Ava", "King", location6, "San Jacinto St", "1050", "avaking@example.com", "www.avaking.com", "pass246"),
-                new Customer("Nicholas", "Wright", location7, "North Michigan Ave", "1100", "nicholaswright@example.com", "www.nicholaswright.com", "pass369"),
-                new Customer("Isabelle", "Lopez", location8, "Main St", "1150", "isabellelopez@example.com", "www.isabellelopez.com", "pass159"),
-                new Customer("Ethan", "Hill", location9, "Marathon St", "1200", "ethanhill@example.com", "www.ethanhill.com", "pass753"),
-                new Customer("Avery", "Green", location10, "Pike Pl", "1250", "averygreen@example.com", "www.averygreen.com", "pass852"),
-                new Customer("Ella", "Adams", location11, "Madison Ave", "1300", "ellaadams@example.com", "www.ellaadams.com", "pass963"),
-                new Customer("Alexander", "Nelson", location12, "Ocean Dr", "1350", "alexandernelson@example.com", "www.alexandernelson.com", "pass147")
-             };
+                new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" },
+                new Customer() { FirstName = "Jane", LastName = "Smith", PostalCode = "10001", City = "New York", StreetName = "5th Ave", HouseNumber = "100", EmailAddress = "janesmith@example.com", WebsiteURL = "www.janesmith.com", Password = "pass456" },
+                new Customer() { FirstName = "James", LastName = "Johnson", PostalCode = "60601", City = "Chicago", StreetName = "Michigan Ave", HouseNumber = "150", EmailAddress = "jamesjohnson@example.com", WebsiteURL = "www.jamesjohnson.com", Password = "pass789" },
+                new Customer() { FirstName = "Emily", LastName = "Brown", PostalCode = "90001", City = "Los Angeles", StreetName = "Hollywood Blvd", HouseNumber = "250", EmailAddress = "emilybrown@example.com", WebsiteURL = "www.emilybrown.com", Password = "pass246" },
+                new Customer() { FirstName = "Michael", LastName = "Davis", PostalCode = "80202", City = "Denver", StreetName = "16th St", HouseNumber = "300", EmailAddress = "michaeldavis@example.com", WebsiteURL = "www.michaeldavis.com", Password = "pass369" },
+                new Customer() { FirstName = "Sarah", LastName = "Wilson", PostalCode = "77056", City = "Houston", StreetName = "Texas St", HouseNumber = "400", EmailAddress = "sarahwilson@example.com", WebsiteURL = "www.sarahwilson.com", Password = "pass159" },
+                new Customer() { FirstName = "David", LastName = "Moore", PostalCode = "60604", City = "Chicago", StreetName = "Lake Shore Dr", HouseNumber = "450", EmailAddress = "davidmoore@example.com", WebsiteURL = "www.davidmoore.com", Password = "pass753" },
+                new Customer() { FirstName = "Jessica", LastName = "Anderson", PostalCode = "75201", City = "Dallas", StreetName = "Main St", HouseNumber = "500", EmailAddress = "jessicaanderson@example.com", WebsiteURL = "www.jessicaanderson.com", Password = "pass852" },
+                new Customer() { FirstName = "William", LastName = "Thomas", PostalCode = "02108", City = "Boston", StreetName = "Beacon St", HouseNumber = "550", EmailAddress = "williamthomas@example.com", WebsiteURL = "www.williamthomas.com", Password = "pass147" },
+                new Customer() { FirstName = "Ashley", LastName = "Jackson", PostalCode = "98101", City = "Seattle", StreetName = "Pike St", HouseNumber = "600", EmailAddress = "ashleyjackson@example.com", WebsiteURL = "www.ashleyjackson.com", Password = "pass258" },
+                new Customer() { FirstName = "Christopher", LastName = "White", PostalCode = "10013", City = "New York", StreetName = "Broadway", HouseNumber = "650", EmailAddress = "christopherwhite@example.com", WebsiteURL = "www.christopherwhite.com", Password = "pass369" },
+                new Customer() { FirstName = "Elizabeth", LastName = "Harris", PostalCode = "33101", City = "Miami", StreetName = "Ocean Dr", HouseNumber = "700", EmailAddress = "elizabethharris@example.com", WebsiteURL = "www.elizabethharris.com", Password = "pass753" },
+                new Customer() { FirstName = "Matthew", LastName = "Clark", PostalCode = "19102", City = "Philadelphia", StreetName = "Walnut St", HouseNumber = "750", EmailAddress = "matthewclark@example.com", WebsiteURL = "www.matthewclark.com", Password = "pass852" },
+                new Customer() { FirstName = "Nathan", LastName = "Lewis", PostalCode = "94105", City = "San Francisco", StreetName = "Mission St", HouseNumber = "800", EmailAddress = "nathanlewis@example.com", WebsiteURL = "www.nathanlewis.com", Password = "pass963" },
+                new Customer() { FirstName = "Andrew", LastName = "Walker", PostalCode = "60601", City = "Chicago", StreetName = "State St", HouseNumber = "900", EmailAddress = "andrewwalker@example.com", WebsiteURL = "www.andrewwalker.com", Password = "pass123" },
+                new Customer() { FirstName = "Samantha", LastName = "Hall", PostalCode = "90001", City = "Los Angeles", StreetName = "Vine St", HouseNumber = "950", EmailAddress = "samanthahall@example.com", WebsiteURL = "www.samanthahall.com", Password = "pass456" },
+                new Customer() { FirstName = "Daniel", LastName = "Allen", PostalCode = "80202", City = "Denver", StreetName = "Larimer St", HouseNumber = "1000", EmailAddress = "danielallen@example.com", WebsiteURL = "www.danielallen.com", Password = "pass789" },
+                new Customer() { FirstName = "Ava", LastName = "King", PostalCode = "77056", City = "Houston", StreetName = "San Jacinto St", HouseNumber = "1050", EmailAddress = "avaking@example.com", WebsiteURL = "www.avaking.com", Password = "pass246" },
+                new Customer() { FirstName = "Nicholas", LastName = "Wright", PostalCode = "60604", City = "Chicago", StreetName = "North Michigan Ave", HouseNumber = "1100", EmailAddress = "nicholaswright@example.com", WebsiteURL = "www.nicholaswright.com", Password = "pass369" },
+                new Customer() { FirstName = "Isabelle", LastName = "Lopez", PostalCode = "75201", City = "Dallas", StreetName = "Main St", HouseNumber = "1150", EmailAddress = "isabellelopez@example.com", WebsiteURL = "www.isabellelopez.com", Password = "pass159" },
+                new Customer() { FirstName = "Ethan", LastName = "Hill", PostalCode = "02108", City = "Boston", StreetName = "Marathon St", HouseNumber = "1200", EmailAddress = "ethanhill@example.com", WebsiteURL = "www.ethanhill.com", Password = "pass753" },
+                new Customer() { FirstName = "Avery", LastName = "Green", PostalCode = "98101", City = "Seattle", StreetName = "Pike Pl", HouseNumber = "1250", EmailAddress = "averygreen@example.com", WebsiteURL = "www.averygreen.com", Password = "pass852" },
+                new Customer() { FirstName = "Ella", LastName = "Adams", PostalCode = "10013", City = "New York", StreetName = "Madison Ave", HouseNumber = "1300", EmailAddress = "ellaadams@example.com", WebsiteURL = "www.ellaadams.com", Password = "pass963" },
+                new Customer() { FirstName = "Alexander", LastName = "Nelson", PostalCode = "33101", City = "Miami", StreetName = "Ocean Dr", HouseNumber = "1350", EmailAddress = "alexandernelson@example.com", WebsiteURL = "www.alexandernelson.com", Password = "pass147" }
+
+            };
         }
         protected ICollection<ArticleGroup> GetSampleArticleGroups()
         {
             ICollection<ArticleGroup> articleGroups = new List<ArticleGroup>();
 
-            ArticleGroup vehicle = new ArticleGroup("Vehicle");
-            ArticleGroup car = new ArticleGroup("Car", vehicle);
-            ArticleGroup plane = new ArticleGroup("Plane", vehicle);
-            ArticleGroup truck = new ArticleGroup("Truck", vehicle);
-            ArticleGroup sportsCar = new ArticleGroup("Sports Car", car);
-            ArticleGroup sedan = new ArticleGroup("Sedan", car);
-            ArticleGroup helicopter = new ArticleGroup("Helicopter", plane);
-            ArticleGroup airliner = new ArticleGroup("Airliner", plane);
-            ArticleGroup pickupTruck = new ArticleGroup("Pickup Truck", truck);
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup plane = new ArticleGroup() { Name = "Plane", SuperiorArticleGroup = vehicle };
+            ArticleGroup truck = new ArticleGroup() { Name = "Truck", SuperiorArticleGroup = vehicle };
+            ArticleGroup sportsCar = new ArticleGroup() { Name = "Sports Car", SuperiorArticleGroup = car };
+            ArticleGroup sedan = new ArticleGroup() { Name = "Sedan", SuperiorArticleGroup = car };
+            ArticleGroup helicopter = new ArticleGroup() { Name = "Helicopter", SuperiorArticleGroup = plane };
+            ArticleGroup airliner = new ArticleGroup() { Name = "Airliner", SuperiorArticleGroup = plane };
+            ArticleGroup pickupTruck = new ArticleGroup() { Name = "Pickup Truck", SuperiorArticleGroup = truck };
 
             articleGroups.Add(vehicle);
             articleGroups.Add(car);
@@ -125,36 +81,36 @@ namespace DataLayerTests
 
         protected ICollection<Article> GetSampleArticles()
         {
-            ArticleGroup vehicle = new ArticleGroup("Vehicle");
-            ArticleGroup car = new ArticleGroup("Car", vehicle);
-            ArticleGroup plane = new ArticleGroup("Plane", vehicle);
-            ArticleGroup truck = new ArticleGroup("Truck", vehicle);
-            ArticleGroup sportsCar = new ArticleGroup("Sports Car", car);
-            ArticleGroup sedan = new ArticleGroup("Sedan", car);
-            ArticleGroup helicopter = new ArticleGroup("Helicopter", plane);
-            ArticleGroup airliner = new ArticleGroup("Airliner", plane);
-            ArticleGroup pickupTruck = new ArticleGroup("Pickup Truck", truck);
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup plane = new ArticleGroup() { Name = "Plane", SuperiorArticleGroup = vehicle };
+            ArticleGroup truck = new ArticleGroup() { Name = "Truck", SuperiorArticleGroup = vehicle };
+            ArticleGroup sportsCar = new ArticleGroup() { Name = "Sports Car", SuperiorArticleGroup = car };
+            ArticleGroup sedan = new ArticleGroup() { Name = "Sedan", SuperiorArticleGroup = car };
+            ArticleGroup helicopter = new ArticleGroup() { Name = "Helicopter", SuperiorArticleGroup = plane };
+            ArticleGroup airliner = new ArticleGroup() { Name = "Airliner", SuperiorArticleGroup = plane };
+            ArticleGroup pickupTruck = new ArticleGroup() { Name = "Pickup Truck", SuperiorArticleGroup = truck };
 
             return new List<Article>()
             {
-                new Article("screw", 0.35M, vehicle),
-                new Article("nut", 0.15M, vehicle),
-                new Article("wrench", 2.5M, vehicle),
-                new Article("tire", 35M, car),
-                new Article("spark plug", 4M, car),
-                new Article("propeller", 250M, plane),
-                new Article("engine", 5000M, plane),
-                new Article("trailer hitch", 120M, truck),
-                new Article("turbocharger", 800M, sportsCar),
-                new Article("spoiler", 500M, sportsCar),
-                new Article("door handle", 25M, sedan),
-                new Article("windshield wiper", 15M, sedan),
-                new Article("rotor blade", 800M, helicopter),
-                new Article("fuel tank", 200M, helicopter),
-                new Article("overhead bin", 75M, airliner),
-                new Article("seat cushion", 20M, airliner),
-                new Article("tailgate", 400M, pickupTruck),
-                new Article("bed liner", 300M, pickupTruck)
+                new Article() { Name = "screw", Price = 0.35M, ArticleGroup = vehicle },
+                new Article() { Name = "nut", Price = 0.15M, ArticleGroup = vehicle },
+                new Article() { Name = "wrench", Price = 2.5M, ArticleGroup = vehicle },
+                new Article() { Name = "tire", Price = 35M, ArticleGroup = car },
+                new Article() { Name = "spark plug", Price = 4M, ArticleGroup = car },
+                new Article() { Name = "propeller", Price = 250M, ArticleGroup = plane },
+                new Article() { Name = "engine", Price = 5000M, ArticleGroup = plane },
+                new Article() { Name = "trailer hitch", Price = 120M, ArticleGroup = truck },
+                new Article() { Name = "turbocharger", Price = 800M, ArticleGroup = sportsCar },
+                new Article() { Name = "spoiler", Price = 500M, ArticleGroup = sportsCar },
+                new Article() { Name = "door handle", Price = 25M, ArticleGroup = sedan },
+                new Article() { Name = "windshield wiper", Price = 15M, ArticleGroup = sedan },
+                new Article() { Name = "rotor blade", Price = 800M, ArticleGroup = helicopter },
+                new Article() { Name = "fuel tank", Price = 200M, ArticleGroup = helicopter },
+                new Article() { Name = "overhead bin", Price = 75M, ArticleGroup = airliner },
+                new Article() { Name = "seat cushion", Price = 20M, ArticleGroup = airliner },
+                new Article() { Name = "tailgate", Price = 400M, ArticleGroup = pickupTruck },
+                new Article() { Name = "bed liner", Price = 300M, ArticleGroup = pickupTruck }
             };
         }
 

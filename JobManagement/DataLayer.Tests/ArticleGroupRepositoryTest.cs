@@ -1,6 +1,4 @@
-﻿using Castle.Core.Resource;
-using DataLayer.Repository;
-using DataLayer.TransferObjects;
+﻿using DataLayer.TransferObjects;
 using NUnit.Framework;
 
 namespace DataLayerTests
@@ -9,7 +7,7 @@ namespace DataLayerTests
     public class ArticleGroupRepositoryTest : RepositoryTests
     {
         [Test]
-        public void Clear_BaseOperation_NoElements()
+        public void Clear_BaseOperation_NoElementsContaining()
         {
             // arrange
             ICollection<ArticleGroup> articleGroups = GetSampleArticleGroups();
@@ -57,9 +55,9 @@ namespace DataLayerTests
         public void Add_AddingSameDataTwiceOverOther_OnlyOneAdded()
         {
             // arrange
-            var vehicle = new ArticleGroup("Vehilce");
-            var car = new ArticleGroup("Car", vehicle);
-            
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+
             repo.ArticleGroups.Add(vehicle);
             int expectedCount = 2;
 
@@ -75,9 +73,9 @@ namespace DataLayerTests
         public void Add_AddingOverOther_OnlyOneAdded()
         {
             // arrange
-            var vehicle = new ArticleGroup("Vehilce");
-            var car = new ArticleGroup("Car", vehicle);
-            var bmw = new ArticleGroup("BMW", car);
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup bmw = new ArticleGroup() { Name = "BMW", SuperiorArticleGroup = car };
 
             int expectedCount = 3;
 
@@ -90,12 +88,29 @@ namespace DataLayerTests
         }
 
         [Test]
+        public void Add_BaseOperation_IdUpdated()
+        {
+            // arrange
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+
+            int idBefore = vehicle.Id;
+
+            // act
+            repo.ArticleGroups.Add(vehicle);
+            int idAfter = vehicle.Id;
+
+            // assert
+            Assert.That(idBefore, Is.EqualTo(0));
+            Assert.That(idAfter, Is.Not.EqualTo(0));
+        }
+
+        [Test]
         public void Contains_BaseOperation_Contains()
         {
             // arrange
-            var vehicle = new ArticleGroup("Vehilce");
-            var car = new ArticleGroup("Car", vehicle);
-            var bmw = new ArticleGroup("BMW", car);
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup bmw = new ArticleGroup() { Name = "BMW", SuperiorArticleGroup = car };
 
             repo.ArticleGroups.Add(bmw);
 
@@ -110,9 +125,9 @@ namespace DataLayerTests
         public void Contains_BaseOperation_NotContaining()
         {
             // arrange
-            var vehicle = new ArticleGroup("Vehilce");
-            var car = new ArticleGroup("Car", vehicle);
-            var bmw = new ArticleGroup("BMW", car);
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup bmw = new ArticleGroup() { Name = "BMW", SuperiorArticleGroup = car };
 
             repo.ArticleGroups.Add(car);
 
@@ -127,9 +142,9 @@ namespace DataLayerTests
         public void Remove_BaseOperation_ItemNotContaining()
         {
             // arrange
-            var vehicle = new ArticleGroup("Vehilce");
-            var car = new ArticleGroup("Car", vehicle);
-            var bmw = new ArticleGroup("BMW", car);
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup bmw = new ArticleGroup() { Name = "BMW", SuperiorArticleGroup = car };
 
             repo.ArticleGroups.Add(bmw);
 
@@ -145,9 +160,9 @@ namespace DataLayerTests
         public void Remove_RemovingItem_ReturnTrue()
         {
             // arrange
-            var vehicle = new ArticleGroup("Vehilce");
-            var car = new ArticleGroup("Car", vehicle);
-            var bmw = new ArticleGroup("BMW", car);
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup bmw = new ArticleGroup() { Name = "BMW", SuperiorArticleGroup = car };
 
             repo.ArticleGroups.Add(bmw);
 
@@ -162,9 +177,9 @@ namespace DataLayerTests
         public void Remove_RemovingNoExistingItem_ReturnsFalse()
         {
             // arrange
-            var vehicle = new ArticleGroup("Vehilce");
-            var car = new ArticleGroup("Car", vehicle);
-            var bmw = new ArticleGroup("BMW", car);
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup bmw = new ArticleGroup() { Name = "BMW", SuperiorArticleGroup = car };
 
             repo.ArticleGroups.Add(car);
 
@@ -179,9 +194,9 @@ namespace DataLayerTests
         public void Remove_RemovingWithSubordinateArticleGroup_ReturnsFalse()
         {
             // arrange
-            var vehicle = new ArticleGroup("Vehilce");
-            var car = new ArticleGroup("Car", vehicle);
-            var bmw = new ArticleGroup("BMW", car);
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup bmw = new ArticleGroup() { Name = "BMW", SuperiorArticleGroup = car };
 
             repo.ArticleGroups.Add(bmw);
 
@@ -190,6 +205,40 @@ namespace DataLayerTests
 
             // assert
             Assert.That(removed, Is.False);
+        }
+
+        [Test]
+        public void GetAll_BaseOperation_CorrectCount()
+        {
+            // arrange
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            ArticleGroup car = new ArticleGroup() { Name = "Car", SuperiorArticleGroup = vehicle };
+            ArticleGroup plane = new ArticleGroup() { Name = "Plane", SuperiorArticleGroup = car };
+
+            repo.ArticleGroups.Add(plane);
+
+            int expectedCount = 3;
+
+            // act
+            ICollection<ArticleGroup> returnedArticles = repo.ArticleGroups.GetAll();
+
+            // assert
+            int count = returnedArticles.Count();
+            Assert.That(count, Is.EqualTo(expectedCount));
+        }
+
+        [Test]
+        public void GetAll_GetNoElements_CorrectCount()
+        {
+            // arrange
+            int expectedCount = 0;
+
+            // act
+            ICollection<ArticleGroup> returnedArticles = repo.ArticleGroups.GetAll();
+
+            // assert
+            int count = returnedArticles.Count();
+            Assert.That(count, Is.EqualTo(expectedCount));
         }
     }
 }

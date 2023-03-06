@@ -1,5 +1,4 @@
-﻿using DataLayer.Repository;
-using System.Windows;
+﻿using System.Windows;
 
 namespace PresentationLayer
 {

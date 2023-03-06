@@ -14,7 +14,7 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.CustomerCount();
         }
-        public Customer Add(Customer customer)
+        public bool Add(Customer customer)
         {
             return m_dataProvider.Add(customer);
         }
@@ -30,15 +30,15 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.GetAllCustomers();
         }
-        public ICollection<Order> GetAllOrders(Customer customer)
-        {
-            return m_dataProvider.GetAllOrdersOfCustomer(customer);
-        }
+        //public ICollection<Order> GetAllOrders(Customer customer)
+        //{
+        //    return m_dataProvider.GetAllOrdersOfCustomer(customer);
+        //}
         public bool Remove(Customer customer)
         {
             return m_dataProvider.Remove(customer);
         }
-        
+
         private readonly ICustomerDataProvider m_dataProvider;
     }
 }

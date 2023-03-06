@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <connectionStrings>
+    <add name="DefaultConnection" connectionString="Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;" providerName="System.Data.SqlClient" />
+    <add name="TestConnection" connectionString="Server=myTestServerAddress;Database=myTestDatabase;User Id=myTestUsername;Password=myTestPassword;" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  <appSettings>
+    <add key="Environment" value="Production" />
+  </appSettings>
+</configuration>

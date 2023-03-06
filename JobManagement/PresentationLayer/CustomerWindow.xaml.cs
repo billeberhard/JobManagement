@@ -1,9 +1,7 @@
 ﻿using DataLayer.Repository;
 using DataLayer.TransferObjects;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace PresentationLayer
 {
@@ -29,7 +27,7 @@ namespace PresentationLayer
             if (customer == null)
                 return;
 
-            ICollection<Order> ordersOfCustomer = m_Repository.Customers.GetAllOrders(customer);
+            ICollection<Order> ordersOfCustomer = new List<Order>();//m_Repository.Customers.GetAllOrders(customer);
 
             OrdersOfCustomer.ItemsSource = ordersOfCustomer;
         }

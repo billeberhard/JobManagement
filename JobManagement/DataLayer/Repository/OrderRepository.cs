@@ -1,6 +1,5 @@
 ﻿using DataLayer.DataProvider;
 using DataLayer.TransferObjects;
-using System.Diagnostics;
 
 namespace DataLayer.Repository
 {
@@ -15,7 +14,7 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.OrderCount();
         }
-        public Order Add(Order order)
+        public bool Add(Order order)
         {
             return m_dataProvider.Add(order);
         }
@@ -36,10 +35,10 @@ namespace DataLayer.Repository
             return m_dataProvider.Remove(order);
         }
 
-        public ICollection<Position> GetAllPositions(Order order)
-        {
-            return m_dataProvider.GetAllPositionsOfOrder(order);
-        }
+        //public ICollection<Position> GetAllPositions(Order order)
+        //{
+        //    return m_dataProvider.GetAllPositionsOfOrder(order);
+        //}
 
 
         private readonly IOrderDataProvider m_dataProvider;

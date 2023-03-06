@@ -1,10 +1,15 @@
-﻿namespace DataLayer.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DataLayer.Model
 {
     public class OrderEntity
     {
-        public int OrderId { get; set; }
-        public DateTime CreationData { get; set; }
-        public int CustomerId { get; set; }
+        public int Id { get; set; }
+
+        [Required]
+        public DateTime CreationDate { get; set; }
+
+        [Required]
         public virtual CustomerEntity Customer { get; set; }
 
         public virtual ICollection<PositionEntity> Positions { get; set; }

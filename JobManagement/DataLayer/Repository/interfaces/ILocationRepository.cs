@@ -1,7 +1,7 @@
-﻿using DataLayer.TransferObjects;
+﻿//using DataLayer.TransferObjects;
 
-namespace DataLayer.Repository
-{
-    public interface ILocationRepository : IGenericRepository<Location>
-    { }
-}
+//namespace DataLayer.Repository
+//{
+//    public interface ILocationRepository : IGenericRepository<Location>
+//    { }
+//}

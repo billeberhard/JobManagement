@@ -14,7 +14,7 @@ namespace DataLayer.Repository
         {
             return m_dataProvider.PositionCount();
         }
-        public Position Add(Position order)
+        public bool Add(Position order)
         {
             return m_dataProvider.Add(order);
         }

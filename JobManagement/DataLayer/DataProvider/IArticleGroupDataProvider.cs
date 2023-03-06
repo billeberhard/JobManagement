@@ -7,5 +7,7 @@ namespace DataLayer.DataProvider
         int ArticleGroupCount();
         void ClearArticleGroups();
         ICollection<ArticleGroup> GetAllArticleGroups();
+
+        // ICollection<ArticleGroupTreeItem> GetArticleGroupTreesView();
     }
 }
