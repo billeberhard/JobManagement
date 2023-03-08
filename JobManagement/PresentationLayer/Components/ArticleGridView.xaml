@@ -7,6 +7,40 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" FontSize="50">Article</Label>
+
+        <ScrollViewer Grid.Row="1" Width="800"
+                      Height="399"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <DataGrid x:Name="DataGridItemData"
+                      ItemsSource="{Binding Path=ItemDtoTable}"
+                      SelectedItem="{Binding Path=SelectedRow}"
+                      AutoGenerateColumns="True"
+                      Margin="0,0,0,0"
+                      Height="389"
+                      Width="784"
+                      ColumnWidth="Auto"
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      CanUserResizeRows="False"
+                      CanUserSortColumns="False"
+                      IsReadOnly="True"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto" 
+                      SelectedIndex="0"
+            >
+                <DataGrid.ItemContainerStyle>
+                    <Style/>
+                </DataGrid.ItemContainerStyle>
+            </DataGrid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

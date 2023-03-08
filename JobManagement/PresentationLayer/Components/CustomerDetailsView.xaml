@@ -7,6 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <StackPanel>
+            <TextBlock>Customer ID</TextBlock>
+            <TextBox/>
+            <TextBlock>Firstname</TextBlock>
+            <TextBox/>            
+            <TextBlock>Lastname</TextBlock>
+            <TextBox/>            
+            <TextBlock>Street</TextBlock>
+            <TextBox/>            
+            <TextBlock>Housenumber</TextBlock>
+            <TextBox/>            
+            <TextBlock>Emailaddress</TextBlock>
+            <TextBox/>            
+            <TextBlock>Website URL</TextBlock>
+            <TextBox/>            
+            <TextBlock>Password</TextBlock>
+            <TextBox/>
+        </StackPanel>
+
     </Grid>
 </UserControl>

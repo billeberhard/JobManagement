@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PresentationLayer.Components
 {
     /// <summary>
-    /// Interaction logic for TopNavigationView.xaml
+    /// Interaction logic for ArticleGroupGridView.xaml
     /// </summary>
-    public partial class TopNavigationView : UserControl
+    public partial class ArticleGroupGridView : UserControl
     {
-        public TopNavigationView()
+        public ArticleGroupGridView()
         {
             InitializeComponent();
         }

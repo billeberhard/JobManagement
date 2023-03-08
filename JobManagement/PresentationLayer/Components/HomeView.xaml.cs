@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PresentationLayer.Components
 {
     /// <summary>
-    /// Interaction logic for NavigationView.xaml
+    /// Interaction logic for HomeView.xaml
     /// </summary>
-    public partial class NavigationView : UserControl
+    public partial class HomeView : UserControl
     {
-        public NavigationView()
+        public HomeView()
         {
             InitializeComponent();
         }

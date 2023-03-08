@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PresentationLayer.Components
 {
     /// <summary>
-    /// Interaction logic for LeftNavigation.xaml
+    /// Interaction logic for OrderDetailsView.xaml
     /// </summary>
-    public partial class LeftNavigationView : UserControl
+    public partial class OrderDetailsView : UserControl
     {
-        public LeftNavigationView()
+        public OrderDetailsView()
         {
             InitializeComponent();
         }
