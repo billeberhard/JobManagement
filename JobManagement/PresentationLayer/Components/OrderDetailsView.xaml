@@ -12,48 +12,35 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel>
-            <Label Content="Order ID"></Label>
-            <TextBox/>
-            <Label Content="Order Date"></Label>
-            <DatePicker/>
-            <Label Content="Customer"></Label>
-            <ComboBox Margin="5"/>
+            <Label Style="{DynamicResource label}" Content="Order ID"></Label>
+            <TextBox Style="{DynamicResource textbox}"/>
+            <Label Style="{DynamicResource label}" Content="Order Date"></Label>
+            <TextBox Style="{DynamicResource textbox}"/>
+            <Label Style="{DynamicResource label}" Content="Customer"></Label>
+            <ComboBox Style="{DynamicResource combox}" Margin="5"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1">
             <StackPanel>
 
-                <Label Content="Article"/>
-                <ComboBox Text="{Binding Path=Amount}"/>
-                <Label Content="Amount"/>
-                <TextBox Text="{Binding Path=Amount}"/>
+                <Label Style="{DynamicResource label}" Content="Article"/>
+                <ComboBox Style="{DynamicResource combox}" Text="{Binding Path=Amount}"/>
+                <Label Style="{DynamicResource label}" Content="Amount"/>
+                <TextBox Style="{DynamicResource textbox}" Text="{Binding Path=Amount}"/>
 
-                <Button Command="{Binding Path=AddPositionCommand}" Margin="5"
-                        Content="Add Position"/>                
-                <Button Command="{Binding Path=DeletePositionCommand}" Margin="5"
+                <Button Style="{DynamicResource button}" Command="{Binding Path=AddPositionCommand}" Margin="5"
+                        Content="Add Position"/>
+                <Button Style="{DynamicResource button}" Command="{Binding Path=DeletePositionCommand}" Margin="5"
                         Content="Delete Position"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"
                         Height="205">
-                <DataGrid x:Name="DataGridItemData"
+                <DataGrid Style="{DynamicResource datagrid}"
                           ItemsSource="{Binding Path=PositionTable}"
                           SelectedItem="{Binding Path=SelectedRow}"
-                          AutoGenerateColumns="True"
                           Margin="5"
-                          ColumnWidth="*"
-                          Width="300"
-                          CanUserAddRows="False"
-                          CanUserDeleteRows="False"
-                          CanUserReorderColumns="False"
-                          CanUserResizeColumns="False"
-                          CanUserResizeRows="False"
-                          CanUserSortColumns="False"
-                          IsReadOnly="True"
-                          VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Auto" 
-                          SelectedIndex="0"
-                >
+                          ColumnWidth="*">
                     <DataGrid.ItemContainerStyle>
                         <Style/>
                     </DataGrid.ItemContainerStyle>

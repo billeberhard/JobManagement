@@ -8,12 +8,12 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <StackPanel>
-            <Label>Article Group ID</Label>
-            <TextBox/>
-            <Label>Article Group</Label>
-            <TextBox/>
-            <Label>Superior Article Group</Label>
-            <ComboBox/>
+            <Label Style="{DynamicResource label}">Article Group ID</Label>
+            <TextBox Style="{DynamicResource textbox}"/>
+            <Label Style="{DynamicResource label}">Article Group</Label>
+            <TextBox Style="{DynamicResource textbox}"/>
+            <Label Style="{DynamicResource label}">Superior Article Group</Label>
+            <ComboBox Style="{DynamicResource combox}"/>
         </StackPanel>
     </Grid>
 </UserControl>

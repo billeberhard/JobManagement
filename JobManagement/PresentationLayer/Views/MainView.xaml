@@ -6,99 +6,77 @@
              xmlns:components="clr-namespace:PresentationLayer.Components"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid Row="0">
+        <Grid Row="0" Background="#FF1D2860">
             <TextBlock Style="{DynamicResource titletextblock}" Text="Job Management" />
         </Grid>
 
         <Grid Grid.Row="1" Background="#FF1D2860">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="250" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <DockPanel HorizontalAlignment="Right" Grid.Column="1">
-                <TextBox Width="150" Height="30"></TextBox>
+                <TextBox Width="150" Height="30" Style="{DynamicResource textbox}"></TextBox>
                 <Button Style="{DynamicResource menubutton}" x:Name="SearchButton" Command="{Binding SearchCommand}">
-                    <DockPanel Width="80" Margin="10,0,10,0">
                         <Label Style="{DynamicResource lablenavigation}" Content="Search" />
-                    </DockPanel>
                 </Button>
                 <Button Style="{DynamicResource menubutton}" x:Name="NewButton" Command="{Binding NewCommand}">
-                    <DockPanel Width="80" Margin="10,0,10,0">
                         <Label Style="{DynamicResource lablenavigation}" Content="New"/>
-                    </DockPanel>
                 </Button>
                 <Button Style="{DynamicResource menubutton}" x:Name="RemoveButton" Command="{Binding RemoveCommand}">
-                    <DockPanel Width="80" Margin="10,0,10,0">
                         <Label Style="{DynamicResource lablenavigation}" Content="Remove"/>
-                    </DockPanel>
                 </Button>
                 <Button Style="{DynamicResource menubutton}" x:Name="EditButton" Command="{Binding EditCommand}">
-                    <DockPanel Width="80" Margin="10,0,10,0">
                         <Label Style="{DynamicResource lablenavigation}" Content="Edit"/>
-                    </DockPanel>
                 </Button>
-
-
             </DockPanel>
         </Grid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="250" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
-
             <StackPanel Grid.Column="0" Background="#FF1D2860">
                 <RadioButton Style="{DynamicResource radiobutton}" IsChecked="True"
                              Command="{Binding NavigateToHomeCommand}" 
                              CommandParameter="HomeView">
-                    <DockPanel Width="180" Margin="15,0,0,0">
                         <Label Style="{DynamicResource lablenavigation}" Content="Home" />
-                    </DockPanel>
                 </RadioButton>
 
                 <RadioButton Style="{DynamicResource radiobutton}" 
                              Command="{Binding NavigateToCustomerGridViewCommand}" 
                              CommandParameter="CustomerGridView">
-                    <DockPanel Width="180" Margin="15,0,0,0">
                         <Label Style="{DynamicResource lablenavigation}" Content="Customer" />
-                    </DockPanel>
                 </RadioButton>
 
                 <RadioButton Style="{DynamicResource radiobutton}" 
                              Command="{Binding NavigateToArticleGridViewCommand}"
                              CommandParameter="ArticleGridView">
-                    <DockPanel Width="180" Margin="15,0,0,0">
                         <Label Style="{DynamicResource lablenavigation}" Content="Article" />
-                    </DockPanel>
                 </RadioButton>
 
                 <RadioButton Style="{DynamicResource radiobutton}"
                              Command="{Binding NavigateToArticleGroupGridViewCommand}"
                              CommandParameter="ArticleGroupGridView">
-                    <DockPanel Width="180" Margin="15,0,0,0">
                         <Label Style="{DynamicResource lablenavigation}" Content="Article Group" />
-                    </DockPanel>
                 </RadioButton>
 
                 <RadioButton Style="{DynamicResource radiobutton}"
                              Command="{Binding NavigateToOrderGridCommand}"
                              CommandParameter="ArticleGridView">
-                    <DockPanel Width="180" Margin="15,0,0,0">
                         <Label Style="{DynamicResource lablenavigation}" Content="Order" />
-                    </DockPanel>
                 </RadioButton>
             </StackPanel>
-            <ContentControl Grid.Column="1" Margin="10" Content="{Binding Navigation.CurrentView}" />
+            <ContentControl Grid.Column="1" Margin="10" Content="{Binding Navigation.CurrentView}"/>
         </Grid>
     </Grid>
 </UserControl>

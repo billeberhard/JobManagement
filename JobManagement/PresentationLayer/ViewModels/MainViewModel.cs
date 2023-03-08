@@ -41,7 +41,7 @@ public class MainViewModel : ObservableObject
 
         NewCommand = new RelayCommand(o => OnNewCommand(), o => true);
         EditCommand = new RelayCommand(o => OnEditCommand(), o => true);
-        //DeleteCommand = new RelayCommand(o => OnDeleteCommand());
+        DeleteCommand = new RelayCommand(o => OnDeleteCommand(), o => true);
         SearchCommand = new RelayCommand(o => OnSearchCommand(), o => true);
     }
 
@@ -55,11 +55,6 @@ public class MainViewModel : ObservableObject
         }
     }
 
-    public CustomerDetailsViewModel CustomerDetailsViewModel { get; } = new();
-    public ArticleDetailsViewModel ArticleDetailsViewModel { get; } = new();
-    public ArticleGroupDetailsViewModel ArticleGroupDetailsViewModel { get; } = new();
-    public OrderDetailsViewModel OrderDetailsViewModel { get; } = new();
-
     public RelayCommand NavigateToHomeViewCommand { get; set; }
     public RelayCommand NavigateToCustomerGridViewCommand { get; set; }
     public RelayCommand NavigateToArticleGridViewCommand { get; set; }
@@ -72,7 +67,6 @@ public class MainViewModel : ObservableObject
     public RelayCommand DeleteCommand { get; set; }
     public RelayCommand SearchCommand { get; set; }
 
-    public MainViewModel SelectedViewModel { get; set; }
 
     public ICommand UpdateViewCommand { get; set; }
 
@@ -151,87 +145,9 @@ public class MainViewModel : ObservableObject
         }
     }
 
-    //private void OnDeleteCommand()
-    //{
-    //    switch (_radioButtonState)
-    //    {
-    //        case RadioButtonState.Home:
-    //            break;
-
-    //        case RadioButtonState.Customer:
-    //            if (MessageBox.Show("Kunde endgültig löschen?", "Warnung", MessageBoxButton.YesNo,
-    //                    MessageBoxImage.Warning) == MessageBoxResult.Yes)
-    //            {
-    //                var res = customerConnection_.Delete(customerConnection_.GetSingleById(SelectedId));
-
-    //                if (currentView_.GetType() == CustomerViewModel.GetType())
-    //                {
-    //                    ReloadCustomerView();
-    //                }
-    //                else
-    //                {
-    //                    ReloadSearchCustomerView();
-    //                }
-
-    //                MessageBox.Show(res, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-    //            }
-
-    //            break;
-
-    //        case RadioButtonState.Item:
-    //            if (MessageBox.Show("Artikel endgültig löschen?", "Warnung", MessageBoxButton.YesNo,
-    //                    MessageBoxImage.Warning) == MessageBoxResult.Yes)
-    //            {
-    //                var res = itemConnection_.Delete(itemConnection_.GetSingleById(SelectedId));
-
-    //                if (currentView_.GetType() == ItemViewModel.GetType())
-    //                {
-    //                    ReloadItemView();
-    //                }
-    //                else
-    //                {
-    //                    ReloadSearchItemView();
-    //                }
-
-    //                MessageBox.Show(res, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-    //            }
-
-    //            break;
-
-    //        case RadioButtonState.Order:
-    //            if (MessageBox.Show("Auftrag endgültig löschen?", "Warnung", MessageBoxButton.YesNo,
-    //                    MessageBoxImage.Warning) == MessageBoxResult.Yes)
-    //            {
-    //                var res = orderConnection_.Delete(orderConnection_.GetSingleById(SelectedId));
-
-    //                if (currentView_.GetType() == OrderViewModel.GetType())
-    //                {
-    //                    ReloadOrderView();
-    //                }
-    //                else
-    //                {
-    //                    ReloadSearchOrderView();
-    //                }
-
-    //                MessageBox.Show(res, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-    //            }
-
-    //            break;
-
-    //        case RadioButtonState.ItemGroup:
-    //            if (MessageBox.Show("Artikelgruppe endgültig löschen?", "Warnung", MessageBoxButton.YesNo,
-    //                    MessageBoxImage.Warning) == MessageBoxResult.Yes)
-    //            {
-    //                var res = itemGroupConnection_.Delete(itemGroupConnection_.GetSingleById(SelectedId));
-
-    //                ReloadItemGroupView();
-
-    //                MessageBox.Show(res, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-    //            }
-
-    //            break;
-    //    }
-    //}
+    private void OnDeleteCommand()
+    {
+    }
 
     private enum RadioButtonState
     {
