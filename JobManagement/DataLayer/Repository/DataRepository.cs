@@ -1,4 +1,5 @@
 ﻿using DataLayer.DataProvider;
+using DataLayer.DataProvider.interfaces;
 using DataLayer.TransferObjects;
 
 namespace DataLayer.Repository

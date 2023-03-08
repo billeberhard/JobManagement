@@ -22,19 +22,19 @@ namespace DataLayer.DataProvider
                 .ToTable("Address", b => b.IsTemporal());
 
             var customerModelBuilder = modelBuilder.Entity<CustomerEntity>()
-                .ToTable("Customer", b => b.IsTemporal());
+                .ToTable("Customer");
 
             var orderModelBuilder = modelBuilder.Entity<OrderEntity>()
-                .ToTable("Order", b => b.IsTemporal());
+                .ToTable("Order");
 
             var positionModelBuilder = modelBuilder.Entity<PositionEntity>()
-                .ToTable("Position", b => b.IsTemporal());
+                .ToTable("Position");
 
             var articleModelBuilder = modelBuilder.Entity<ArticleEntity>()
-                .ToTable("Article", b => b.IsTemporal());
+                .ToTable("Article");
 
             var articleGroupModelBuilder = modelBuilder.Entity<ArticleGroupEntity>()
-                .ToTable("ArticleGroup", b => b.IsTemporal());
+                .ToTable("ArticleGroup");
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

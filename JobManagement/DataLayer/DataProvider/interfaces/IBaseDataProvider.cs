@@ -1,4 +1,4 @@
-﻿namespace DataLayer.DataProvider
+﻿namespace DataLayer.DataProvider.interfaces
 {
     internal interface IBaseDataProvider<T>
     {

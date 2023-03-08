@@ -1,6 +1,6 @@
 ﻿using DataLayer.TransferObjects;
 
-namespace DataLayer.DataProvider
+namespace DataLayer.DataProvider.interfaces
 {
     internal interface ICustomerDataProvider : IBaseDataProvider<Customer>
     {
