@@ -420,6 +420,24 @@ namespace DataLayer.DataProvider
 
             return result;
         }
+        static private ICollection<HierarcicalArticleGroup> Convert(ICollection<HierarcicalArticleGroupEntity> entities)
+        {
+            ICollection<HierarcicalArticleGroup> result = new List<HierarcicalArticleGroup>();
+
+            foreach (var e in entities)
+                result.Add(new HierarcicalArticleGroup(e));
+
+            return result;
+        }
+        static private ICollection<OrderEvaluation> Convert(ICollection<OrderEvaluationEntity> entities)
+        {
+            ICollection<OrderEvaluation> result = new List<OrderEvaluation>();
+
+            foreach (var e in entities)
+                result.Add(new OrderEvaluation(e));
+
+            return result;
+        }
         static private CustomerEntity Add(CustomerEntity entity, JobManagementDbContext context)
         {
             var queriedEntity = GetEntity(entity, context);
@@ -583,7 +601,6 @@ namespace DataLayer.DataProvider
 
             return queriedEntity.Id;
         }
-
 
     }
 }
