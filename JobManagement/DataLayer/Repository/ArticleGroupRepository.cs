@@ -1,4 +1,5 @@
-﻿using DataLayer.DataProvider;
+﻿using DataLayer.DataProvider.interfaces;
+using DataLayer.Model;
 using DataLayer.TransferObjects;
 
 namespace DataLayer.Repository
@@ -35,10 +36,10 @@ namespace DataLayer.Repository
             return m_dataProvider.Remove(item);
         }
 
-        //public ICollection<ArticleGroupTreeItem> GetArticleGroupTreesView()
-        //{
-        //    return m_dataProvider.GetArticleGroupTreesView();
-        //}
+        public ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups()
+        {
+            return m_dataProvider.GetHirarcicalArticleGroups();
+        }
 
         private readonly IArticleGroupDataProvider m_dataProvider;
     }

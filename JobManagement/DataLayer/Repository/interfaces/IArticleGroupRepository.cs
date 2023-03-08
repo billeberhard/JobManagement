@@ -1,9 +1,10 @@
-﻿using DataLayer.TransferObjects;
+﻿using DataLayer.Model;
+using DataLayer.TransferObjects;
 
 namespace DataLayer.Repository
 {
     public interface IArticleGroupRepository : IGenericRepository<ArticleGroup>
     {
-        //ICollection<ArticleGroupTreeItem> GetArticleGroupTreesView();
+        ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups();
     }
 }

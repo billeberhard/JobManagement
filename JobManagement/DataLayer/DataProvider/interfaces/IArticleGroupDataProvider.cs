@@ -1,6 +1,7 @@
-﻿using DataLayer.TransferObjects;
+﻿using DataLayer.Model;
+using DataLayer.TransferObjects;
 
-namespace DataLayer.DataProvider
+namespace DataLayer.DataProvider.interfaces
 {
     internal interface IArticleGroupDataProvider : IBaseDataProvider<ArticleGroup>
     {
@@ -8,6 +9,6 @@ namespace DataLayer.DataProvider
         void ClearArticleGroups();
         ICollection<ArticleGroup> GetAllArticleGroups();
 
-        // ICollection<ArticleGroupTreeItem> GetArticleGroupTreesView();
+        public ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups();
     }
 }

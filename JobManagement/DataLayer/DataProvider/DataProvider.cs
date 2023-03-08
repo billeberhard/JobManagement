@@ -1,11 +1,12 @@
-﻿using DataLayer.Model;
+﻿using DataLayer.DataProvider.interfaces;
+using DataLayer.Model;
 using DataLayer.TransferObjects;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace DataLayer.DataProvider
 {
-    internal interface IDataProvider : ICustomerDataProvider, IArticleGroupDataProvider, IArticleDataProvider, IOrderDataProvider
-    { }
 
     internal class SQLDataProvider : IDataProvider
     {
@@ -127,6 +128,30 @@ namespace DataLayer.DataProvider
             context.Remove(entity);
             context.SaveChanges();
             return true;
+        }
+        public ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups()
+        {
+            var context = new JobManagementDbContext();
+
+            var hirarcicalArticleGroupEntities = context.HirarcicalArticleGroups
+                .FromSqlRaw(
+                    @";WITH HirarcicalArticleGroupCTE AS
+                    (
+	                    Select a.Id AS [Id], a.Name AS [Name], a.SuperiorArticleGroupId AS [SuperiorArticleGroupId], 0 AS [Hierarchy]
+	                    FROM [dbo].[ArticleGroup] a
+	                    WHERE a.SuperiorArticleGroupId IS NULL
+
+	                    UNION ALL
+
+	                    SELECT a.Id AS [Id], a.Name AS [Name], h.Id AS [SuperiorArticleGroupId], Hierarchy + 1
+	                    FROM HirarcicalArticleGroupCTE h
+	                    INNER JOIN [dbo].[ArticleGroup] a
+		                    ON h.Id = a.SuperiorArticleGroupId
+                    )
+                    SELECT * FROM HirarcicalArticleGroupCTE;
+                    ").ToArray();
+
+            return Convert(hirarcicalArticleGroupEntities);
         }
 
 
