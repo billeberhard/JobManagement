@@ -1,4 +1,4 @@
-﻿using DataLayer.DataProvider;
+﻿using DataLayer.DataProvider.interfaces;
 using DataLayer.TransferObjects;
 
 namespace DataLayer.Repository
@@ -35,10 +35,10 @@ namespace DataLayer.Repository
             return m_dataProvider.Remove(order);
         }
 
-        //public ICollection<Position> GetAllPositions(Order order)
-        //{
-        //    return m_dataProvider.GetAllPositionsOfOrder(order);
-        //}
+        public ICollection<OrderEvaluation> GetOrderEvaluations(OrderEvaluationFilterCriterias filterCriterias)
+        {
+            return m_dataProvider.GetOrderEvaluations(filterCriterias);
+        }
 
 
         private readonly IOrderDataProvider m_dataProvider;

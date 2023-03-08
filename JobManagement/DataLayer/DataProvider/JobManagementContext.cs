@@ -12,6 +12,9 @@ namespace DataLayer.DataProvider
         public DbSet<ArticleEntity> Articles { get; set; }
         public DbSet<ArticleGroupEntity> ArticleGroups { get; set; }
 
+        public DbSet<HierarcicalArticleGroupEntity> HirarcicalArticleGroups { get; set; }
+        public DbSet<OrderEvaluationEntity> OrderEvaluationEntities { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -277,7 +277,111 @@ namespace DataLayer.DataProvider
             context.SaveChanges();
             return true;
         }
+        public ICollection<OrderEvaluation> GetOrderEvaluations(OrderEvaluationFilterCriterias filterCriterias)
+        {
+            var context = new JobManagementDbContext();
 
+            var customerNumberFilterCriteria = new SqlParameter("customerNumberFilterCriteria", filterCriterias.CustomerNumber.ToString());
+            var firstNameFilterCriteria = new SqlParameter("firstNameFilterCriteria", filterCriterias.FirstName == null ? "" : filterCriterias.FirstName);
+            var lastNameFilterCriteria = new SqlParameter("lastNameFilterCriteria", filterCriterias.LastName == null ? "" : filterCriterias.LastName);
+            var streetNameFilterCriteria = new SqlParameter("streetNameFilterCriteria", filterCriterias.StreetName == null ? "" : filterCriterias.StreetName);
+            var houseNumberFilterCriteria = new SqlParameter("houseNumberFilterCriteria", filterCriterias.HouseNumber == null ? "" : filterCriterias.HouseNumber);
+            var postalCodeFilterCriteria = new SqlParameter("postalCodeFilterCriteria", filterCriterias.PostalCode == null ? "" : filterCriterias.PostalCode);
+            var cityFilterCriteria = new SqlParameter("cityFilterCriteria", filterCriterias.City == null ? "" : filterCriterias.City);
+            var minCreationDateFilterCriteria = new SqlParameter("minCreationDateFilterCriteria", filterCriterias.MinCreationDate);
+            var maxCreationDateFilterCriteria = new SqlParameter("maxCreationDateFilterCriteria", filterCriterias.MaxCreationDate);
+            var orderNumberFilterCriteria = new SqlParameter("orderNumberFilterCriteria", filterCriterias.OrderNumber.ToString());
+            var minTotalOrderPriceFilterCriteria = new SqlParameter("minTotalOrderPriceFilterCriteria", filterCriterias.MinTotalOrderPrice.ToString());
+            var maxTotalOrderPriceFilterCriteria = new SqlParameter("maxTotalOrderPriceFilterCriteria", filterCriterias.MaxTotalOrderPrice.ToString());
+
+            string totalOrderPriceCTE = @$";WITH TotalOrderPriceCTE AS
+                (
+	                SELECT
+		                c.Id AS [CustomerNumber],
+		                sum(p.Amount * a.Price) AS [TotalOrderPrice]
+
+	                FROM [dbo].[Customer] c
+	                INNER JOIN [dbo].[Order] o
+		                ON c.Id = o.CustomerId
+	                INNER JOIN [dbo].[Position] p
+		                ON o.Id = p.OrderId
+	                INNER JOIN [dbo].[Article] a
+		                ON p.ArticleId = a.Id
+	                GROUP BY c.Id
+                ),
+                OrderOverviewCTE AS
+                (
+	                SELECT
+                        o.Id AS [Id],
+		                c.Id AS [CustomerNumber],
+		                c.FirstName AS [FirstName],
+		                c.Lastname AS [LastName],
+		                adr.StreetName AS [StreetName],
+		                adr.HouseNumber AS [HouseNumber],
+		                adr.PostalCode AS [PostalCode],
+		                adr.City AS [City],
+		                o.CreationDate AS [CreationDate],
+		                o.Id AS [OrderNumber],
+		                RANK() OVER (PARTITION BY c.Id, adr.Id ORDER BY adr.PeriodEnd DESC) AS [PropperAddressRank],
+		                cost.[TotalOrderPrice] AS [TotalOrderPrice]
+		
+	                FROM [dbo].[Customer] c
+	                INNER JOIN [dbo].[Order] o
+		                ON c.Id = o.CustomerId
+	                INNER JOIN [dbo].[Address] adr
+		                ON c.AddressId = adr.Id AND o.CreationDate <= adr.PeriodEnd
+	                INNER JOIN TotalOrderPriceCTE cost
+		                ON cost.CustomerNumber = c.Id
+
+	                WHERE (@customerNumberFilterCriteria = -1 OR c.Id = @customerNumberFilterCriteria)
+                        AND c.FirstName LIKE '%' + @firstNameFilterCriteria + '%'
+	                    AND c.LastName LIKE '%' + @lastNameFilterCriteria + '%'
+	                    AND adr.StreetName LIKE '%' + @streetNameFilterCriteria + '%'
+	                    AND adr.HouseNumber LIKE '%' + @houseNumberFilterCriteria + '%'
+	                    AND adr.PostalCode LIKE '%' + @postalCodeFilterCriteria + '%'
+	                    AND adr.City LIKE '%' + @cityFilterCriteria + '%'
+	                    AND o.CreationDate >= @minCreationDateFilterCriteria AND o.CreationDate <= @maxCreationDateFilterCriteria
+                        AND (@orderNumberFilterCriteria = -1 OR o.Id = @orderNumberFilterCriteria)
+                        AND (@minTotalOrderPriceFilterCriteria = -1 OR TotalOrderPrice >= @minTotalOrderPriceFilterCriteria)
+                        AND (@maxTotalOrderPriceFilterCriteria = -1 OR TotalOrderPrice >= @maxTotalOrderPriceFilterCriteria)
+
+
+                )
+                SELECT
+                    [Id],
+	                [CustomerNumber],
+	                [FirstName],
+	                [LastName],
+	                [StreetName],
+	                [HouseNumber],
+	                [PostalCode],
+	                [City],
+	                [CreationDate],
+	                [OrderNumber],
+	                [TotalOrderPrice]
+
+                FROM OrderOverviewCTE
+                WHERE [PropperAddressRank] = 1;
+                ";
+
+            var orderEvaluationEntities = context.OrderEvaluationEntities.FromSqlRaw(
+                totalOrderPriceCTE,
+                    customerNumberFilterCriteria,
+                    firstNameFilterCriteria,
+                    lastNameFilterCriteria,
+                    streetNameFilterCriteria,
+                    houseNumberFilterCriteria,
+                    postalCodeFilterCriteria,
+                    cityFilterCriteria,
+                    minCreationDateFilterCriteria,
+                    maxCreationDateFilterCriteria,
+                    orderNumberFilterCriteria,
+                    minTotalOrderPriceFilterCriteria,
+                    maxTotalOrderPriceFilterCriteria
+                ).ToList();
+
+            return Convert(orderEvaluationEntities);
+        }
 
 
         static private ICollection<Customer> Convert(ICollection<CustomerEntity> entities)

@@ -1,12 +1,12 @@
 ﻿using DataLayer.TransferObjects;
 
-namespace DataLayer.DataProvider
+namespace DataLayer.DataProvider.interfaces
 {
     internal interface IOrderDataProvider : IBaseDataProvider<Order>
     {
         int OrderCount();
         void ClearOrders();
         ICollection<Order> GetAllOrders();
-        // ICollection<Position> GetAllPositionsOfOrder(Order order);
+        public ICollection<OrderEvaluation> GetOrderEvaluations(OrderEvaluationFilterCriterias filterCriterias);
     }
 }
