@@ -47,7 +47,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Background="#FF1D2860">
                 <RadioButton Style="{DynamicResource radiobutton}" IsChecked="True"
-                             Command="{Binding NavigateToHomeCommand}" 
+                             Command="{Binding NavigateToHomeViewCommand}" 
                              CommandParameter="HomeView">
                         <Label Style="{DynamicResource lablenavigation}" Content="Home" />
                 </RadioButton>
