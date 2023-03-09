@@ -240,5 +240,79 @@ namespace DataLayerTests
             int count = returnedArticles.Count();
             Assert.That(count, Is.EqualTo(expectedCount));
         }
+
+        [Test]
+        public void Update_BaseOperation_ReturnTrue()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            repo.Customers.Add(customer);
+            customer.FirstName = "Hans";
+
+            // act
+            bool updated = repo.Customers.Update(customer);
+
+            // assert
+            Assert.That(updated, Is.True);
+        }
+
+        [Test]
+        public void Update_BaseOperation_ValuesChanged()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            repo.Customers.Add(customer);
+
+            string expectedFirstName = "Hans";
+            string expectedLastName = "Fritz";
+            string expectedPostalCode = "23894";
+            string expectedCity = "Nusterhausen";
+            string expectedStreetname = "Musterstrasse";
+            string expectedHouseNumber = "55";
+            string expectedEmailAddress = "info@test.ch";
+            string expectedWebsiteURL = "www.test.ch";
+            string expectedPassword = "Password";
+
+            // act
+
+            customer.FirstName = expectedFirstName;
+            customer.LastName = expectedLastName;
+            customer.PostalCode = expectedPostalCode;
+            customer.City = expectedCity;
+            customer.StreetName = expectedStreetname;
+            customer.HouseNumber = expectedHouseNumber;
+            customer.EmailAddress = expectedEmailAddress;
+            customer.WebsiteURL = expectedWebsiteURL;
+            customer.Password = expectedPassword;
+
+            repo.Customers.Update(customer);
+
+            // assert
+            var updatedCustomer = repo.Customers.GetAll().First();
+
+            Assert.AreEqual(expectedFirstName, updatedCustomer.FirstName);
+            Assert.AreEqual(expectedLastName, updatedCustomer.LastName);
+            Assert.AreEqual(expectedPostalCode, updatedCustomer.PostalCode);
+            Assert.AreEqual(expectedCity, updatedCustomer.City);
+            Assert.AreEqual(expectedStreetname, updatedCustomer.StreetName);
+            Assert.AreEqual(expectedHouseNumber, updatedCustomer.HouseNumber);
+            Assert.AreEqual(expectedEmailAddress, updatedCustomer.EmailAddress);
+            Assert.AreEqual(expectedWebsiteURL, updatedCustomer.WebsiteURL);
+            Assert.AreEqual(expectedPassword, updatedCustomer.Password);
+        }
+
+        [Test]
+        public void Update_NoChangesAreMade_ReturnFalse()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            repo.Customers.Add(customer);
+
+            // act
+            bool updated = repo.Customers.Update(customer);
+
+            // assert
+            Assert.That(updated, Is.False);
+        }
     }
 }

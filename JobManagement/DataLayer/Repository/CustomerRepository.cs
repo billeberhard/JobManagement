@@ -7,38 +7,39 @@ namespace DataLayer.Repository
     {
         public CustomerRepository(ICustomerDataProvider dataProvider)
         {
-            m_dataProvider = dataProvider;
+            m_DataProvider = dataProvider;
         }
 
         public int Count()
         {
-            return m_dataProvider.CustomerCount();
+            return m_DataProvider.CustomerCount();
         }
         public bool Add(Customer customer)
         {
-            return m_dataProvider.Add(customer);
+            return m_DataProvider.Add(customer);
         }
         public void Clear()
         {
-            m_dataProvider.ClearCustomers();
+            m_DataProvider.ClearCustomers();
         }
         public bool Contains(Customer customer)
         {
-            return m_dataProvider.Contains(customer);
+            return m_DataProvider.Contains(customer);
         }
         public ICollection<Customer> GetAll()
         {
-            return m_dataProvider.GetAllCustomers();
+            return m_DataProvider.GetAllCustomers();
         }
-        //public ICollection<Order> GetAllOrders(Customer customer)
-        //{
-        //    return m_dataProvider.GetAllOrdersOfCustomer(customer);
-        //}
         public bool Remove(Customer customer)
         {
-            return m_dataProvider.Remove(customer);
+            return m_DataProvider.Remove(customer);
         }
 
-        private readonly ICustomerDataProvider m_dataProvider;
+        public bool Update(Customer customer)
+        {
+            return m_DataProvider.Update(customer);
+        }
+
+        private readonly ICustomerDataProvider m_DataProvider;
     }
 }

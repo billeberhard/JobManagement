@@ -4,6 +4,8 @@ using DataLayer.TransferObjects;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Net.Mail;
+using System.Reflection.Metadata.Ecma335;
 
 namespace DataLayer.DataProvider
 {
@@ -32,6 +34,7 @@ namespace DataLayer.DataProvider
             var context = new JobManagementDbContext();
 
             context.Customers.ExecuteDelete();
+            context.Address.ExecuteDelete();
 
             context.SaveChanges();
         }
@@ -65,6 +68,67 @@ namespace DataLayer.DataProvider
             context.Remove(entity);
             context.SaveChanges();
             return true;
+        }
+        public bool Update(Customer item)
+        {
+            var context = new JobManagementDbContext();
+
+            var entity = context.Customers.Where(e => e.Id == item.Id).FirstOrDefault();
+            if (entity == null)
+                return false;
+
+            bool valueChanged = false;
+
+            if (entity.FirstName != item.FirstName)
+            {
+                entity.FirstName = item.FirstName;
+                valueChanged = true;
+            }
+            if (entity.LastName != item.LastName)
+            {
+                entity.LastName = item.LastName;
+                valueChanged = true;
+            }
+            if (entity.EmailAddress != item.EmailAddress)
+            {
+                entity.EmailAddress = item.EmailAddress;
+                valueChanged = true;
+            }
+            if (entity.WebsiteURL != item.WebsiteURL)
+            {
+                entity.WebsiteURL = item.WebsiteURL;
+                valueChanged = true;
+            }
+            if (entity.Password != item.Password)
+            {
+                entity.Password = item.Password;
+                valueChanged = true;
+            }
+            if (entity.Address.StreetName != item.StreetName)
+            {
+                entity.Address.StreetName = item.StreetName;
+                valueChanged = true;
+            }
+            if (entity.Address.HouseNumber != item.HouseNumber)
+            {
+                entity.Address.HouseNumber = item.HouseNumber;
+                valueChanged = true;
+            }
+            if (entity.Address.City != item.City)
+            {
+                entity.Address.City = item.City;
+                valueChanged = true;
+            }
+            if (entity.Address.PostalCode != item.PostalCode)
+            {
+                entity.Address.PostalCode = item.PostalCode;
+                valueChanged = true;
+            }
+
+            if (valueChanged)
+                context.SaveChanges();
+
+            return valueChanged;
         }
 
 
@@ -132,7 +196,7 @@ namespace DataLayer.DataProvider
         public ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups()
         {
             var context = new JobManagementDbContext();
-
+            
             var hirarcicalArticleGroupEntities = context.HirarcicalArticleGroups
                 .FromSqlRaw(
                     @";WITH HirarcicalArticleGroupCTE AS
@@ -565,7 +629,7 @@ namespace DataLayer.DataProvider
                 )
                 .SingleOrDefault();
         }
-        static int GetId(OrderEntity entity, JobManagementDbContext context)
+        static private int GetId(OrderEntity entity, JobManagementDbContext context)
         {
             var queriedEntity = GetEntity(entity, context);
 
@@ -574,7 +638,7 @@ namespace DataLayer.DataProvider
 
             return queriedEntity.Id;
         }
-        static int GetId(ArticleEntity entity, JobManagementDbContext context)
+        static private int GetId(ArticleEntity entity, JobManagementDbContext context)
         {
             var queriedEntity = GetEntity(entity, context);
 
@@ -583,7 +647,7 @@ namespace DataLayer.DataProvider
 
             return queriedEntity.Id;
         }
-        static int GetId(CustomerEntity entity, JobManagementDbContext context)
+        static private int GetId(CustomerEntity entity, JobManagementDbContext context)
         {
             var queriedEntity = GetEntity(entity, context);
 
@@ -592,7 +656,7 @@ namespace DataLayer.DataProvider
 
             return queriedEntity.Id;
         }
-        static int GetId(AddressEntity entity, JobManagementDbContext context)
+        static private int GetId(AddressEntity entity, JobManagementDbContext context)
         {
             var queriedEntity = GetEntity(entity, context);
 
@@ -601,6 +665,5 @@ namespace DataLayer.DataProvider
 
             return queriedEntity.Id;
         }
-
     }
 }
