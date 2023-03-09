@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="PresentationLayer.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:components="clr-namespace:PresentationLayer.Components"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Row="0" Background="#FF1D2860">
+            <TextBlock Style="{DynamicResource titletextblock}" Text="Job Management" />
+        </Grid>
+
+        <Grid Grid.Row="1" Background="#FF1D2860">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel HorizontalAlignment="Right" Grid.Column="1">
+                <TextBox Width="150" Height="30" Style="{DynamicResource textbox}"></TextBox>
+                <Button Style="{DynamicResource menubutton}" x:Name="SearchButton" Command="{Binding SearchCommand}">
+                        <Label Style="{DynamicResource lablenavigation}" Content="Search" />
+                </Button>
+                <Button Style="{DynamicResource menubutton}" x:Name="NewButton" Command="{Binding NewCommand}">
+                        <Label Style="{DynamicResource lablenavigation}" Content="New"/>
+                </Button>
+                <Button Style="{DynamicResource menubutton}" x:Name="RemoveButton" Command="{Binding RemoveCommand}">
+                        <Label Style="{DynamicResource lablenavigation}" Content="Remove"/>
+                </Button>
+                <Button Style="{DynamicResource menubutton}" x:Name="EditButton" Command="{Binding EditCommand}">
+                        <Label Style="{DynamicResource lablenavigation}" Content="Edit"/>
+                </Button>
+            </DockPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Background="#FF1D2860">
+                <RadioButton Style="{DynamicResource radiobutton}" IsChecked="True"
+                             Command="{Binding NavigateToHomeViewCommand}" 
+                             CommandParameter="HomeView">
+                        <Label Style="{DynamicResource lablenavigation}" Content="Home" />
+                </RadioButton>
+
+                <RadioButton Style="{DynamicResource radiobutton}" 
+                             Command="{Binding NavigateToCustomerGridViewCommand}" 
+                             CommandParameter="CustomerGridView">
+                        <Label Style="{DynamicResource lablenavigation}" Content="Customer" />
+                </RadioButton>
+
+                <RadioButton Style="{DynamicResource radiobutton}" 
+                             Command="{Binding NavigateToArticleGridViewCommand}"
+                             CommandParameter="ArticleGridView">
+                        <Label Style="{DynamicResource lablenavigation}" Content="Article" />
+                </RadioButton>
+
+                <RadioButton Style="{DynamicResource radiobutton}"
+                             Command="{Binding NavigateToArticleGroupGridViewCommand}"
+                             CommandParameter="ArticleGroupGridView">
+                        <Label Style="{DynamicResource lablenavigation}" Content="Article Group" />
+                </RadioButton>
+
+                <RadioButton Style="{DynamicResource radiobutton}"
+                             Command="{Binding NavigateToOrderGridCommand}"
+                             CommandParameter="ArticleGridView">
+                        <Label Style="{DynamicResource lablenavigation}" Content="Order" />
+                </RadioButton>
+            </StackPanel>
+            <ContentControl Grid.Column="1" Margin="10" Content="{Binding Navigation.CurrentView}"/>
+        </Grid>
+    </Grid>
+</UserControl>

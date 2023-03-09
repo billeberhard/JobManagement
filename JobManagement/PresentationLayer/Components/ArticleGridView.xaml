@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="PresentationLayer.Components.ArticleGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PresentationLayer.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" FontSize="50">Article</Label>
+
+        <ScrollViewer Grid.Row="1" Width="800"
+                      Height="399"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+            <DataGrid Style="{DynamicResource datagrid}"
+                      ItemsSource="{Binding Path=ArticleTable}"
+                      SelectedItem="{Binding Path=SelectedRow}">
+                <DataGrid.ItemContainerStyle>
+                    <Style/>
+                </DataGrid.ItemContainerStyle>
+            </DataGrid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
