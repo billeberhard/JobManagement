@@ -231,5 +231,82 @@ namespace DataLayerTests
             int count = returnedArticles.Count();
             Assert.That(count, Is.EqualTo(expectedCount));
         }
+
+        [Test]
+        public void Update_BaseOperation_ReturnTrue()
+        {
+            // arrange
+            ArticleGroup aritcleGroup = new ArticleGroup() { Name = "Vehicle" };
+            Article article = new Article() { Name = "screw", Price = 0.35M, ArticleGroup = aritcleGroup };
+            repo.Articles.Add(article);
+
+            // act
+            article.Name = "ChangedArticleName";
+            bool updated = repo.Articles.Update(article);
+
+            // assert
+            Assert.That(updated, Is.True);
+        }
+
+        [Test]
+        public void Update_BaseOperation_ValuesChanged()
+        {
+            // arrange
+            ArticleGroup aritcleGroup = new ArticleGroup() { Name = "Vehicle" };
+            Article article = new Article() { Name = "screw", Price = 0.35M, ArticleGroup = aritcleGroup };
+            repo.Articles.Add(article);
+
+            string expectdedName = "testName";
+            decimal expectedPrice = 25.0M;
+            ArticleGroup expectedArticleGroup = new ArticleGroup() { Name = "OtherArticleGroup" };
+            repo.ArticleGroups.Add(expectedArticleGroup);
+
+            // act
+            article.Name = expectdedName;
+            article.Price = expectedPrice;
+            article.ArticleGroup = expectedArticleGroup;
+
+            repo.Articles.Update(article);
+
+            // assert
+            var changedArticle = repo.Articles.GetAll().First();
+
+            Assert.AreEqual(expectdedName, changedArticle.Name);
+            Assert.AreEqual(expectedPrice, changedArticle.Price);
+            Assert.AreEqual(expectedArticleGroup.Name, changedArticle.ArticleGroup.Name);
+        }
+
+        [Test]
+        public void Update_ArticleGroupNotExisting_ReturnFalse()
+        {
+            // arrange
+            ArticleGroup aritcleGroup = new ArticleGroup() { Name = "Vehicle" };
+            Article article = new Article() { Name = "screw", Price = 0.35M, ArticleGroup = aritcleGroup };
+            repo.Articles.Add(article);
+
+            ArticleGroup expectedArticleGroup = new ArticleGroup() { Name = "OtherArticleGroup" };
+
+            // act
+            article.ArticleGroup = expectedArticleGroup;
+            bool updated = repo.Articles.Update(article);
+
+            // assert
+            Assert.That(updated, Is.False);
+        }
+
+        [Test]
+        public void Update_NoChangesAreMade_ReturnFalse()
+        {
+            // arrange
+            ArticleGroup aritcleGroup = new ArticleGroup() { Name = "Vehicle" };
+            Article article = new Article() { Name = "screw", Price = 0.35M, ArticleGroup = aritcleGroup };
+            repo.Articles.Add(article);
+
+            // act
+            bool updated = repo.Articles.Update(article);
+
+            // assert
+            Assert.That(updated, Is.False);
+        }
     }
 }

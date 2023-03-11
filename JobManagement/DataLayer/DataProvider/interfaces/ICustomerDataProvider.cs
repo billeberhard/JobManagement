@@ -7,6 +7,5 @@ namespace DataLayer.DataProvider.interfaces
         int CustomerCount();
         void ClearCustomers();
         ICollection<Customer> GetAllCustomers();
-        bool Update(Customer item);
     }
 }

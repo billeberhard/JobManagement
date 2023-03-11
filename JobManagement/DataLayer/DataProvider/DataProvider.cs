@@ -3,7 +3,9 @@ using DataLayer.Model;
 using DataLayer.TransferObjects;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Data;
+using System.Diagnostics;
 using System.Net.Mail;
 using System.Reflection.Metadata.Ecma335;
 
@@ -217,6 +219,37 @@ namespace DataLayer.DataProvider
 
             return Convert(hirarcicalArticleGroupEntities);
         }
+        public bool Update(ArticleGroup item)
+        {
+            var context = new JobManagementDbContext();
+
+            var entity = context.ArticleGroups.Where(e => e.Id == item.Id).FirstOrDefault();
+            if (entity == null)
+                return false;
+
+            bool valueChanged = false;
+
+            if (entity.Name != item.Name)
+            {
+                entity.Name = item.Name;
+                valueChanged = true;
+            }
+
+            if (!(entity.SuperiorArticleGroup == null && item.SuperiorArticleGroup == null))
+            {
+                if (entity.SuperiorArticleGroup == null)
+                    entity.SuperiorArticleGroup = GetEntity(item.SuperiorArticleGroup.ToEntity(), context);
+                else if (item.SuperiorArticleGroup == null)
+                    entity.SuperiorArticleGroup = null;
+
+                valueChanged = true;
+            }
+
+            if (valueChanged)
+                context.SaveChanges();
+
+            return valueChanged;
+        }
 
 
         public int ArticleCount()
@@ -276,6 +309,40 @@ namespace DataLayer.DataProvider
             context.Remove(entity);
             context.SaveChanges();
             return true;
+        }
+        public bool Update(Article item)
+        {
+            var context = new JobManagementDbContext();
+
+            var entity = context.Articles.Where(e => e.Id == item.Id).FirstOrDefault();
+            if (entity == null)
+                return false;
+
+            bool valueChanged = false;
+
+            if (entity.Name != item.Name)
+            {
+                entity.Name = item.Name;
+                valueChanged = true;
+            }
+            if (entity.Price != item.Price)
+            {
+                entity.Price = item.Price;
+                valueChanged = true;
+            }
+
+            if (item.ArticleGroup == null || item.ArticleGroup.Id == 0)
+                return false;
+            if (entity.ArticleGroup.Id != item.ArticleGroup.Id)
+            {
+                entity.ArticleGroup = item.ArticleGroup.ToEntity();
+                valueChanged = true;
+            }
+
+            if (valueChanged)
+                context.SaveChanges();
+
+            return valueChanged;
         }
 
 
@@ -340,6 +407,37 @@ namespace DataLayer.DataProvider
             context.Remove(entity);
             context.SaveChanges();
             return true;
+        }
+        public bool Update(Order item)
+        {
+            var context = new JobManagementDbContext();
+
+            var entity = context.Orders.Where(e => e.Id == item.Id).FirstOrDefault();
+            if (entity == null)
+                return false;
+
+            bool valueChanged = false;
+
+            if (entity.CreationDate != item.CreationDate)
+            {
+                entity.CreationDate = item.CreationDate;
+                valueChanged = true;
+            }
+
+            if (item.Customer == null || item.Customer.Id == 0)
+                return false;
+            if (entity.Customer.Id != item.Customer.Id)
+            {
+                entity.Customer = item.Customer.ToEntity();
+                valueChanged = true;
+            }
+
+
+
+            if (valueChanged)
+                context.SaveChanges();
+
+            return valueChanged;
         }
         public ICollection<OrderEvaluation> GetOrderEvaluations(OrderEvaluationFilterCriterias filterCriterias)
         {

@@ -7,34 +7,38 @@ namespace DataLayer.Repository
     {
         public ArticleRepository(IArticleDataProvider dataProvider)
         {
-            m_dataProvider = dataProvider;
+            m_DataProvider = dataProvider;
         }
 
         public bool Add(Article item)
         {
-            return m_dataProvider.Add(item);
+            return m_DataProvider.Add(item);
         }
         public void Clear()
         {
-            m_dataProvider.ClearArticles();
+            m_DataProvider.ClearArticles();
         }
         public bool Contains(Article item)
         {
-            return m_dataProvider.Contains(item);
+            return m_DataProvider.Contains(item);
         }
         public int Count()
         {
-            return m_dataProvider.ArticleCount();
+            return m_DataProvider.ArticleCount();
         }
         public ICollection<Article> GetAll()
         {
-            return m_dataProvider.GetAllArticles();
+            return m_DataProvider.GetAllArticles();
         }
         public bool Remove(Article item)
         {
-            return m_dataProvider.Remove(item);
+            return m_DataProvider.Remove(item);
+        }
+        public bool Update(Article item)
+        {
+            return m_DataProvider.Update(item);
         }
 
-        private readonly IArticleDataProvider m_dataProvider;
+        private readonly IArticleDataProvider m_DataProvider;
     }
 }

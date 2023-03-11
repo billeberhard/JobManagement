@@ -14,7 +14,7 @@ namespace DataLayer.TransferObjects
             Order = new Order(entity.Order);
         }
 
-        internal int Id { get; set; }
+        public int Id { get; set; }
         public virtual Article Article { get; set; }
         public int Amount { get; set; }
         internal virtual Order Order { get; set; }

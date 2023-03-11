@@ -7,34 +7,38 @@ namespace DataLayer.Repository
     {
         public PositionRepository(IPositionDataProvider dataProvider)
         {
-            m_dataProvider = dataProvider;
+            m_DataProvider = dataProvider;
         }
 
         public int Count()
         {
-            return m_dataProvider.PositionCount();
+            return m_DataProvider.PositionCount();
         }
         public bool Add(Position order)
         {
-            return m_dataProvider.Add(order);
+            return m_DataProvider.Add(order);
         }
         public void Clear()
         {
-            m_dataProvider.ClearPositions();
+            m_DataProvider.ClearPositions();
         }
         public bool Contains(Position order)
         {
-            return m_dataProvider.Contains(order);
+            return m_DataProvider.Contains(order);
         }
         public ICollection<Position> GetAll()
         {
-            return m_dataProvider.GetAllPositions();
+            return m_DataProvider.GetAllPositions();
         }
         public bool Remove(Position order)
         {
-            return m_dataProvider.Remove(order);
+            return m_DataProvider.Remove(order);
+        }
+        public bool Update(Position item)
+        {
+            return m_DataProvider.Update(item);
         }
 
-        private readonly IPositionDataProvider m_dataProvider;
+        private readonly IPositionDataProvider m_DataProvider;
     }
 }

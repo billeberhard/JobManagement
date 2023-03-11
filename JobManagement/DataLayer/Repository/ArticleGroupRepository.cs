@@ -8,39 +8,42 @@ namespace DataLayer.Repository
     {
         public ArticleGroupRepository(IArticleGroupDataProvider dataProvider)
         {
-            m_dataProvider = dataProvider;
+            m_DataProvider = dataProvider;
         }
 
         public bool Add(ArticleGroup item)
         {
-            return m_dataProvider.Add(item);
+            return m_DataProvider.Add(item);
         }
         public void Clear()
         {
-            m_dataProvider.ClearArticleGroups();
+            m_DataProvider.ClearArticleGroups();
         }
         public bool Contains(ArticleGroup item)
         {
-            return m_dataProvider.Contains(item);
+            return m_DataProvider.Contains(item);
         }
         public int Count()
         {
-            return m_dataProvider.ArticleGroupCount();
+            return m_DataProvider.ArticleGroupCount();
         }
         public ICollection<ArticleGroup> GetAll()
         {
-            return m_dataProvider.GetAllArticleGroups();
+            return m_DataProvider.GetAllArticleGroups();
         }
         public bool Remove(ArticleGroup item)
         {
-            return m_dataProvider.Remove(item);
+            return m_DataProvider.Remove(item);
         }
-
+        public bool Update(ArticleGroup item)
+        {
+            return m_DataProvider.Update(item);
+        }
         public ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups()
         {
-            return m_dataProvider.GetHirarcicalArticleGroups();
+            return m_DataProvider.GetHirarcicalArticleGroups();
         }
 
-        private readonly IArticleGroupDataProvider m_dataProvider;
+        private readonly IArticleGroupDataProvider m_DataProvider;
     }
 }

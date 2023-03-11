@@ -253,5 +253,157 @@ namespace DataLayerTests
             int count = returnedArticles.Count();
             Assert.That(count, Is.EqualTo(expectedCount));
         }
+
+        [Test]
+        public void Update_BaseOperation_ReturnTrue()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            DateTime date = new DateTime(2023, 01, 01, 12, 00, 00);
+            Order order = new Order() { CreationDate = date, Customer = customer };
+            repo.Orders.Add(order);
+
+            // act
+            order.CreationDate = new DateTime(2020, 01, 01, 12, 00, 00);
+            bool updated = repo.Orders.Update(order);
+
+            // assert
+            Assert.That(updated, Is.True);
+        }
+
+        [Test]
+        public void Update_BaseOperation_ValuesChanged()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            DateTime creationDate = new DateTime(2023, 01, 01, 12, 00, 00);
+            Order order = new Order() { CreationDate = creationDate, Customer = customer };
+            repo.Orders.Add(order);
+
+
+            Customer expectedCustomer = new Customer() { FirstName = "Jane", LastName = "Smith", PostalCode = "10001", City = "New York", StreetName = "5th Ave", HouseNumber = "100", EmailAddress = "janesmith@example.com", WebsiteURL = "www.janesmith.com", Password = "pass456" };
+            repo.Customers.Add(expectedCustomer);
+            DateTime expectedCreationDate = new DateTime(2023, 01, 02, 14, 30, 00);
+
+            // act
+            order.CreationDate = expectedCreationDate;
+            order.Customer = expectedCustomer;
+
+            repo.Orders.Update(order);
+
+            // assert
+            var changedOrder = repo.Orders.GetAll().First();
+
+            Assert.AreEqual(expectedCreationDate, changedOrder.CreationDate);
+            Assert.AreEqual(expectedCustomer.Id, changedOrder.Customer.Id);
+        }
+
+        [Test]
+        public void Update_AddingPosition_PositionGotAdded()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            DateTime creationDate = new DateTime(2023, 01, 01, 12, 00, 00);
+            Order order = new Order() { CreationDate = creationDate, Customer = customer };
+            repo.Orders.Add(order);
+
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            Article article = new Article() { Name = "screw", Price = 0.35M, ArticleGroup = vehicle };
+            Position expectedPosition = new Position() { Article = article, Amount = 17 };
+
+            // act
+            order.Positions.Add(expectedPosition);
+            repo.Orders.Update(order);
+
+            // assert
+            var changedOrder = repo.Orders.GetAll().First();
+            var addedPosition = changedOrder.Positions.Where(p => p.Id == expectedPosition.Id).FirstOrDefault();
+            Assert.That(addedPosition, Is.Not.EqualTo(null));
+        }
+
+        [Test]
+        public void Update_RemovingPosition_PositionGotRemoved()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            DateTime creationDate = new DateTime(2023, 01, 01, 12, 00, 00);
+            Order order = new Order() { CreationDate = creationDate, Customer = customer };
+
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            Article article = new Article() { Name = "screw", Price = 0.35M, ArticleGroup = vehicle };
+            Position position = new Position() { Article = article, Amount = 17 };
+            order.Positions.Add(position);
+            repo.Orders.Add(order);
+
+            // act
+            order.Positions.Remove(position);
+            repo.Orders.Update(order);
+
+            // assert
+            var changedOrder = repo.Orders.GetAll().First();
+            var removedPosition = changedOrder.Positions.Where(p => p.Id == position.Id);
+
+            Assert.That(removedPosition, Is.EqualTo(null));
+        }
+
+        [Test]
+        public void Update_UpdatingPosition_PositionGotUpdated()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            DateTime creationDate = new DateTime(2023, 01, 01, 12, 00, 00);
+            Order order = new Order() { CreationDate = creationDate, Customer = customer };
+
+            ArticleGroup vehicle = new ArticleGroup() { Name = "Vehicle" };
+            Article article = new Article() { Name = "screw", Price = 0.35M, ArticleGroup = vehicle };
+            Position position = new Position() { Article = article, Amount = 17 };
+            order.Positions.Add(position);
+            repo.Orders.Add(order);
+
+            var changedAmount = 3;
+
+            // act
+            position.Amount = changedAmount;
+            repo.Orders.Update(order);
+
+            // assert
+            var changedOrder = repo.Orders.GetAll().First();
+            var changedPosition = changedOrder.Positions.Where(p => p.Id == position.Id).FirstOrDefault();
+
+            Assert.AreEqual(changedAmount, changedPosition.Amount);
+        }
+
+        [Test]
+        public void Update_CustomerNotExisting_ReturnFalse()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            DateTime creationDate = new DateTime(2023, 01, 01, 12, 00, 00);
+            Order order = new Order() { CreationDate = creationDate, Customer = customer };
+            repo.Orders.Add(order);
+
+            // act
+            order.Customer = new Customer() { FirstName = "Jane", LastName = "Smith", PostalCode = "10001", City = "New York", StreetName = "5th Ave", HouseNumber = "100", EmailAddress = "janesmith@example.com", WebsiteURL = "www.janesmith.com", Password = "pass456" };
+            bool changed = repo.Orders.Update(order);
+
+            // assert
+            Assert.That(changed, Is.False);
+        }
+
+        [Test]
+        public void Update_NoChangesAreMade_ReturnFalse()
+        {
+            // arrange
+            Customer customer = new Customer() { FirstName = "John", LastName = "Doe", PostalCode = "94105", City = "San Francisco", StreetName = "Market St", HouseNumber = "200", EmailAddress = "johndoe@example.com", WebsiteURL = "www.johndoe.com", Password = "pass123" };
+            DateTime date = new DateTime(2023, 01, 01, 12, 00, 00);
+            Order order = new Order() { CreationDate = date, Customer = customer };
+            repo.Orders.Add(order);
+
+            // act
+            bool updated = repo.Orders.Update(order);
+
+            // assert
+            Assert.That(updated, Is.False);
+        }
     }
 }

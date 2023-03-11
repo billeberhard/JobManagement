@@ -240,5 +240,58 @@ namespace DataLayerTests
             int count = returnedArticles.Count();
             Assert.That(count, Is.EqualTo(expectedCount));
         }
+
+        [Test]
+        public void Update_BaseOperation_ReturnTrue()
+        {
+            // arrange
+            ArticleGroup articleGroup = new ArticleGroup() { Name = "Vehicle" };
+
+            repo.ArticleGroups.Add(articleGroup);
+
+            // act
+            articleGroup.Name = "ChangedName";
+            bool updated = repo.ArticleGroups.Update(articleGroup);
+
+            // assert
+            Assert.That(updated, Is.True);
+        }
+
+        [Test]
+        public void Update_BaseOperation_ValuesChanged()
+        {
+            // arrange
+            ArticleGroup articleGroup = new ArticleGroup() { Name = "Vehicle" };
+            repo.ArticleGroups.Add(articleGroup);
+
+            string expectedName = "ChangedName";
+            ArticleGroup expectedArticleGroup = new ArticleGroup() { Name = "expedctedArticle" };
+            repo.ArticleGroups.Add(expectedArticleGroup);
+
+            // act
+            articleGroup.Name = expectedName;
+            articleGroup.SuperiorArticleGroup = expectedArticleGroup;
+            repo.ArticleGroups.Update(articleGroup);
+
+            // assert
+            var updatedArticleGroup = repo.ArticleGroups.GetAll().First();
+
+            Assert.That(expectedArticleGroup.Id, Is.EqualTo(updatedArticleGroup.SuperiorArticleGroup.Id));
+            Assert.AreEqual(expectedName, updatedArticleGroup.Name);
+        }
+
+        [Test]
+        public void Update_NoChangesAreMade_ReturnFalse()
+        {
+            // arrange
+            ArticleGroup articleGroup = new ArticleGroup() { Name = "Vehicle" };
+            repo.ArticleGroups.Add(articleGroup);
+
+            // act
+            bool updated = repo.ArticleGroups.Update(articleGroup);
+
+            // assert
+            Assert.That(updated, Is.False);
+        }
     }
 }

@@ -34,10 +34,9 @@ namespace DataLayer.Repository
         {
             return m_DataProvider.Remove(customer);
         }
-
-        public bool Update(Customer customer)
+        public bool Update(Customer item)
         {
-            return m_DataProvider.Update(customer);
+            return m_DataProvider.Update(item);
         }
 
         private readonly ICustomerDataProvider m_DataProvider;
