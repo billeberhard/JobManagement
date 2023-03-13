@@ -12,10 +12,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"  Style="{DynamicResource textblocktitle}">Article Groupe</TextBlock>
-        <TreeView ItemsSource="{Binding ArticleGroups}">
+        <TreeView ItemsSource="{Binding ArticleGroups}" Grid.Row="1">
             <TreeView.Resources>
                 <HierarchicalDataTemplate ItemsSource="{Binding SubordinateArticleGroups}"
-                                          DataType="DataLayer.TransferObjects.ArticleGroup"
+                                          DataType="{Binding DataLayer.TransferObjects.ArticleGroup}"
                                   x:Key="articleGroupTemplate">
                     <TextBlock Text="{Binding Name}"/>
                 </HierarchicalDataTemplate>

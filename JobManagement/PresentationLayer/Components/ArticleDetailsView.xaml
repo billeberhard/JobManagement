@@ -10,13 +10,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DockPanel HorizontalAlignment="Center" Grid.ColumnSpan="2">
+        <DockPanel HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0">
             <TextBlock Style="{DynamicResource textblocktitle}">Article</TextBlock>
         </DockPanel> 
 
-        <StackPanel Grid.Row="0">
+        <StackPanel Grid.Row="1">
             <Label Style="{DynamicResource label}">Article ID</Label>
             <TextBox Style="{DynamicResource textbox}" IsReadOnly="True"/>
             <Label HorizontalAlignment="Center">Article Group</Label>
@@ -27,7 +29,7 @@
             <TextBox Style="{DynamicResource textbox}" Text="{Binding Article.Price}" />
         </StackPanel>
 
-        <DockPanel HorizontalAlignment="Center" Grid.Row="1">
+        <DockPanel HorizontalAlignment="Center" Grid.Row="3">
             <Button Style="{DynamicResource menubuttondark}" Command="{Binding SaveCommand}"
                     Content="Save"/>
             <Button Style="{DynamicResource menubuttondark}" Command="{Binding CancelCommand}" Margin="5"

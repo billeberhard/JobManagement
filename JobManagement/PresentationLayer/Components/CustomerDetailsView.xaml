@@ -9,7 +9,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="25" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -48,7 +48,7 @@
             <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.Password}"/>
         </StackPanel>
 
-        <DockPanel HorizontalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="2">
+        <DockPanel HorizontalAlignment="Center" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0">
             <Button Style="{DynamicResource menubuttondark}"
                     Command="{Binding SaveCommand}" Content="Save"/>
             <Button Style="{DynamicResource menubuttondark}" Command="{Binding CancelCommand}" Margin="5"
