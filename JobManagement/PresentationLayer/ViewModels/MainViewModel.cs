@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices.ObjectiveC;
+using System.Windows;
 using System.Windows.Input;
+using DataLayer.Repository;
 using DataLayer.TransferObjects;
 using Microsoft.Identity.Client;
 using PresentationLayer.Core;
@@ -42,8 +44,26 @@ public class MainViewModel : ObservableObject
 
     public MainViewModel(INavigationService navService)
     {
+        DataRepository repo = new DataRepository();
+        var result = MessageBox.Show("Do you want to load sample data?", "Loading sample data!",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+        if (result == MessageBoxResult.Yes)
+        {
+            DataRepository.AddSampleData(repo);
+        }
+        if (result == MessageBoxResult.No)
+        {
+            result = MessageBox.Show("Do you want to load width existing data?", "Loading data!",
+                    MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result == MessageBoxResult.No)
+                DataRepository.RemoveAllData(repo);
+        }
+
+
+
         Navigation = navService;
-        
 
         NavigateToHomeViewCommand = new RelayCommand(o => OnNavigateTo(SelectedWindow.Home), o => true);
         NavigateToCustomerGridViewCommand = new RelayCommand(o => OnNavigateTo(SelectedWindow.CustomerGrid), o => true);
