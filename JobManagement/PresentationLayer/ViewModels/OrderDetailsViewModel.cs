@@ -89,7 +89,7 @@ namespace PresentationLayer.ViewModels
             else
                 m_Repo.Orders.Add(m_Order);
 
-            NavigateToCommand?.Execute(SelectedWindow.CustomerGrid);
+            NavigateToCommand?.Execute(SelectedWindow.OrderGrid);
         }
         public void OnCancelOrder(object property)
         {
@@ -99,7 +99,7 @@ namespace PresentationLayer.ViewModels
             if (result == MessageBoxResult.No)
                 return;
 
-            NavigateToCommand?.Execute(SelectedWindow.CustomerGrid);
+            NavigateToCommand?.Execute(SelectedWindow.OrderGrid);
         }
 
         public void OnAddPosition(object property)

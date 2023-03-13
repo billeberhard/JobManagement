@@ -15,11 +15,5 @@ namespace PresentationLayer.Components
         {
             InitializeComponent();
         }
-
-        private void DataGridOrderData_Loaded(object sender, RoutedEventArgs e)
-        {
-            var viewModel = DataContext as CustomerGridViewModel;
-            viewModel.LoadCommand?.Execute(null);
-        }
     }
 }

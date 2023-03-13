@@ -15,7 +15,6 @@ public class CustomerGridViewModel : ViewModel, ICRUDDataViewModel
 {
     public ObservableCollection<Customer> Customers { get; set; } = new ObservableCollection<Customer>();
 
-    public ICommand LoadCommand { get; set; }
     public ICommand DeleteCommand { get; set; }
     public ICommand SearchCommand { get; set; }
     public object SelectedItem
@@ -30,12 +29,11 @@ public class CustomerGridViewModel : ViewModel, ICRUDDataViewModel
 
     public CustomerGridViewModel()
     {
-        LoadCommand = new RelayCommand(OnLoad, o => true);
         DeleteCommand = new RelayCommand(OnDelete, o => true);
         SearchCommand = new RelayCommand(OnSearch, o => true);
     }
 
-    private void OnLoad(object prameter)
+    public void Update()
     {
         var customers = m_Repo.Customers.GetAll();
         LoadData(customers);

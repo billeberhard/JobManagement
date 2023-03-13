@@ -15,9 +15,6 @@ public class CustomerDetailsViewModel : ViewModel
 		get => m_Customer;
 		set
 		{
-			if (value == null)
-				throw new ArgumentException();
-
 			m_Customer = value;
 			OnPropertyChanged(nameof(Customer));
 		}
@@ -34,6 +31,16 @@ public class CustomerDetailsViewModel : ViewModel
 
 	public void OnSave(object property)
 	{
+		if (m_Customer.FirstName == null || m_Customer.FirstName == "" ||
+			m_Customer.LastName == null || m_Customer.LastName == "" ||
+			m_Customer.HouseNumber == null || m_Customer.HouseNumber == "" ||
+			m_Customer.StreetName == null || m_Customer.StreetName == "" ||
+            m_Customer.City == null || m_Customer.City == "" ||
+			m_Customer.PostalCode == null || m_Customer.PostalCode == "" ||
+			m_Customer.EmailAddress == null || m_Customer.EmailAddress == "" ||
+            m_Customer.Password == null || m_Customer.Password == "")
+			return;
+
 		if (m_Repo.Customers.Contains(m_Customer))
 			m_Repo.Customers.Update(m_Customer);
 		else

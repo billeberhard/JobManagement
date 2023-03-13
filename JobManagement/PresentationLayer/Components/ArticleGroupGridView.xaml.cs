@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using PresentationLayer.ViewModels;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PresentationLayer.Components
 {
@@ -23,6 +11,14 @@ namespace PresentationLayer.Components
         public ArticleGroupGridView()
         {
             InitializeComponent();
+        }
+
+        private void ArticleGroupTreeView_SelectedItemChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
+        {
+            var viewModel = DataContext as ArticleGroupGridViewModel;
+            var selectedItem = ArticleGroupTreeView.SelectedItem;
+            if (selectedItem != null)
+                viewModel.SelectedItem = selectedItem;
         }
     }
 }

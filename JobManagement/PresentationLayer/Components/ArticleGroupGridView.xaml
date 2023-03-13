@@ -12,11 +12,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0"  Style="{DynamicResource textblocktitle}">Article Groupe</TextBlock>
-        <TreeView ItemsSource="{Binding ArticleGroups}">
+        <TextBlock Grid.Row="0"  Style="{DynamicResource textblocktitle}">Article Group</TextBlock>
+        <TreeView ItemsSource="{Binding ArticleGroups}" Grid.Row="1" Name="ArticleGroupTreeView" SelectedItemChanged="ArticleGroupTreeView_SelectedItemChanged" FontSize="14" FontWeight="Bold">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding SubordinateArticleGroups}"
-                                          DataType="x:Type model:ArticleGroup">
+                                          DataType="x:Type Model:ArticleGroup">
                     <TextBlock Text="{Binding Name}"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>

@@ -41,6 +41,11 @@ public class ArticleDetailsViewModel : ViewModel
 
     public void OnSave(object property)
     {
+        if (m_Article.ArticleGroup == null ||
+            m_Article.Name == null || m_Article.Name == "" ||
+            m_Article.Price <= 0)
+            return;
+
         if (m_Repo.Articles.Contains(m_Article))
             m_Repo.Articles.Update(m_Article);
         else

@@ -9,23 +9,69 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontSize="50" Style="{DynamicResource textblocktitle}">Home</TextBlock>
-        <DataGrid Grid.Row="1" x:Name="DataGridJahresvergleich"
-                  ItemsSource="{Binding StatisticDataTable}"
-                  AutoGenerateColumns="True"
-                  Height="372"
-                  Width="789"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  CanUserReorderColumns="False"
-                  CanUserResizeColumns="False"
-                  CanUserResizeRows="False"
-                  CanUserSortColumns="False"
-                  IsReadOnly="True"
-                  VerticalScrollBarVisibility="Auto"
-                  HorizontalScrollBarVisibility="Auto" ColumnWidth="Auto"/>
+        <TextBlock Grid.Row="0" Style="{DynamicResource textblocktitle}">Home</TextBlock>
+
+        <DockPanel Grid.Row="1" HorizontalAlignment="Center">
+            <StackPanel>
+                <Label Style="{DynamicResource label}">Customer Number</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding CustomerNumber}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Style="{DynamicResource label}">First Name</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding FilterCriterias.FirstName}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Style="{DynamicResource label}">Last Name</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding FilterCriterias.LastName}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Style="{DynamicResource label}">Street Name</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding FilterCriterias.StreetName}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Style="{DynamicResource label}">House Number</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding FilterCriterias.HouseNumber}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Style="{DynamicResource label}">Postal Code</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding FilterCriterias.PostalCode}"/>
+            </StackPanel>
+        </DockPanel>
+        <DockPanel Grid.Row="2" HorizontalAlignment="Center">
+            <StackPanel>
+                <Label Style="{DynamicResource label}">City</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding FilterCriterias.City}"/>
+            </StackPanel>            
+            <StackPanel>
+                <Label Style="{DynamicResource label}">Min Creation Date</Label>
+                <DatePicker Style="{DynamicResource filtercriteria}" Text="{Binding FilterCriterias.MinCreationDate}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Style="{DynamicResource label}">Max Creation Date</Label>
+                <DatePicker Style="{DynamicResource filtercriteria}" Text="{Binding FilterCriterias.MaxCreationDate}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Style="{DynamicResource label}">Order Number</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding OrderNumber}"/>
+            </StackPanel>            
+            <StackPanel>
+                <Label Style="{DynamicResource label}">Min Total Order Price</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding MinTotalOrderPrice}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Style="{DynamicResource label}">Max Total Order Price</Label>
+                <TextBox Style="{DynamicResource filtercriteria}" Text="{Binding MaxTotalOrderPrice}"/>
+            </StackPanel>
+        </DockPanel>
+
+
+        <DataGrid Grid.Row="3"
+                  Style="{DynamicResource datagrid}"
+                  ItemsSource="{Binding OrderEvaluations}"/>
     </Grid>
 </UserControl>

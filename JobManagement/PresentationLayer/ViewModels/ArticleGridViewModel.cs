@@ -10,26 +10,28 @@ namespace PresentationLayer.ViewModels
     public class ArticleGridViewModel : ViewModel, ICRUDDataViewModel
     {
         public ObservableCollection<Article> Articles { get; set; } = new ObservableCollection<Article>();
-        public ICommand LoadCommand { get; set; }
+
         public ICommand DeleteCommand { get; set; }
         public ICommand SearchCommand { get; set; }
         public object SelectedItem { get; set; }
 
         public ArticleGridViewModel()
         {
-            LoadCommand = new RelayCommand(OnLoad, o => true);
             DeleteCommand = new RelayCommand(OnDelete, o => true);
             SearchCommand = new RelayCommand(OnSearch, o => true);
             LoadData(m_Repo.Articles.GetAll());
         }
 
-        private void OnLoad(object prameter)
+        public void Update()
         {
             var articles = m_Repo.Articles.GetAll();
             LoadData(articles);
         }
+
         private void OnSearch(object prameter)
         {
+            return;
+
             string searchContext = (string)prameter;
             ICollection<Article> result = m_Repo.Articles.Search(searchContext);
             LoadData(result);

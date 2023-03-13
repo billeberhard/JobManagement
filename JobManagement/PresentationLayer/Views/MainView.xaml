@@ -48,32 +48,25 @@
             <StackPanel Grid.Column="0" Background="#FF1D2860">
                 <RadioButton Style="{DynamicResource radiobutton}" IsChecked="True"
                              Command="{Binding NavigateToHomeViewCommand}" 
-                             CommandParameter="HomeView">
-                        <Label Style="{DynamicResource lablenavigation}" Content="Home" />
+                             CommandParameter="HomeView">Home
                 </RadioButton>
 
                 <RadioButton Style="{DynamicResource radiobutton}" 
                              Command="{Binding NavigateToCustomerGridViewCommand}" 
-                             CommandParameter="CustomerGridView">
-                        <Label Style="{DynamicResource lablenavigation}" Content="Customer" />
-                </RadioButton>
+                             CommandParameter="CustomerGridView">Customer</RadioButton>
 
                 <RadioButton Style="{DynamicResource radiobutton}" 
                              Command="{Binding NavigateToArticleGridViewCommand}"
-                             CommandParameter="ArticleGridView">
-                        <Label Style="{DynamicResource lablenavigation}" Content="Article" />
+                             CommandParameter="ArticleGridView">Article
                 </RadioButton>
 
                 <RadioButton Style="{DynamicResource radiobutton}"
                              Command="{Binding NavigateToArticleGroupGridViewCommand}"
-                             CommandParameter="ArticleGroupGridView">
-                        <Label Style="{DynamicResource lablenavigation}" Content="Article Group" />
-                </RadioButton>
+                             CommandParameter="ArticleGroupGridView">Article Group</RadioButton>
 
                 <RadioButton Style="{DynamicResource radiobutton}"
                              Command="{Binding NavigateToOrderGridCommand}"
-                             CommandParameter="ArticleGridView">
-                        <Label Style="{DynamicResource lablenavigation}" Content="Order" />
+                             CommandParameter="ArticleGridView">Order
                 </RadioButton>
             </StackPanel>
             <ContentControl Grid.Column="1" Margin="10" Content="{Binding Navigation.CurrentView}" HorizontalAlignment="Center"/>

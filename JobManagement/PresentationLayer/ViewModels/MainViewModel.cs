@@ -43,6 +43,7 @@ public class MainViewModel : ObservableObject
     public MainViewModel(INavigationService navService)
     {
         Navigation = navService;
+        
 
         NavigateToHomeViewCommand = new RelayCommand(o => OnNavigateTo(SelectedWindow.Home), o => true);
         NavigateToCustomerGridViewCommand = new RelayCommand(o => OnNavigateTo(SelectedWindow.CustomerGrid), o => true);
@@ -54,6 +55,8 @@ public class MainViewModel : ObservableObject
         NewCommand = new RelayCommand(o => OnNew(), o => true);
         DeleteCommand = new RelayCommand(o => OnDelete(), o => true);
         EditCommand = new RelayCommand(o => OnEdit(), o => true);
+
+        OnNavigateTo(SelectedWindow.Home);
     }
 
     private void OnNavigateTo(object property)
@@ -117,6 +120,10 @@ public class MainViewModel : ObservableObject
                 NavigateToOrderDetailsNew();
                 break;
         }
+
+        var updatableView = Navigation.CurrentView as IUpdatable;
+        if (updatableView != null)
+            updatableView.Update();
     }
 
     private void NavigateToCustomerDetailsNew()
@@ -219,17 +226,28 @@ public class MainViewModel : ObservableObject
     {
         var searchContext = parameter;
         var viewModel = Navigation.CurrentView as ICRUDDataViewModel;
+        if (viewModel == null)
+            return;
 
         viewModel.SearchCommand?.Execute(searchContext);
     }
     private void OnDelete()
     {
         var currentView = Navigation.CurrentView as ICRUDDataViewModel;
+        if (currentView == null)
+            return;
 
         currentView.DeleteCommand?.Execute(null);
     }
     private void OnEdit()
     {
+        var currenView = Navigation.CurrentView as ICRUDDataViewModel;
+        if (currenView == null)
+            return;
+
+        if (currenView.SelectedItem == null)
+            return;
+
         switch (m_SelectedWindow)
         {
             case SelectedWindow.Home:

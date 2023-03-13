@@ -10,22 +10,24 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <DockPanel HorizontalAlignment="Center" Grid.ColumnSpan="2">
-            <TextBlock  Style="{DynamicResource textblocktitle}">Order</TextBlock>
+            <TextBlock  Style="{DynamicResource textblocktitle}">Article Group</TextBlock>
         </DockPanel> 
 
-        <StackPanel Grid.Column="0">
+        <StackPanel Grid.Row="1">
             <Label Style="{DynamicResource label}">Article Group ID</Label>
             <TextBox Style="{DynamicResource textbox}" Text="{Binding ArticleGroup.Id}" IsReadOnly="True"/>
             <Label Style="{DynamicResource label}">Article Group</Label>
             <TextBox Style="{DynamicResource textbox}" Text="{Binding ArticleGroup.Name}"/>
             <Label Style="{DynamicResource label}">Superior Article Group</Label>
-            <ComboBox Style="{DynamicResource combox}" Text="{Binding ArticleGroup.SuperiorArticleGroup}"/>
+            <ComboBox Style="{DynamicResource combox}" ItemsSource="{Binding ArticleGroups}" SelectedItem="{Binding ArticleGroup.SuperiorArticleGroup}"/>
         </StackPanel>
 
-        <DockPanel HorizontalAlignment="Center">
+        <DockPanel HorizontalAlignment="Center" Grid.Row="3">
             <Button Style="{DynamicResource menubuttondark}" Command="{Binding SaveCommand}"
                     Content="Save"/>
             <Button Style="{DynamicResource menubuttondark}" Command="{Binding CancelCommand}" Margin="5"

@@ -100,16 +100,16 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="radiobutton">
-            <Setter Property="RadioButton.Height" Value="60" />
-            <Setter Property="RadioButton.Margin" Value="10 0" />
-            <Setter Property="RadioButton.VerticalAlignment" Value="Center" />
-            <Setter Property="RadioButton.VerticalContentAlignment" Value="Center" />
-            <Setter Property="RadioButton.FontSize" Value="13" />
-            <Setter Property="RadioButton.Foreground" Value="White" />
-            <Setter Property="RadioButton.FontWeight" Value="SemiBold" />
-            <Setter Property="RadioButton.Width" Value="200" />
+        <Style x:Key="radiobutton" TargetType="RadioButton">
+            <Setter Property="Height" Value="60" />
+            <Setter Property="Margin" Value="10 0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Foreground" Value="#AAFFFFFF" />
+            <Setter Property="Width" Value="200"/>
         </Style>
+
         <Style x:Key="lablenavigation">
             <Setter Property="Label.FontSize" Value="13" />
             <Setter Property="Label.FontWeight" Value="SemiBold" />
@@ -121,17 +121,24 @@
             <Setter Property="ComboBox.Height" Value="30" />
             <Setter Property="ComboBox.VerticalAlignment" Value="Center" />
             <Setter Property="ComboBox.Margin" Value="5, 2" />
-        </Style>        
+        </Style>
         <Style x:Key="textbox">
             <Setter Property="TextBox.FontSize" Value="13" />
             <Setter Property="TextBox.Width" Value="230" />
             <Setter Property="TextBox.Height" Value="30" />
             <Setter Property="TextBox.VerticalAlignment" Value="Center" />
             <Setter Property="TextBox.Margin" Value="5, 2" />
-        </Style>        
+        </Style>
+        <Style x:Key="filtercriteria">
+            <Setter Property="TextBox.FontSize" Value="12" />
+            <Setter Property="TextBox.Width" Value="120" />
+            <Setter Property="TextBox.Height" Value="25" />
+            <Setter Property="TextBox.VerticalAlignment" Value="Center" />
+            <Setter Property="TextBox.Margin" Value="5, 2" />
+        </Style>
         <Style x:Key="label">
             <Setter Property="Label.FontSize" Value="13" />
-            <Setter Property="Label.Width" Value="230" />
+            <Setter Property="Label.Width" Value="auto" />
             <Setter Property="Label.Height" Value="30" />
             <Setter Property="Label.VerticalAlignment" Value="Center" />
             <Setter Property="Label.Margin" Value="5, 2" />

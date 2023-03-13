@@ -428,7 +428,11 @@ namespace DataLayer.DataProvider
 
             var entities = context.Orders.ToList();
 
-            return Convert(entities);
+            var orders = Convert(entities);
+            foreach (Order o in orders)
+                o.Positions = GetAllPositoins(o);
+
+            return orders;
         }
         public bool Add(Order item)
         {
@@ -537,7 +541,6 @@ namespace DataLayer.DataProvider
 	                SELECT
 		                c.Id AS [CustomerNumber],
 		                sum(p.Amount * a.Price) AS [TotalOrderPrice]
-
 	                FROM [dbo].[Customer] c
 	                INNER JOIN [dbo].[Order] o
 		                ON c.Id = o.CustomerId
@@ -570,7 +573,6 @@ namespace DataLayer.DataProvider
 		                ON c.AddressId = adr.Id AND o.CreationDate <= adr.PeriodEnd
 	                INNER JOIN TotalOrderPriceCTE cost
 		                ON cost.CustomerNumber = c.Id
-
 	                WHERE (@customerNumberFilterCriteria = -1 OR c.Id = @customerNumberFilterCriteria)
                         AND c.FirstName LIKE '%' + @firstNameFilterCriteria + '%'
 	                    AND c.LastName LIKE '%' + @lastNameFilterCriteria + '%'
@@ -582,8 +584,6 @@ namespace DataLayer.DataProvider
                         AND (@orderNumberFilterCriteria = -1 OR o.Id = @orderNumberFilterCriteria)
                         AND (@minTotalOrderPriceFilterCriteria = -1 OR TotalOrderPrice >= @minTotalOrderPriceFilterCriteria)
                         AND (@maxTotalOrderPriceFilterCriteria = -1 OR TotalOrderPrice >= @maxTotalOrderPriceFilterCriteria)
-
-
                 )
                 SELECT
                     [Id],
@@ -597,7 +597,6 @@ namespace DataLayer.DataProvider
 	                [CreationDate],
 	                [OrderNumber],
 	                [TotalOrderPrice]
-
                 FROM OrderOverviewCTE
                 WHERE [PropperAddressRank] = 1;
                 ";
@@ -619,6 +618,14 @@ namespace DataLayer.DataProvider
                 ).ToList();
 
             return Convert(orderEvaluationEntities);
+        }
+        public ICollection<Position> GetAllPositoins(Order order)
+        {
+            var context = new JobManagementDbContext();
+
+            var entities = GetEntity(order.ToEntity(), context);
+
+            return Convert(entities.Positions);
         }
 
 
@@ -676,6 +683,16 @@ namespace DataLayer.DataProvider
 
             return result;
         }
+        static private ICollection<Position> Convert(ICollection<PositionEntity> entities)
+        {
+            ICollection<Position> result = new List<Position>();
+
+            foreach (var e in entities)
+                result.Add(new Position(e));
+
+            return result;
+        }
+
         static private CustomerEntity Add(CustomerEntity entity, JobManagementDbContext context)
         {
             var queriedEntity = GetEntity(entity, context);

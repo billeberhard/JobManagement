@@ -2,9 +2,8 @@
 
 namespace PresentationLayer.ViewModels;
 
-internal interface ICRUDDataViewModel
+internal interface ICRUDDataViewModel : IUpdatable
 {
-    ICommand LoadCommand { get; set; }
     ICommand DeleteCommand { get; set; }
 	ICommand SearchCommand { get; set; }
     object SelectedItem { get; set; }

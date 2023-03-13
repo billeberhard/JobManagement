@@ -9,11 +9,15 @@ using System.Windows.Input;
 
 namespace PresentationLayer.ViewModels;
 
+internal interface IUpdatable
+{
+    void Update();
+}
+
 internal class OrderGridViewModel : ViewModel, ICRUDDataViewModel
 {
 	public ObservableCollection<Order> Orders { get; set; } = new ObservableCollection<Order>();
 
-	public ICommand LoadCommand { get; set; }
 	public ICommand DeleteCommand { get; set; }
 	public ICommand SearchCommand { get; set; }
     public object SelectedItem
@@ -28,18 +32,20 @@ internal class OrderGridViewModel : ViewModel, ICRUDDataViewModel
 
     public OrderGridViewModel()
 	{
-		LoadCommand = new RelayCommand(OnLoad, o => true);
 		DeleteCommand = new RelayCommand(OnDelete, o => true);
 		SearchCommand = new RelayCommand(OnSearch, o => true);
     }
 
-    private void OnLoad(object prameter)
+    public void Update()
     {
         var orders = m_Repo.Orders.GetAll();
         LoadData(orders);
     }
+
     private void OnSearch(object prameter)
     {
+        return;
+
         string searchContext = (string)prameter;
         ICollection<Order> result = m_Repo.Orders.Search(searchContext);
         LoadData(result);

@@ -32,7 +32,7 @@
 
         <StackPanel Grid.Row="1" Grid.Column="0">
             <Label Style="{DynamicResource label}" Content="Order ID"></Label>
-            <TextBox Style="{DynamicResource textbox}" Text="{Binding Order.Id}"/>
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Order.Id}" IsReadOnly="True"/>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Label Style="{DynamicResource label}" Content="Order Date" ></Label>
@@ -57,9 +57,9 @@
 
         <DockPanel Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <Button Style="{DynamicResource menubuttondark}" Command="{Binding Path=AddPositionCommand}" Margin="5"
-                Content="Add Position"/>
+                Content="Add"/>
             <Button Style="{DynamicResource menubuttondark}" Command="{Binding Path=SavePositoinCommand}" Margin="5"
-                Content="Save Position"/>
+                Content="Save"/>
         </DockPanel>   
 
 
