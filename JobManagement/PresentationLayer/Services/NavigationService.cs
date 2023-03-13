@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PresentationLayer.Core;
 
 namespace PresentationLayer.Services
 {
-    public interface INavigationService
-    {
-        ViewModel CurrentView { get;  }
-        void NavigateTo<T>() where T: ViewModel;
-    }
     public class NavigationService : ObservableObject, INavigationService
     {
         private readonly Func<Type, ViewModel> _viewModelFactory;
@@ -32,10 +23,16 @@ namespace PresentationLayer.Services
             _viewModelFactory = viewModelFactory;
         }
 
-        public void NavigateTo<TViewModel>() where TViewModel : ViewModel
+        public TViewModel NavigateTo<TViewModel>() where TViewModel : ViewModel
         {
             ViewModel viewModel = _viewModelFactory.Invoke(typeof(TViewModel));
             CurrentView = viewModel;
+
+            var concreteViewModel = viewModel as TViewModel;
+            if (concreteViewModel == null)
+                throw new ArgumentException();
+
+            return concreteViewModel;
         }
     }
 }

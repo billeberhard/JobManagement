@@ -4,31 +4,55 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions >
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
+
+        <DockPanel HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2">
+            <TextBlock Style="{DynamicResource textblocktitle}">Customer</TextBlock>
+        </DockPanel> 
+
+        <StackPanel Grid.Row="1" Grid.Column="0">
             <Label Style="{DynamicResource label}">Customer ID</Label>
-            <TextBox Style="{DynamicResource textbox}" />
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.Id}" IsReadOnly="True"/>
             <Label Style="{DynamicResource label}">Firstname</Label>
-            <TextBox Style="{DynamicResource textbox}" />
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.FirstName}"/>
             <Label Style="{DynamicResource label}">Lastname</Label>
-            <TextBox Style="{DynamicResource textbox}" />
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.LastName}"/>
             <Label Style="{DynamicResource label}">Street</Label>
-            <TextBox Style="{DynamicResource textbox}" />
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.StreetName}"/>
             <Label Style="{DynamicResource label}">Housenumber</Label>
-            <TextBox Style="{DynamicResource textbox}" />
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.HouseNumber}"/>
+            <Label Style="{DynamicResource label}">Postal Code</Label>
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.PostalCode}"/>
+            <Label Style="{DynamicResource label}">City</Label>
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.City}"/>
         </StackPanel>
-        <StackPanel Grid.Column="1">
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
             <Label Style="{DynamicResource label}">Emailaddress</Label>
-            <TextBox Style="{DynamicResource textbox}" />
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.EmailAddress}"/>
             <Label Style="{DynamicResource label}">Website URL</Label>
-            <TextBox Style="{DynamicResource textbox}" />
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.WebsiteURL}"/>
             <Label Style="{DynamicResource label}">Password</Label>
-            <TextBox Style="{DynamicResource textbox}" />
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Customer.Password}"/>
         </StackPanel>
+
+        <DockPanel HorizontalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="2">
+            <Button Style="{DynamicResource menubuttondark}"
+                    Command="{Binding SaveCommand}" Content="Save"/>
+            <Button Style="{DynamicResource menubuttondark}" Command="{Binding CancelCommand}" Margin="5"
+                    Content="Cancel" />
+        </DockPanel>
     </Grid>
 </UserControl>

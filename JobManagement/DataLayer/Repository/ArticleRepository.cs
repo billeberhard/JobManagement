@@ -1,5 +1,6 @@
 ﻿using DataLayer.DataProvider.interfaces;
 using DataLayer.TransferObjects;
+using System.Reflection.Metadata.Ecma335;
 
 namespace DataLayer.Repository
 {
@@ -37,6 +38,10 @@ namespace DataLayer.Repository
         public bool Update(Article item)
         {
             return m_DataProvider.Update(item);
+        }
+        public ICollection<Article> Search(string searchingContext)
+        {
+            return m_DataProvider.SearchArticles(searchingContext);
         }
 
         private readonly IArticleDataProvider m_DataProvider;

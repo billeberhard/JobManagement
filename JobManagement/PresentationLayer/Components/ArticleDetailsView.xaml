@@ -7,51 +7,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <StackPanel>
-            <TextBlock Text="Article"
-                       Foreground="White"
-                       FontSize="20"
-                       HorizontalAlignment="Left"
-                       Margin="10,0,0,20"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <DockPanel HorizontalAlignment="Center" Grid.ColumnSpan="2">
+            <TextBlock Style="{DynamicResource textblocktitle}">Article</TextBlock>
+        </DockPanel> 
+
+        <StackPanel Grid.Row="0">
+            <Label Style="{DynamicResource label}">Article ID</Label>
+            <TextBox Style="{DynamicResource textbox}" IsReadOnly="True"/>
             <Label HorizontalAlignment="Center">Article Group</Label>
-
-            <ComboBox Style="{DynamicResource combox}"
-                     ItemsSource="{Binding Path=ArticleGroupList}"
-                     SelectedValue="{Binding Path=Group}"
-                    
-                />
-            <Label HorizontalAlignment="Center">Artikel Name</Label>
-            <TextBox Style="{DynamicResource textbox}" x:Name="TxtArtikelName"
-                     FontFamily="/Fonts/#Poppins"
-                     VerticalContentAlignment="Center"
-                     Text="{Binding Path = Name}" />
-
-
-            <Label HorizontalAlignment="Center"
-                   Content="Price"/>
-            <TextBox Style="{DynamicResource textbox}"
-                     Text="{Binding Path=Price}" />
-
-            <Label HorizontalAlignment="Center">MWST.</Label>
-            <TextBox Style="{DynamicResource textbox}"
-                     VerticalContentAlignment="Center"
-                     Text="{Binding Path=Vat}" />
-
-            <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    Margin=" 0,48,0,0">
-                <Button Command="{Binding Path=SaveCommand}"
-                        Margin="10,10,10,20"
-                        Content="Save"
-                        Height="30"
-                        Width="70"/>
-                <!--<Button Command="{Binding Path=CancleCommand}"
-                        Margin="10,10,10,20"
-                        Content="Abbrechen"
-                        Height="40"
-                        Width="70"/>-->
-            </StackPanel>
+            <ComboBox Style="{DynamicResource combox}" ItemsSource="{Binding Article.ArticleGroup}" SelectedValue="{Binding Article.SelectedArticleGroup}"/>
+            <Label HorizontalAlignment="Center">Article Name</Label>
+            <TextBox Style="{DynamicResource textbox}" x:Name="ArticleName" VerticalContentAlignment="Center" Text="{Binding Article.Name}"/>
+            <Label HorizontalAlignment="Center" Content="Price"/>
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Article.Price}" />
         </StackPanel>
+
+        <DockPanel HorizontalAlignment="Center" Grid.Row="1">
+            <Button Style="{DynamicResource menubuttondark}" Command="{Binding SaveCommand}"
+                    Content="Save"/>
+            <Button Style="{DynamicResource menubuttondark}" Command="{Binding CancelCommand}" Margin="5"
+                    Content="Cancel"/>
+        </DockPanel>
     </Grid>
 </UserControl>

@@ -38,6 +38,10 @@ namespace DataLayer.Repository
         {
             return m_DataProvider.Update(item);
         }
+        public ICollection<Customer> Search(string context)
+        {
+            return m_DataProvider.SearchCustomers(context);
+        }
 
         private readonly ICustomerDataProvider m_DataProvider;
     }

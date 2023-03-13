@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:components="clr-namespace:PresentationLayer.Components"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="1000" d:DesignWidth="1600">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -24,18 +24,18 @@
             </Grid.ColumnDefinitions>
 
             <DockPanel HorizontalAlignment="Right" Grid.Column="1">
-                <TextBox Width="150" Height="30" Style="{DynamicResource textbox}"></TextBox>
-                <Button Style="{DynamicResource menubutton}" x:Name="SearchButton" Command="{Binding SearchCommand}">
-                        <Label Style="{DynamicResource lablenavigation}" Content="Search" />
+                <TextBox Width="250" Height="auto" FontSize="16" Padding="3" Style="{DynamicResource textbox}" x:Name="SearchContext" TextChanged="SearchContext_TextChanged" VerticalContentAlignment="Center"/>
+                <Button Style="{DynamicResource menubuttonlight}" x:Name="SearchButton" Click="SearchButton_Click">
+                      Search
                 </Button>
-                <Button Style="{DynamicResource menubutton}" x:Name="NewButton" Command="{Binding NewCommand}">
-                        <Label Style="{DynamicResource lablenavigation}" Content="New"/>
+                <Button Style="{DynamicResource menubuttonlight}" x:Name="NewButton" Command="{Binding NewCommand}">
+                        New
                 </Button>
-                <Button Style="{DynamicResource menubutton}" x:Name="RemoveButton" Command="{Binding RemoveCommand}">
-                        <Label Style="{DynamicResource lablenavigation}" Content="Remove"/>
+                <Button Style="{DynamicResource menubuttonlight}" x:Name="RemoveButton" Command="{Binding DeleteCommand}">
+                        Remove
                 </Button>
-                <Button Style="{DynamicResource menubutton}" x:Name="EditButton" Command="{Binding EditCommand}">
-                        <Label Style="{DynamicResource lablenavigation}" Content="Edit"/>
+                <Button Style="{DynamicResource menubuttonlight}" x:Name="EditButton" Command="{Binding EditCommand}">
+                        Edit
                 </Button>
             </DockPanel>
         </Grid>
@@ -76,7 +76,7 @@
                         <Label Style="{DynamicResource lablenavigation}" Content="Order" />
                 </RadioButton>
             </StackPanel>
-            <ContentControl Grid.Column="1" Margin="10" Content="{Binding Navigation.CurrentView}"/>
+            <ContentControl Grid.Column="1" Margin="10" Content="{Binding Navigation.CurrentView}" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>
 </UserControl>

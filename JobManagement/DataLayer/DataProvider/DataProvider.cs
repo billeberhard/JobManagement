@@ -43,9 +43,16 @@ namespace DataLayer.DataProvider
         public bool Contains(Customer item)
         {
             var context = new JobManagementDbContext();
-            var entity = item.ToEntity();
 
-            return GetEntity(entity, context) != null;
+            if (item.Id == 0)
+                return false;
+
+            var entity = context.Customers.FirstOrDefault(e => e.Id == item.Id);
+
+            if (entity == null)
+                return false;
+
+            return true;
         }
         public int CustomerCount()
         {
@@ -132,6 +139,32 @@ namespace DataLayer.DataProvider
 
             return valueChanged;
         }
+        ICollection<Customer> ICustomerDataProvider.SearchCustomers(string searchContext)
+        {
+            var context = new JobManagementDbContext();
+
+            var filterCriteria = new SqlParameter("filterCriteria", searchContext);
+
+            string sql = @"
+                select c.Id AS Id, FirstName, LastName, StreetName, HouseNumber, City, PostalCode, EmailAddress, WebsiteURL, [Password]  from [dbo].[Customer] c
+                INNER JOIN [dbo].[Address] a ON c.AddressId = a.Id
+                    WHERE c.Id LIKE '%' + @filterCriteria + '%' OR
+                    c.FirstName LIKE '%' + @filterCriteria + '%' OR
+                    c.LastName LIKE '%' + @filterCriteria + '%' OR
+                    a.StreetName LIKE '%' + @filterCriteria + '%' OR
+                    a.HouseNumber LIKE '%' + @filterCriteria + '%' OR
+                    a.City LIKE '%' + @filterCriteria + '%' OR
+                    a.PostalCode LIKE '%' + @filterCriteria + '%' OR
+                    c.EmailAddress LIKE '%' + @filterCriteria + '%' OR
+                    c.WebsiteURL LIKE '%' + @filterCriteria + '%' OR
+                    c.[Password] LIKE '%' + @filterCriteria + '%';
+                ";
+
+            var customers = context.FilteredCustomers.FromSqlRaw(sql, filterCriteria
+                ).ToList();
+
+            return customers;
+        }
 
 
         public int ArticleGroupCount()
@@ -152,7 +185,7 @@ namespace DataLayer.DataProvider
         {
             var context = new JobManagementDbContext();
 
-            var entities = context.ArticleGroups.ToList();
+            var entities = context.ArticleGroups.Where(a => a.SuperiorArticleGroup == null).ToList();
 
             return Convert(entities);
         }
@@ -176,9 +209,16 @@ namespace DataLayer.DataProvider
         public bool Contains(ArticleGroup item)
         {
             var context = new JobManagementDbContext();
-            var entity = item.ToEntity();
 
-            return GetEntity(entity, context) != null;
+            if (item.Id == 0)
+                return false;
+
+            var entity = context.ArticleGroups.FirstOrDefault(e => e.Id == item.Id);
+
+            if (entity == null)
+                return false;
+
+            return true;
         }
         public bool Remove(ArticleGroup item)
         {
@@ -194,30 +234,6 @@ namespace DataLayer.DataProvider
             context.Remove(entity);
             context.SaveChanges();
             return true;
-        }
-        public ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups()
-        {
-            var context = new JobManagementDbContext();
-            
-            var hirarcicalArticleGroupEntities = context.HirarcicalArticleGroups
-                .FromSqlRaw(
-                    @";WITH HirarcicalArticleGroupCTE AS
-                    (
-	                    Select a.Id AS [Id], a.Name AS [Name], a.SuperiorArticleGroupId AS [SuperiorArticleGroupId], 0 AS [Hierarchy]
-	                    FROM [dbo].[ArticleGroup] a
-	                    WHERE a.SuperiorArticleGroupId IS NULL
-
-	                    UNION ALL
-
-	                    SELECT a.Id AS [Id], a.Name AS [Name], h.Id AS [SuperiorArticleGroupId], Hierarchy + 1
-	                    FROM HirarcicalArticleGroupCTE h
-	                    INNER JOIN [dbo].[ArticleGroup] a
-		                    ON h.Id = a.SuperiorArticleGroupId
-                    )
-                    SELECT * FROM HirarcicalArticleGroupCTE;
-                    ").ToArray();
-
-            return Convert(hirarcicalArticleGroupEntities);
         }
         public bool Update(ArticleGroup item)
         {
@@ -249,6 +265,34 @@ namespace DataLayer.DataProvider
                 context.SaveChanges();
 
             return valueChanged;
+        }
+        public ICollection<ArticleGroup> SearchArticleGroups(string searchingContext)
+        {
+            throw new NotImplementedException();
+        }
+        public ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups()
+        {
+            var context = new JobManagementDbContext();
+            
+            var hirarcicalArticleGroupEntities = context.HirarcicalArticleGroups
+                .FromSqlRaw(
+                    @"; WITH HirarcicalArticleGroupCTE AS
+                    (
+	                    Select a.Id AS [Id], a.Name AS [Name], a.SuperiorArticleGroupId AS [SuperiorArticleGroupId], 0 AS [Hierarchy]
+	                    FROM [dbo].[ArticleGroup] a
+	                    WHERE a.SuperiorArticleGroupId IS NULL
+
+	                    UNION ALL
+
+	                    SELECT a.Id AS [Id], a.Name AS [Name], h.Id AS [SuperiorArticleGroupId], Hierarchy + 1
+	                    FROM HirarcicalArticleGroupCTE h
+	                    INNER JOIN [dbo].[ArticleGroup] a
+		                    ON h.Id = a.SuperiorArticleGroupId
+                    )
+                    SELECT * FROM HirarcicalArticleGroupCTE;
+                    ").ToArray();
+
+            return Convert(hirarcicalArticleGroupEntities);
         }
 
 
@@ -294,9 +338,16 @@ namespace DataLayer.DataProvider
         public bool Contains(Article item)
         {
             var context = new JobManagementDbContext();
-            var entity = item.ToEntity();
 
-            return GetEntity(entity, context) != null;
+            if (item.Id == 0)
+                return false;
+
+            var entity = context.Articles.FirstOrDefault(e => e.Id == item.Id);
+
+            if (entity == null)
+                return false;
+
+            return true;
         }
         public bool Remove(Article item)
         {
@@ -343,6 +394,10 @@ namespace DataLayer.DataProvider
                 context.SaveChanges();
 
             return valueChanged;
+        }
+        public ICollection<Article> SearchArticles(string searchingContext)
+        {
+            throw new NotImplementedException();
         }
 
 
@@ -393,8 +448,16 @@ namespace DataLayer.DataProvider
         public bool Contains(Order item)
         {
             var context = new JobManagementDbContext();
-            var entity = item.ToEntity();
-            return GetEntity(entity, context) != null;
+
+            if (item.Id == 0)
+                return false;
+
+            var entity = context.Orders.FirstOrDefault(e => e.Id == item.Id);
+
+            if (entity == null)
+                return false;
+
+            return true;
         }
         public bool Remove(Order item)
         {
@@ -438,6 +501,10 @@ namespace DataLayer.DataProvider
                 context.SaveChanges();
 
             return valueChanged;
+        }
+        public ICollection<Order> SearchOrders(string searchContext)
+        {
+            throw new NotImplementedException();
         }
         public ICollection<OrderEvaluation> GetOrderEvaluations(OrderEvaluationFilterCriterias filterCriterias)
         {
@@ -763,5 +830,6 @@ namespace DataLayer.DataProvider
 
             return queriedEntity.Id;
         }
+
     }
 }

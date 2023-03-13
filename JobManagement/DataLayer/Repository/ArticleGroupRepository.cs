@@ -44,6 +44,11 @@ namespace DataLayer.Repository
             return m_DataProvider.GetHirarcicalArticleGroups();
         }
 
+        public ICollection<ArticleGroup> Search(string searchingContext)
+        {
+            return m_DataProvider.SearchArticleGroups(searchingContext);
+        }
+
         private readonly IArticleGroupDataProvider m_DataProvider;
     }
 }

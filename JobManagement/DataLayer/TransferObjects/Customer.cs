@@ -54,5 +54,10 @@ namespace DataLayer.TransferObjects
 
             return entity;
         }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DataLayer.Model;
+using DataLayer.TransferObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.DataProvider
@@ -14,6 +15,7 @@ namespace DataLayer.DataProvider
 
         public DbSet<HierarcicalArticleGroupEntity> HirarcicalArticleGroups { get; set; }
         public DbSet<OrderEvaluationEntity> OrderEvaluationEntities { get; set; }
+        public DbSet<Customer> FilteredCustomers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

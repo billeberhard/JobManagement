@@ -7,5 +7,6 @@ namespace DataLayer.DataProvider.interfaces
         int ArticleCount();
         void ClearArticles();
         ICollection<Article> GetAllArticles();
+        ICollection<Article> SearchArticles(string searchingContext);
     }
 }

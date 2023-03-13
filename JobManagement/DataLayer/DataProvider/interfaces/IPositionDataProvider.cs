@@ -7,6 +7,7 @@ namespace DataLayer.DataProvider.interfaces
         int PositionCount();
         void ClearPositions();
         ICollection<Position> GetAllPositions();
+        ICollection<Position> SearchPositions(string searchContext);
         ICollection<Position> GetAllPositionsOfOrder(Order order);
     }
 }

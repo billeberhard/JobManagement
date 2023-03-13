@@ -39,6 +39,11 @@ namespace DataLayer.Repository
             return m_DataProvider.Update(item);
         }
 
+        public ICollection<Position> Search(string searchingContext)
+        {
+            return m_DataProvider.SearchPositions(searchingContext);
+        }
+
         private readonly IPositionDataProvider m_DataProvider;
     }
 }

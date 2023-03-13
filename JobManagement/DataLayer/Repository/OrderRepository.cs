@@ -42,6 +42,10 @@ namespace DataLayer.Repository
         {
             return m_DataProvider.GetOrderEvaluations(filterCriterias);
         }
+        public ICollection<Order> Search(string searchingContext)
+        {
+            return m_DataProvider.SearchOrders(searchingContext);
+        }
 
         private readonly IOrderDataProvider m_DataProvider;
     }

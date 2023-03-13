@@ -14,7 +14,7 @@ namespace DataLayer.TransferObjects
         }
 
         public int Id { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.Now;
         public Customer Customer { get; set; }
         public ICollection<Position> Positions { get; set; } = new List<Position>();
 

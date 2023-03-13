@@ -5,47 +5,89 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel>
+
+        <DockPanel Grid.Row="0" HorizontalAlignment="Center" Grid.ColumnSpan="3">
+            <TextBlock Style="{DynamicResource textblocktitle}">Order</TextBlock>
+        </DockPanel> 
+
+        <StackPanel Grid.Row="1" Grid.Column="0">
             <Label Style="{DynamicResource label}" Content="Order ID"></Label>
-            <TextBox Style="{DynamicResource textbox}"/>
-            <Label Style="{DynamicResource label}" Content="Order Date"></Label>
-            <TextBox Style="{DynamicResource textbox}"/>
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding Order.Id}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label Style="{DynamicResource label}" Content="Order Date" ></Label>
+            <DatePicker Style="{DynamicResource textbox}" Text="{Binding Order.CreationDate}"></DatePicker>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="2">
             <Label Style="{DynamicResource label}" Content="Customer"></Label>
-            <ComboBox Style="{DynamicResource combox}" Margin="5"/>
+                <ComboBox Style="{DynamicResource combox}" ItemsSource="{Binding Customers}" SelectedItem="{Binding Order.Customer}"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1">
-            <StackPanel>
 
-                <Label Style="{DynamicResource label}" Content="Article"/>
-                <ComboBox Style="{DynamicResource combox}" Text="{Binding Path=Amount}"/>
-                <Label Style="{DynamicResource label}" Content="Amount"/>
-                <TextBox Style="{DynamicResource textbox}" Text="{Binding Path=Amount}"/>
-
-                <Button Style="{DynamicResource button}" Command="{Binding Path=AddPositionCommand}" Margin="5"
-                        Content="Add Position"/>
-                <Button Style="{DynamicResource button}" Command="{Binding Path=DeletePositionCommand}" Margin="5"
-                        Content="Delete Position"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal"
-                        Height="205">
-                <DataGrid Style="{DynamicResource datagrid}"
-                          ItemsSource="{Binding Path=PositionTable}"
-                          SelectedItem="{Binding Path=SelectedRow}"
-                          Margin="5"
-                          ColumnWidth="*">
-                    <DataGrid.ItemContainerStyle>
-                        <Style/>
-                    </DataGrid.ItemContainerStyle>
-                </DataGrid>
-            </StackPanel>
+        <TextBlock Grid.Row="3" Grid.ColumnSpan="3" Style="{DynamicResource textblocktitle}" FontSize="15">Position</TextBlock>
+        
+        <StackPanel Grid.Row="5" Grid.Column="0">
+            <Label Style="{DynamicResource label}" Content="Article"/>
+            <ComboBox Style="{DynamicResource combox}" ItemsSource="{Binding Articles}" SelectedItem="{Binding EditingPositoin.Article}"/>
         </StackPanel>
+        <StackPanel Grid.Row="5" Grid.Column="1">
+            <Label Style="{DynamicResource label}" Content="Amount"/>
+            <TextBox Style="{DynamicResource textbox}" Text="{Binding EditingPositoin.Amount}"/>
+        </StackPanel>
+
+        <DockPanel Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <Button Style="{DynamicResource menubuttondark}" Command="{Binding Path=AddPositionCommand}" Margin="5"
+                Content="Add Position"/>
+            <Button Style="{DynamicResource menubuttondark}" Command="{Binding Path=SavePositoinCommand}" Margin="5"
+                Content="Save Position"/>
+        </DockPanel>   
+
+
+        <DataGrid Style="{DynamicResource datagrid}"
+                  ItemsSource="{Binding Positions}"
+                  SelectedItem="{Binding SelectedPosition}"
+                  Margin="5"
+                  Grid.Column="0"
+                  Grid.Row="7"
+                  Grid.ColumnSpan="2">
+        </DataGrid>
+
+        <StackPanel HorizontalAlignment="Left" Grid.Column="2" Grid.Row="7" >
+            <Button Style="{DynamicResource menubuttondark}" 
+                Command="{Binding Path=EditPositionCommand}" Margin="5"
+                Content="Edit Position"/>
+            <Button Style="{DynamicResource menubuttondark}" Command="{Binding Path=RemovePositoinCommand}" Margin="5"
+                Content="Delete Position"/>
+        </StackPanel>
+
+        <DockPanel Grid.Row="9" Grid.ColumnSpan="3" HorizontalAlignment="Center">
+            <Button Style="{DynamicResource menubuttondark}"
+                    Command="{Binding SaveOrderCommand}" 
+                    Content="Save"/>
+            <Button Style="{DynamicResource menubuttondark}" 
+                    Command="{Binding CancelOrderCommand}" Margin="5"
+                    Content="Cancel" />
+        </DockPanel>
+
     </Grid>
 </UserControl>

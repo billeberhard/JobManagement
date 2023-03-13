@@ -35,17 +35,71 @@
         </DataTemplate>
 
         <Style x:Key="titletextblock">
-            <Setter Property="TextBlock.FontSize" Value="30" />
+            <Setter Property="TextBlock.FontSize" Value="40" />
             <Setter Property="TextBlock.Foreground" Value="White" />
             <Setter Property="TextBlock.Margin" Value="20" />
         </Style>
-        <Style x:Key="menubutton">
-            <Setter Property="ToggleButton.Background" Value="#FF1D2860" />
-            <Setter Property="ToggleButton.BorderBrush" Value="#FF1D2860" />
-            <Setter Property="ToggleButton.Width" Value="100" />
-            <Setter Property="ToggleButton.Height" Value="60" />
-            <Setter Property="ToggleButton.Height" Value="60" />
+        <Style x:Key="menubuttonlight" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#AAFFFFFF" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Width" Value="80" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border BorderBrush="#AAFFFFFF" BorderThickness="1.5" CornerRadius="5">
+                                <Grid>
+                                    <Rectangle Fill="{TemplateBinding Background}" />
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#AAFFFFFF" />
+                    <Setter Property="Foreground" Value="#FF1D2860" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>        
+        <Style x:Key="menubuttondark" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#FF1D2860" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="Width" Value="80" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border BorderBrush="#FF1D2860" BorderThickness="1.5" CornerRadius="5">
+                                <Grid>
+                                    <Rectangle Fill="{TemplateBinding Background}" />
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF1D2860" />
+                    <Setter Property="Foreground" Value="#AAFFFFFF" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
+
         <Style x:Key="radiobutton">
             <Setter Property="RadioButton.Height" Value="60" />
             <Setter Property="RadioButton.Margin" Value="10 0" />
@@ -59,10 +113,6 @@
         <Style x:Key="lablenavigation">
             <Setter Property="Label.FontSize" Value="13" />
             <Setter Property="Label.FontWeight" Value="SemiBold" />
-            <Setter Property="Label.Foreground" Value="White" />
-            <Setter Property="Label.Margin" Value="15,0,0,0" />
-            <Setter Property="Label.VerticalAlignment" Value="Center" />
-            <Setter Property="Label.Width" Value="250" />
         </Style>
 
         <Style x:Key="combox">
@@ -95,9 +145,9 @@
         </Style>
         <Style x:Key="datagrid">
             <Setter Property="DataGrid.FontSize" Value="13" />
-            <Setter Property="DataGrid.Margin" Value="0" />
-            <Setter Property="DataGrid.Height" Value="390" />
-            <Setter Property="DataGrid.Width" Value="780" />
+            <Setter Property="DataGrid.Margin" Value="25" />
+            <Setter Property="DataGrid.Height" Value="Auto" />
+            <Setter Property="DataGrid.Width" Value="Auto" />
             <Setter Property="DataGrid.ColumnWidth" Value="Auto" />
             <Setter Property="DataGrid.CanUserAddRows" Value="False" />
             <Setter Property="DataGrid.CanUserDeleteRows" Value="False" />
@@ -113,6 +163,13 @@
             <Setter Property="DataGrid.HorizontalScrollBarVisibility" Value="Auto" />
             <Setter Property="DataGrid.AutoGenerateColumns" Value="True" />
         </Style>
+       <Style x:Key="textblocktitle">
+            <Setter Property="Label.FontSize" Value="35" />
+            <Setter Property="Label.FontWeight" Value="Bold" />
+            <Setter Property="Label.VerticalAlignment" Value="Center" />
+            <Setter Property="Label.HorizontalAlignment" Value="Center" />
+            <Setter Property="Label.Margin" Value="5, 2" />
+        </Style>     
 
         <Style BasedOn="{StaticResource {x:Type ToggleButton}}"
                TargetType="{x:Type RadioButton}"
@@ -142,11 +199,6 @@
                     <Setter Property="Background" Value="#22202f" />
                 </Trigger>
             </Style.Triggers>
-        </Style>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Margin" Value="5, 2" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="Width" Value="200" />
         </Style>
 
     </Application.Resources>

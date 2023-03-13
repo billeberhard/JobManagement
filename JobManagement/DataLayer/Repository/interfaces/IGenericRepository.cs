@@ -11,5 +11,6 @@ namespace DataLayer.Repository
         bool Contains(T item);
         bool Remove(T item);
         bool Update(T item);
+        ICollection<T> Search(string searchingContext);
     }
 }

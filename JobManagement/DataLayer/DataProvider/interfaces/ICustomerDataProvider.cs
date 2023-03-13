@@ -7,5 +7,6 @@ namespace DataLayer.DataProvider.interfaces
         int CustomerCount();
         void ClearCustomers();
         ICollection<Customer> GetAllCustomers();
+        ICollection<Customer> SearchCustomers(string searchContext);
     }
 }

@@ -7,6 +7,7 @@ namespace DataLayer.DataProvider.interfaces
         int OrderCount();
         void ClearOrders();
         ICollection<Order> GetAllOrders();
+        ICollection<Order> SearchOrders(string searchContext);
         public ICollection<OrderEvaluation> GetOrderEvaluations(OrderEvaluationFilterCriterias filterCriterias);
     }
 }
