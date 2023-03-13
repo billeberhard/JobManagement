@@ -12,7 +12,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontSize="50" Style="{DynamicResource textblocktitle}">Home</TextBlock>
+        <TextBlock Grid.Row="0" Style="{DynamicResource textblocktitle}">Home</TextBlock>
         <DataGrid Grid.Row="1" x:Name="DataGridJahresvergleich"
                   ItemsSource="{Binding StatisticDataTable}"
                   AutoGenerateColumns="True"
