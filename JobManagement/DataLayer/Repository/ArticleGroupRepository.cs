@@ -31,6 +31,10 @@ namespace DataLayer.Repository
         {
             return m_DataProvider.GetAllArticleGroups();
         }
+        public ICollection<ArticleGroup> GetAllAtRoot()
+        {
+            return m_DataProvider.GetAllRootArticleGroups();
+        }
         public bool Remove(ArticleGroup item)
         {
             return m_DataProvider.Remove(item);

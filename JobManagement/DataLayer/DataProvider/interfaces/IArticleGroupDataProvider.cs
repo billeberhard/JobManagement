@@ -8,7 +8,8 @@ namespace DataLayer.DataProvider.interfaces
         int ArticleGroupCount();
         void ClearArticleGroups();
         ICollection<ArticleGroup> GetAllArticleGroups();
+        ICollection<ArticleGroup> GetAllRootArticleGroups();
         ICollection<ArticleGroup> SearchArticleGroups(string searchingContext);
-        public ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups();
+        ICollection<HierarcicalArticleGroup> GetHirarcicalArticleGroups();
     }
 }

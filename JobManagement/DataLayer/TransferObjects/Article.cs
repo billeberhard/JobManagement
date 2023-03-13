@@ -14,7 +14,7 @@ namespace DataLayer.TransferObjects
             ArticleGroup = new ArticleGroup(entity.ArticleGroup);
         }
 
-        internal int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
         public virtual ArticleGroup ArticleGroup { get; set; }

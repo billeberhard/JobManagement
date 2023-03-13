@@ -22,7 +22,7 @@ namespace PresentationLayer.ViewModels
 
         public ArticleGroupGridViewModel()
         {
-            var articleGroups = m_Repo.ArticleGroups.GetAll();
+            var articleGroups = m_Repo.ArticleGroups.GetAllAtRoot();
             LoadData(articleGroups);
         }
 

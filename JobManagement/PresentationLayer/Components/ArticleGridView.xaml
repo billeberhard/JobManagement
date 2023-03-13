@@ -17,8 +17,8 @@
         <ScrollViewer Grid.Row="1">
             <DataGrid x:Name="DataGridArticleData"
                       Style="{DynamicResource datagrid}"
-                      ItemsSource="{Binding Path=Articles}"
-                      SelectedItem="{Binding Path=SelectedItem}">
+                      ItemsSource="{Binding Articles}"
+                      SelectedItem="{Binding SelectedItem}">
             </DataGrid>
         </ScrollViewer>
     </Grid>

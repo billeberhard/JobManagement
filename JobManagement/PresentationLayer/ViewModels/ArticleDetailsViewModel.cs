@@ -1,7 +1,10 @@
 ﻿using DataLayer.Repository;
 using DataLayer.TransferObjects;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using PresentationLayer.Core;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 
@@ -26,10 +29,14 @@ public class ArticleDetailsViewModel : ViewModel
         }
     }
 
+    public ICollection<ArticleGroup> ArticleGroups { get; set; } = new List<ArticleGroup>();
+
     public ArticleDetailsViewModel()
     {
         SaveCommand = new RelayCommand(OnSave, o => true);
         CancelCommand = new RelayCommand(OnCancel, o => true);
+
+        LoadData(m_Repo.ArticleGroups.GetAll());
     }
 
     public void OnSave(object property)
@@ -50,6 +57,13 @@ public class ArticleDetailsViewModel : ViewModel
             return;
 
         NavigateToCommand?.Execute(SelectedWindow.ArticleGrid);
+    }
+
+    private void LoadData(ICollection<ArticleGroup> artileGroups)
+    {
+        ArticleGroups.Clear();
+        foreach (var group in artileGroups)
+            ArticleGroups.Add(group);
     }
 
     private Article m_Article;

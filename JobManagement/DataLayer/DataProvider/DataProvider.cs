@@ -185,10 +185,19 @@ namespace DataLayer.DataProvider
         {
             var context = new JobManagementDbContext();
 
+            var entities = context.ArticleGroups.ToList();
+
+            return Convert(entities);
+        }
+        public ICollection<ArticleGroup> GetAllRootArticleGroups()
+        {
+            var context = new JobManagementDbContext();
+
             var entities = context.ArticleGroups.Where(a => a.SuperiorArticleGroup == null).ToList();
 
             return Convert(entities);
         }
+
         public bool Add(ArticleGroup item)
         {
             var context = new JobManagementDbContext();

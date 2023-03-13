@@ -10,24 +10,25 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DockPanel HorizontalAlignment="Center" Grid.ColumnSpan="2">
+        <DockPanel HorizontalAlignment="Center" Grid.Row="0">
             <TextBlock Style="{DynamicResource textblocktitle}">Article</TextBlock>
         </DockPanel> 
 
-        <StackPanel Grid.Row="0">
+        <StackPanel Grid.Row="1">
             <Label Style="{DynamicResource label}">Article ID</Label>
-            <TextBox Style="{DynamicResource textbox}" IsReadOnly="True"/>
+            <TextBox Style="{DynamicResource textbox}" IsReadOnly="True" Text="{Binding Article.Id}"/>
             <Label HorizontalAlignment="Center">Article Group</Label>
-            <ComboBox Style="{DynamicResource combox}" ItemsSource="{Binding Article.ArticleGroup}" SelectedValue="{Binding Article.SelectedArticleGroup}"/>
+            <ComboBox Style="{DynamicResource combox}" ItemsSource="{Binding ArticleGroups}" SelectedValue="{Binding Article.ArticleGroup}"/>
             <Label HorizontalAlignment="Center">Article Name</Label>
             <TextBox Style="{DynamicResource textbox}" x:Name="ArticleName" VerticalContentAlignment="Center" Text="{Binding Article.Name}"/>
             <Label HorizontalAlignment="Center" Content="Price"/>
             <TextBox Style="{DynamicResource textbox}" Text="{Binding Article.Price}" />
         </StackPanel>
 
-        <DockPanel HorizontalAlignment="Center" Grid.Row="1">
+        <DockPanel HorizontalAlignment="Center" Grid.Row="2">
             <Button Style="{DynamicResource menubuttondark}" Command="{Binding SaveCommand}"
                     Content="Save"/>
             <Button Style="{DynamicResource menubuttondark}" Command="{Binding CancelCommand}" Margin="5"

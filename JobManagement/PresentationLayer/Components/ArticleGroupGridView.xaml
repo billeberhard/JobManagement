@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PresentationLayer.Components"
+             xmlns:model="clr-namespace:DataLayer.TransferObjects"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -13,13 +14,12 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"  Style="{DynamicResource textblocktitle}">Article Groupe</TextBlock>
         <TreeView ItemsSource="{Binding ArticleGroups}">
-            <TreeView.Resources>
+            <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding SubordinateArticleGroups}"
-                                          DataType="DataLayer.TransferObjects.ArticleGroup"
-                                  x:Key="articleGroupTemplate">
+                                          DataType="x:Type model:ArticleGroup">
                     <TextBlock Text="{Binding Name}"/>
                 </HierarchicalDataTemplate>
-            </TreeView.Resources>
+            </TreeView.ItemTemplate>
         </TreeView>
     </Grid>
 </UserControl>

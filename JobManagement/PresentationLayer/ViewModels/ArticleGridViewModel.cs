@@ -20,6 +20,7 @@ namespace PresentationLayer.ViewModels
             LoadCommand = new RelayCommand(OnLoad, o => true);
             DeleteCommand = new RelayCommand(OnDelete, o => true);
             SearchCommand = new RelayCommand(OnSearch, o => true);
+            LoadData(m_Repo.Articles.GetAll());
         }
 
         private void OnLoad(object prameter)
